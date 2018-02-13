@@ -28,7 +28,7 @@
 
             <div class = "metric-table metric-date">
                 <% if(user.createdOn){ %>
-                    <%= user.createdOn.toString().substring(0,21); %>
+                    <%= new Date(user.createdOn).toString().substring(0,21); %>
                 <% } %>
             </div>
         </div>
