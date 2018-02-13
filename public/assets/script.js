@@ -11,6 +11,7 @@ var activeTermIndex = -1;
 var screenWidth = $(window).width();
 var triggerEvent = "click";
 
+var singleTermDefinition = false;
 
 function main(){
 
@@ -336,9 +337,13 @@ function main(){
         if($("#search-bar").val().length > 1){
             if((e.which >= 48 && e.which <= 90) || (e.which >= 106 && e.which <= 111) || (e.which >= 186 && e.which <= 192) || e.which == 8 || e.which == 229){       // 48-90 are letters and numbers; 229 is registered on android
                 window.history.pushState("object or string", "Title", "/" + thisSearch);      // update url
-                search();
+
+                if(!singleTermDefinition){
+                    search();
+                }
             }
         } else {
+            singleTermDefinition = false;
             $("#terms-section").empty();
         }
 
@@ -352,6 +357,7 @@ function main(){
         }
 
         if(e.which == 8){                                         // 8 = backspace
+            singleTermDefinition = false;
             window.history.pushState("object or string", "Title", "/" + thisSearch);      // update url
             $("#new-definition").hide();
             $("#definitions-section").empty();
@@ -646,6 +652,7 @@ function search(){
                         }, 2000)
 
                     } else if (result.count == 1){                      // if there's only one term, display the definition
+                        singleTermDefinition = true;
                         logSearch(result.body[0].name);                           
                         getDefinition(result.body[0].name, false);
                         currentTerm = result.body[0].name;
@@ -714,8 +721,6 @@ function getTopTerms(){
         type: "get",
         url: "/top-terms",
         success: function(topTerms){
-
-            console.log(topTerms);
 
             $("#top-requests, #top-searches").empty();
 
