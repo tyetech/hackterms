@@ -14,7 +14,31 @@ $red: #b50000;
 
 $font-normal: 'Muli', sans-serif;
 $font-tech: "Zilla Slab", serif; 
+$search-placeholder: #a9a9a9;
+$search-opacity: 0.7;
 
+/* normalize placeholder text */
+@mixin placeholder($color, $opacity){
+    &::placeholder {
+        color: $color;
+        opacity: $opacity;
+    }
+
+    &:-moz-placeholder {
+        color: $color;
+        opacity: $opacity;
+    }
+
+    &::-webkit-input-placeholder {
+        color: $color;
+        opacity: $opacity;
+    }
+
+    &:-ms-input-placeholder {
+        color: $color;
+        opacity: $opacity;
+    }
+}
 
 body{
 	margin: 0;
@@ -148,6 +172,7 @@ button:hover {
     width: calc(100% - 32px);
 	min-width: 200px;
 	max-width: calc(1600px - 32px);
+    @include placeholder($search-placeholder,$search-opacity );
 
     &:hover {
     box-shadow: 0px 0px 5px rgba(10,10,10, 0.1), 0px 0px 10px rgba(10,10,10, 0.1);
@@ -160,10 +185,6 @@ button:hover {
         transition-property: box-shadow;
         transition-duration: 0.25s;
     }
-}
-
-#search-bar::placeholder{
-    opacity: 0.7;
 }
 
 #terms-section {
