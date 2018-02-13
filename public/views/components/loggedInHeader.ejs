@@ -17,7 +17,7 @@
             <% } else {%>
                 <span class = "notifications-button"><i class="fa fa-bell-o notification-bell" aria-hidden="true" ></i></span>
             <% } %>
-
+f
             <% if(session.user.admin == "true" || session.user.admin == true || session.user.moderator == "true"|| session.user.moderator ==  true ){ %>
                 <a href = "/admin"><i class="fa fa-id-card-o" aria-hidden="true" href = "/admin"></i></a>
             <% } %>
@@ -133,13 +133,13 @@
         </div>
         
         <div class = "report-error email-error"></div>
-        <input type = "email" id = "signup-email" placeholder = "email">
+        <input type = "email" name = "email" id = "signup-email" placeholder = "email">
         
         <div class = "report-error username-error"></div>
-        <input type = "text" id = "signup-username" placeholder = "username">
+        <input type = "text" name = "username" id = "signup-username" placeholder = "username">
         
         <div class = "report-error password-error"></div>
-        <input type = "password" id = "signup-password" placeholder = "password">
+        <input type = "password" name = "password" id = "signup-password" placeholder = "password">
 
         <button class = "account-submit-button" id = "signup-action">Sign up</button>
     </div>
@@ -156,10 +156,10 @@
         </div>
 
         <div class = "report-error username-error"></div>
-        <input type = "text" id = "login-username" placeholder = "username">
+        <input type = "text" name = "email" id = "login-username" placeholder = "username">
         
         <div class = "report-error password-error"></div>
-        <input type = "password" id = "login-password" placeholder = "password">
+        <input type = "password" name = "password" id = "login-password" placeholder = "password">
 
 
         <div class = "login-additional-options">
