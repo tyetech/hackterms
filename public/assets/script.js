@@ -338,9 +338,7 @@ function main(){
             if((e.which >= 48 && e.which <= 90) || (e.which >= 106 && e.which <= 111) || (e.which >= 186 && e.which <= 192) || e.which == 8 || e.which == 229){       // 48-90 are letters and numbers; 229 is registered on android
                 window.history.pushState("object or string", "Title", "/" + thisSearch);      // update url
 
-                if(!singleTermDefinition){
                     search();
-                }
             }
         } else {
             singleTermDefinition = false;
@@ -651,11 +649,16 @@ function search(){
 
                         }, 2000)
 
-                    } else if (result.count == 1){                      // if there's only one term, display the definition
+                    } else if (result.count == 1){                      // if there's only one term, display the definition     
+                        
+                        if(!singleTermDefinition){                          
+                            logSearch(result.body[0].name);                           
+                            getDefinition(result.body[0].name, false);
+                            currentTerm = result.body[0].name;
+                        }
+
                         singleTermDefinition = true;
-                        logSearch(result.body[0].name);                           
-                        getDefinition(result.body[0].name, false);
-                        currentTerm = result.body[0].name;
+
                     } else if (result.count > 1){                       // if there's more than one term, display the terms
                         result.body.forEach(function(term){
                             displaySearchTerm(term);
