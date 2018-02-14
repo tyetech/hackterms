@@ -36,8 +36,7 @@ function search(db, req, callback){
 	}
 
 
-	var userIP = req.headers["X-Forwarded-For"] || req.headers["x-forwarded-for"] || req.client.remoteAddress;
-
+	// var userIP = req.headers["X-Forwarded-For"] || req.headers["x-forwarded-for"] || req.client.remoteAddress;
     var thisUsername = null;
 
     if(req.session.user){
@@ -65,10 +64,8 @@ function getDefinitions(db, req, callback){
 	}
 
 	if(req.body.user && (req.body.user == true || req.body.user == "true")){
-		var searchQuery = {
-			author: req.body.author,
-			removed: false, 
-			approved: true
+		searchQuery = {
+			author: req.body.author
 		}
 	}
 

@@ -153,7 +153,8 @@ button:hover {
   border-radius: 6px;
   color: #58A4B0;
   font-family: "Zilla Slab", serif;
-  font-weight: 400; }
+  font-weight: 400;
+  margin-bottom: 5px; }
   .related-term:hover, .top-searched-term:hover {
     color: white;
     background: #E88D67; }
