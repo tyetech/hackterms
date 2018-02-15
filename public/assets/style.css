@@ -148,6 +148,11 @@ button:hover {
   width: calc(100% - 42px);
   display: none; }
 
+#related-terms-section {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 1rem; }
+
 #related-term-suggestions-section {
   position: absolute;
   background: white;
@@ -164,7 +169,7 @@ button:hover {
   color: #58A4B0;
   font-family: "Zilla Slab", serif;
   font-weight: 400;
-  margin-bottom: 5px; }
+  margin: 0 8px 8px 0; }
   .related-term:hover, .top-searched-term:hover {
     color: white;
     background: #E88D67; }
@@ -366,7 +371,7 @@ button:hover {
   display: none; }
 
 /* CATEGORY CHART*/
-#category-summary {
+#category-summary, #related-terms {
   padding: 12px 20px 15px 20px;
   display: block;
   border: 1px solid rgba(44, 54, 63, 0.3);
@@ -376,7 +381,7 @@ button:hover {
   font-weight: 600;
   margin: 0;
   box-shadow: 0 0 10px rgba(10, 10, 10, 0.2); }
-  #category-summary h3 {
+  #category-summary h3, #related-terms h3 {
     color: #114B5F;
     margin: 0 0 5px 0;
     font-family: "Zilla Slab", serif; }
@@ -410,7 +415,7 @@ button:hover {
   font-size: 1.1em; }
 
 .category-legend {
-  padding: 10px 0 0 0; }
+  padding: 10px 0 15px 0; }
 
 .category-box {
   height: 1em;
@@ -572,9 +577,6 @@ button:hover {
 
 #top-searches, #top-requests {
   flex-wrap: wrap; }
-
-.top-searched-term {
-  margin: 5px 5px 5px 0; }
 
 /* HEADER */
 .alert {

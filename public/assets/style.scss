@@ -207,6 +207,12 @@ button:hover {
 	display: none;
 }
 
+#related-terms-section {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 1rem;
+}
+
 #related-term-suggestions-section {
     position: absolute;
     background: white;
@@ -225,7 +231,7 @@ button:hover {
     color: $blue-light;
     font-family: $font-tech;
     font-weight: 400;
-    margin-bottom: 5px;
+    margin: 0 8px 8px 0;
     &:hover {
         color: white;
         background: $orange;
@@ -473,7 +479,7 @@ button:hover {
 /* CATEGORY CHART*/
 
 
-#category-summary {
+#category-summary, #related-terms {
     padding: 12px 20px 15px 20px;
     display: block;
     border: 1px solid $gray-transparent;
@@ -524,7 +530,7 @@ button:hover {
 }
 
 .category-legend{
-    padding: 10px 0 0 0;
+    padding: 10px 0 15px 0;
 }
 
 .category-box {
@@ -604,6 +610,7 @@ button:hover {
     font-size: 1.5em;
     font-weight: 400;
 }
+
 
 .definition-related-terms {
     padding-top: 10px;
@@ -726,10 +733,6 @@ button:hover {
 
 #top-searches, #top-requests {
     flex-wrap: wrap;
-}
-
-.top-searched-term {
-    margin: 5px 5px 5px 0;
 }
 
 

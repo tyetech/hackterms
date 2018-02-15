@@ -1220,6 +1220,9 @@ function displayDefinitionsOnPage(definitions, isLoggedIn, forUser){
         $.get('/views/components/definition.html', function(definitionTemplate){
             $.get('/views/components/definitionCategory.html', function(definitionCategoryTemplate){
 
+                var allRelatedTerms = [];
+
+
                 $("#definitions-section").empty();
 
                 // only display the category graphic on the search page, not on profiles
@@ -1344,13 +1347,15 @@ function displayDefinitionsOnPage(definitions, isLoggedIn, forUser){
                         score: thisScore,
                         id: thisDefinition.id,
                         commentCount: thisDefinition.comments.length,
-                        related: thisDefinition.related,
-                        hasRelated: hasRelatedTerms
                     };
 
-                    var compiled = myTemplate(context)
+                    var compiled = myTemplate(context);
 
                     $("#definitions-section").append(compiled);
+
+                    thisDefinition.related.forEach(function(relatedTerm){ 
+                        allRelatedTerms.push(relatedTerm);
+                    });
 
                     var commentSection = $(".comments-section[data-id=" + thisDefinition.id + "]");
 
@@ -1374,6 +1379,14 @@ function displayDefinitionsOnPage(definitions, isLoggedIn, forUser){
                     }
 
                 });
+
+                if(allRelatedTerms.length){
+                    displayRelatedTerms(allRelatedTerms);
+                } else {
+                    $("#related-terms-section").append("None yet");
+                }
+
+                
 
                 displayAddDefinitionButton(forUser, isLoggedIn);
 
@@ -1403,6 +1416,52 @@ function displayAddDefinitionButton(forUser, isLoggedIn){
         } 
     }
 }
+
+function displayRelatedTerms(terms){                // messy solution to sorting an array in order of frequency
+
+    relatedTerms = {};
+
+    for(var i = 0; i<terms.length; i++){
+        var term = terms[i];
+
+        if(typeof(relatedTerms[term]) == "undefined"){
+            relatedTerms[term] = 1;
+        } else {
+            relatedTerms[term]++;
+        }
+    }
+
+    console.log(relatedTerms);
+
+    var termsInOrder = [];
+    var mostFrequentTermCount;
+    var currentTopKey = "";
+    var objectLength = Object.keys(relatedTerms).length;
+
+    for(var j = 0; j < objectLength; j++){         // cycle through as many times as there are keys
+        mostFrequentTermCount = 0;
+        for(key in relatedTerms){                                   // for each key...
+
+            if (relatedTerms[key] >= mostFrequentTermCount) {
+                mostFrequentTermCount = relatedTerms[key];
+                currentTopKey = key;
+            }
+        }
+
+        delete relatedTerms[currentTopKey];                   // remove that key from the object
+        termsInOrder.push(currentTopKey)
+        
+    
+        if(j == objectLength - 1){
+            for(var k = 0; k < termsInOrder.length; k++){
+                $("#related-terms-section").append("<a href = '/" + termsInOrder[k] + "'' class= 'related-term'>" + termsInOrder[k] + "</a>");
+            }
+        }
+
+    }   
+
+}
+
 
 function displayCommentsOnPage(comments, commentSection){
 
