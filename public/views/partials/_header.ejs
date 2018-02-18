@@ -18,6 +18,10 @@
       gtag('config', 'UA-113877652-1');
     </script>
 
+    <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
+    <meta name="google-signin-client_id" content="285224215537-l5a1ol101rmutrvbcd2omt5r3rktmh6v.apps.googleusercontent.com">
+
+
     <!-- fonts -->
     <link href="https://fonts.googleapis.com/css?family=Zilla+Slab:300,400,500,600" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Muli:200,300,400,600" rel="stylesheet">
@@ -217,6 +221,12 @@
                     </div>
                     <div class = "link" id = "password-reset-link">Forgot your password?</div>
                 </div>
+
+                <div>
+                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                    <span class = "link" id = "google-sign-out">Sign out</span>
+                </div>
+            
             </form>
 
             <button class = "account-submit-button" id = "login-action">Log In</button>
