@@ -14,56 +14,7 @@ var triggerEvent = "click";
 var singleTermDefinition = false;
 
 
-
-function init(){
-    console.log("loading");
-    gapi.load('auth2', function() { 
-        gapi.auth2.init({client_id: '285224215537-l5a1ol101rmutrvbcd2omt5r3rktmh6v.apps.googleusercontent.com'});
-        
-        $("body").on(triggerEvent, ".g-signin2", function(){
-            GoogleAuth.signIn();
-        });
-
-        $("body").on(triggerEvent, "#google-sign-out", function(){
-            GoogleAuth.signOut();
-        });
-
-
-
-    });
-
-
-    
-
-
-
-}
-
-
-
-
-
-
-
-
 function main(){
-
-
-    
-    // load google API
-
-
-
-
-
-        
-
-
-    /* ----- */
-
-
-
-
 
 
     var host = "www.hackterms.com";
