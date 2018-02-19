@@ -1357,7 +1357,7 @@ function getMetrics(db, req, callback){
 
 
 	database.read(db, "users", userQuery, function getUsers(userList){
-		database.read(db, "visits", visitsQuery, function getVisits(visitList){
+		database.count(db, "visits", visitsQuery, function getVisits(visitList){
 			database.sortRead(db, "definitions", approvedDefinitionQuery, dateSort, function getApprovedDefinitionCount(approvedDefs){
 				database.read(db, "definitions", unapprovedDefinitionQuery, function getUnapprovedDefinitionCount(unapprovedDefs){
 					database.sortRead(db, "searches", searchQuery, searchSort, function getSearches(allSearches){
