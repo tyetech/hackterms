@@ -1353,10 +1353,11 @@ function displayDefinitionsOnPage(definitions, isLoggedIn, forUser){
                     var compiled = myTemplate(context);
 
                     $("#definitions-section").append(compiled);
-
-                    thisDefinition.related.forEach(function(relatedTerm){ 
-                        allRelatedTerms.push(relatedTerm);
-                    });
+                    if(typeof(thisDefinition.related) != "undefined"){
+                        thisDefinition.related.forEach(function(relatedTerm){ 
+                            allRelatedTerms.push(relatedTerm);
+                        });
+                    }
 
                     var commentSection = $(".comments-section[data-id=" + thisDefinition.id + "]");
 
@@ -1419,10 +1420,16 @@ function displayAddDefinitionButton(forUser, isLoggedIn){
 }
 
 function displayRelatedTerms(terms){                // messy solution to sorting an array in order of frequency
-    var termsInOrder = sortKeysByFrequency(terms);
-
-    for(var k = 0; k < termsInOrder.length; k++){
-        $("#related-terms-section").append("<a href = '/" + termsInOrder[k] + "'' class= 'related-term'>" + termsInOrder[k] + "</a>");
+    
+    if(terms.length){
+        var termsInOrder = sortRelatedTerms(terms);
+    
+/*        for(var k = 0; k < termsInOrder.length; k++){
+            $("#related-terms-section").append("<a href = '/" + termsInOrder[k] + "'' class= 'related-term'>" + termsInOrder[k] + "</a>");
+        }*/
+        
+    } else {
+        $("#related-terms-section").append("None yet");
     }
 }
 
@@ -1759,6 +1766,7 @@ function flash(type, text){
     }
 
 }
+
 
 /* TEST CODE */
 
