@@ -1362,13 +1362,11 @@ function getMetrics(db, req, callback){
 				database.read(db, "definitions", unapprovedDefinitionQuery, function getUnapprovedDefinitionCount(unapprovedDefs){
 					database.sortRead(db, "searches", searchQuery, searchSort, function getSearches(allSearches){
 						database.count(db, "terms", termCountQuery, function getTermCount(thisTermCount){
-							var thisVisitCount = visitList.length;
 							var thisUserCount = userList.length;
 
 							callback({
-								visitCount: thisVisitCount,
+								visitCount: visitList,
 								userCount: thisUserCount,
-								visits: visitList,
 								searches: allSearches,
 								users: userList,
 								approvedDefinitions: approvedDefs,
