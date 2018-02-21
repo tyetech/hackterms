@@ -1169,6 +1169,8 @@ function googleLogin(db, req, callback){
 	        database.read(db, "users", userQuery, function checkIfUserExists(existingUsers){
 				if(existingUsers.length == 1){
 
+					// if this user exists, let's try to log the user in
+
 					var thisUser = existingUsers[0];
 
 					if(typeof(thisUser.googleId) != "undefined" && thisUser.googleId != null){
@@ -1186,11 +1188,15 @@ function googleLogin(db, req, callback){
 						req.session.user = null;
 						callback({status: "fail", message: "Please log in with your username and password", errorType: "username"})
 					}
-				} else {
+				} else if (existingUsers.length == 0) {
+					
+					// if this user doesn't exist, let's try to create an account
+
 					createNewUser(null, userid, userQuery.email, db, req, function(newUser){
 						callback({status: "success", message: "Account created. Go ahead and log in!", user: newUser});
 					})
-
+				} else {
+					callback({status: "fail", message: "Something really weird happened", errorType: "username"})
 				}
 
 			})
