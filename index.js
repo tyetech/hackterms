@@ -101,10 +101,6 @@ MongoClient.connect(dbAddress, function(err, db){
 
         // check if a user is logged in - fetch updated user data, or redirect to setting a username
 
-        console.log("req.session");
-        console.log(req.session);
-        console.log("===============");
-
         if(req.url != "/logout" && req.url != "/select-username" && req.session.user){
             if(typeof(req.session.user.username) != "undefined" && req.session.user.username != null){
                 console.log("this user is logged in and has a username");

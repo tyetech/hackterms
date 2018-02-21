@@ -1171,7 +1171,7 @@ function googleLogin(db, req, callback){
 
 					var thisUser = existingUsers[0];
 
-					if(typeof(thisUser.googleId) != "undefined"){
+					if(typeof(thisUser.googleId) != "undefined" && thisUser.googleId != null){
 						console.log("this IS a Google user");
 						if(thisUser.googleId == userid){
 							logUserIn(thisUser, db, req, function(response){
