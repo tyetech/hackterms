@@ -1187,7 +1187,7 @@ function googleLogin(db, req, callback){
 						callback({status: "fail", message: "Please log in with your username and password", errorType: "username"})
 					}
 				} else {
-					createNewUser(null, thisUser.googleId, db, req, function(newUser){
+					createNewUser(null, userid, db, req, function(newUser){
 						callback({status: "success", message: "Account created. Go ahead and log in!", user: newUser});
 					})
 
