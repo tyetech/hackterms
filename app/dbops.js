@@ -1067,7 +1067,7 @@ function signup(db, req, callback){
 
 								bcrypt.genSalt(10, function(err, salt) {
 								    bcrypt.hash(req.body.password, salt, function(err, hash){
-								    	createNewUser(hash, null, db, req, function(newUser){
+								    	createNewUser(hash, null, req.body.email.trim().toLowerCase(), db, req, function(newUser){
 											callback({status: "success", message: "Account created. Go ahead and log in!", user: newUser});
 										})  
 								    });
@@ -1187,7 +1187,7 @@ function googleLogin(db, req, callback){
 						callback({status: "fail", message: "Please log in with your username and password", errorType: "username"})
 					}
 				} else {
-					createNewUser(null, userid, db, req, function(newUser){
+					createNewUser(null, userid, userQuery.email, db, req, function(newUser){
 						callback({status: "success", message: "Account created. Go ahead and log in!", user: newUser});
 					})
 
@@ -1237,7 +1237,7 @@ function logUserIn(thisUser, db, req, callback){
 	}
 }
 
-function createNewUser(hash, thisGoogleId, db, req, callback){
+function createNewUser(hash, thisGoogleId, thisEmail, db, req, callback){
 
 	var thisUsername = null;
 	if(hash != null && thisGoogleId == null){
@@ -1246,7 +1246,7 @@ function createNewUser(hash, thisGoogleId, db, req, callback){
 
 	var newUser = {
 		createdOn: new Date(),
-		email: req.body.email.trim().toLowerCase(),
+		email: thisEmail,
 		username: thisUsername,
         password: hash,
         googleId: thisGoogleId,
