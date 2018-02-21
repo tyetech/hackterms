@@ -11,6 +11,8 @@ var session = require('express-session');               // create sessions
 const MongoStore = require('connect-mongo')(session);   // store sessions in Mongo so we don't get dropped on every server restart
 const bcrypt = require('bcrypt');                       // encrypt passwords
 
+
+
 const app = express();
 app.set("port", process.env.PORT || 3000)                        // we're gonna start a server on whatever the environment port is or on 3000
 app.set("views", path.join(__dirname, "/public/views"));        // tells us where our views are
@@ -97,25 +99,37 @@ MongoClient.connect(dbAddress, function(err, db){
 
     app.use(function(req, res, next){
 
-        if(req.session.user){
-            dbops.getUpdatedUser(db, req, function moveOn(suspended){
+        // check if a user is logged in - fetch updated user data, or redirect to setting a username
 
-                if(suspended){
-                    req.session.user = null;
-                    req.session.expires = new Date(Date.now);       /* not sure if this is needed */
-                }
+        console.log("req.session");
+        console.log(req.session);
+        console.log("===============");
 
-                next();
-            })
+        if(req.url != "/logout" && req.url != "/select-username" && req.session.user){
+            if(typeof(req.session.user.username) != "undefined" && req.session.user.username != null){
+                console.log("this user is logged in and has a username");
+                console.log("getting updated user");
+                dbops.getUpdatedUser(db, req, function moveOn(suspended){
+
+                    if(suspended){
+                        req.session.user = null;
+                        req.session.expires = new Date(Date.now);       /* not sure if this is needed */
+                    }
+
+                    next();
+                })
+            } else {
+                console.log("this user is logged in and DOES NOT have a username");
+                res.render("selectUsername");
+            }
         } else {
-            console.log("User is not logged in.");
+            console.log("User is not logged in - no need to fetch updated data");
             next();
         }
     })
 
     
 /* ROUTES */
-
 
     app.get("/", function(req, res){
         res.render("index", {searchTerm: ""});
@@ -403,24 +417,39 @@ MongoClient.connect(dbAddress, function(err, db){
                     errorType: response.errorType
                 });
             } else {
-                res.render("components/loggedInHeader");
+                res.send({ status: "success" });
             }
         });
     });
 
+    app.post("/google-login", function(req, res){
+        if(req.session.user){
+            console.log("Already logged in");
+            res.send({status: "logged in" });
+        } else {
+            dbops.googleLogin(db, req, function sendUserData(response){
+                if(response.status == "fail"){
+                    res.send({
+                        status: "fail",
+                        message: response.message,
+                        errorType: response.errorType
+                    });
+                } else {
+                    res.send({ status: "success" });
+                }
+            })
+        }
+    })
+
     app.get("/logout", function(req, res){
         req.session.destroy();   
-        res.send({
-            status: "success",
-            message: "Logged out"
-        });
+        res.redirect("/");
     })
 
     app.get("/profile", function(req, res){
         if(req.session.user){
             res.redirect("/profile/" + req.session.user.username + "/definitions");
         } else {
-            req.session.error = "Please log in to see your profile";
             res.redirect("/");
         }
     })
@@ -434,7 +463,7 @@ MongoClient.connect(dbAddress, function(err, db){
     })
 
     app.get("/profile/:username", function(req, res){
-            res.redirect("/profile/" + req.params.username + "/definitions");
+        res.redirect("/profile/" + req.params.username + "/definitions");
     })
 
     app.get("/profile/:username/views/components/:component", function(req, res){
@@ -769,13 +798,20 @@ MongoClient.connect(dbAddress, function(err, db){
         });
     });
 
-    app.get("/convert-date", function(req, res){
-        if(req.session.user && req.session.user.username == "max"){
-            res.render("dateConvert");
-        } else {
-            res.redirect("/");
-        }
-    })
+    app.post("/select-username", function(req, res){
+        console.log("selecting username");
+        dbops.selectUsername(db, req, function pickUsername(response){
+            console.log("got response from dbops");
+            console.log(response);
+            if(response.status == "success")
+                res.send({status: "success"});
+            else {
+                res.send({ status: "fail", message: response.message })
+            }
+        });
+    });
+
+
 
 
     // putting this last to make sure we don't overwrite any other routes

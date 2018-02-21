@@ -69,7 +69,7 @@
                     <a href = "/admin"><i class="fa fa-id-card-o" aria-hidden="true" href = "/admin"></i></a>
                 <% } %>
 
-                <span class = "link" id = "logout">Log out</span>
+                <a href = "/logout" id = "logout">Log out</a>
             <% } %>
         </div>
     </div>
@@ -193,6 +193,12 @@
             </form>
             
             <button class = "account-submit-button" id = "signup-action">Sign up</button>
+
+            <hr>
+
+            <div id = "login-oauth-wrapper">
+                <div class="g-signin2" id = "google-sign-in" data-theme="dark" data-onsuccess="onSignIn"></div>
+            </div>
         </div>
     </div>
 
@@ -221,15 +227,16 @@
                     </div>
                     <div class = "link" id = "password-reset-link">Forgot your password?</div>
                 </div>
-
-<!--                 <div>
-                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
-                    <span class = "link" id = "google-sign-out">Sign out</span>
-                </div> -->
-            
             </form>
 
             <button class = "account-submit-button" id = "login-action">Log In</button>
+
+            <hr>
+
+            <div id = "login-oauth-wrapper">
+                <div class="g-signin2" id = "google-sign-in" data-theme="dark" data-onsuccess="onSignIn"></div>
+            </div>
+
             
         </div>
     </div>

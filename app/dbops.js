@@ -2,6 +2,11 @@ const database = require("./database");
 const bcrypt = require('bcrypt');                         // encrypt passwords
 const nodemailer = require('nodemailer');				  // send email
 var request = require('request');                         // send HTTP requests
+var GoogleAuth = require('google-auth-library');		  // authenticate google user tokens to sign users in with a google Account
+var auth = new GoogleAuth;
+var client = new auth.OAuth2("285224215537-l5a1ol101rmutrvbcd2omt5r3rktmh6v.apps.googleusercontent.com", '', '');
+
+
 
 var transporter = nodemailer.createTransport({
     host: 'smtp.zoho.com',
@@ -1045,7 +1050,6 @@ function addReport(db, req, callback){
 
 
 function signup(db, req, callback){
-	console.log(req.body);
 
 	if(req.body.username.trim().length && req.body.password.trim().length){    	// let's make sure the username and password aren't empty
 		if(req.body.username.trim().length && req.body.password.trim().length > 5){    
@@ -1053,46 +1057,27 @@ function signup(db, req, callback){
 				if(req.body.email.trim().length && req.body.email.indexOf("@") != -1 && req.body.email.indexOf(".") != -1){
 
 					if(commonPasswords.indexOf(req.body.password.trim()) == -1){
-						bcrypt.genSalt(10, function(err, salt) {
-						    bcrypt.hash(req.body.password, salt, function(err, hash) {
-						   		var newUser = {
-						   			createdOn: new Date(),
-						   			email: req.body.email.trim().toLowerCase(),
-						   			username: req.body.username.trim().toLowerCase(),
-						            password: hash,
-						            lastLoggedOn: new Date(),
-						            suspended: false,
-						            admin: false,
-						            moderator: false,
-						   			data: {
-						   				username: req.body.username.toLowerCase(),
-						   				newNotifications: false,
-						   				badges: {
-						   					topContributor: false,		// top 5% of contributions?
-						   					professor: false,			// added 10+ definitions
-						   					og: false, 					// first 50 contributors
-						   					cunningLinguist: false,		// added 10+ comments
-						   					gottaCatchThemAll: false	// added a definition in every category
-						   				}
+						
+						var userQuery = {
+							username: req.body.username.trim().toLowerCase(),
+						}
 
-						   			}
-						        }
+						database.read(db, "users", userQuery, function(existingUsers){
+							if(existingUsers.length == 0){	
 
-								var userQuery = {
-									username: newUser.username,
-								}
+								bcrypt.genSalt(10, function(err, salt) {
+								    bcrypt.hash(req.body.password, salt, function(err, hash){
+								    	createNewUser(hash, null, db, req, function(newUser){
+											callback({status: "success", message: "Account created. Go ahead and log in!", user: newUser});
+										})  
+								    });
+								});
 
-								database.read(db, "users", userQuery, function(existingUsers){
-									if(existingUsers.length == 0){																		
-										database.create(db, "users", newUser, function(newlyCreatedUser){
-											callback({status: "success", message: "Account created. Go ahead and log in!", user: newlyCreatedUser[0]})
-										});
-									} else {	
-										callback({status: "fail", message: "That username is not available", errorType: "username"})
-									}
-								})     
-						    });
-						});
+							} else {	
+								callback({status: "fail", message: "That username is not available", errorType: "username"})
+							}
+						})
+
 					} else {
 						callback({status: "fail", message: "Do you want to get hacked? Because that's how you get hacked.", errorType: "password"});
 					}
@@ -1121,43 +1106,26 @@ function login(db, req, callback){
 
 		database.read(db, "users", userQuery, function checkIfUserExists(existingUsers){
 			if(existingUsers.length == 1){	
-				bcrypt.compare(req.body.password, existingUsers[0].password, function(err, res) {
-					if(res){													// if the two password hashes match...
-						if(existingUsers[0].suspended == "false" || existingUsers[0].suspended == false){
 
-							var loginDateUpdate = {
-								$set: {
-									lastLoggedOn: new Date()
-								}
-							}
+				var thisUser = existingUsers[0];
 
-							database.update(db, "users", userQuery, loginDateUpdate, function updateLastLogin(lastLogin){
+				if(thisUser.googleId == null || thisUser.googleId == "null"){			// will need to add github as well
 
-								console.log("Logged in successfully.")
-				                req.session.user = existingUsers[0].data;
-				                req.session.user.admin = existingUsers[0].admin;
-				                req.session.user.moderator = existingUsers[0].moderator;
-
-				                var day = 60000*60*24;
-
-				                if(req.body.rememberMe == "true" || req.body.rememberMe == true){
-				                	req.session.cookie.expires = new Date(Date.now() + (14*day));
-				                	req.session.cookie.maxAge = (14*day);                           // this is what makes the cookie expire
-				                }
-
-
-				                callback({status: "success", message: "Logged in"});
-
+					bcrypt.compare(req.body.password, existingUsers[0].password, function(err, res) {
+						if(res){													// if the two password hashes match...
+							
+							logUserIn(thisUser, db, req, function(response){
+								callback(response);
 							})
 						} else {
 							req.session.user = null;
-							callback({status: "fail", message: "Your account has been suspended", errorType: "username"})
+							callback({status: "fail", message: "Login or password are incorrect", errorType: "username"})
 						}
-					} else {
-						req.session.user = null;
-						callback({status: "fail", message: "Login or password are incorrect", errorType: "username"})
-					}
-				});										
+					});	
+				} else {
+					req.session.user = null;
+					callback({status: "fail", message: "Please log in with your Google account.", errorType: "username"})
+				}
 			} else {
 				req.session.user = null;
 				callback({status: "fail", message: "Login or password are incorrect", errorType: "username"})
@@ -1168,6 +1136,143 @@ function login(db, req, callback){
 		callback({status: "fail", message: "Username is blank", errorType: "username"})
 	}
 }
+
+function googleLogin(db, req, callback){
+
+	client.verifyIdToken(
+	    req.body.idtoken,
+	    "285224215537-l5a1ol101rmutrvbcd2omt5r3rktmh6v.apps.googleusercontent.com", 
+	    function(e, login) {
+	      	var payload = login.getPayload();
+
+	      	console.log("payload");
+			console.log(payload);
+	      	var userid = payload["sub"];
+	 
+	      	// now we need to check if this userID exists in our database...
+
+      		/* 
+				1. does a user with this email exist?
+					if yes, does this user have a google id?
+						if yes, validate id, then sign in
+						if no, send error to log in with password
+					if no, create a user accoun with google ID
+						sign in
+		  	*/
+
+		  	// What happens if our token is invalid?
+
+	      	var userQuery = {
+	            email: payload["email"]
+	        }	
+
+	        database.read(db, "users", userQuery, function checkIfUserExists(existingUsers){
+				if(existingUsers.length == 1){
+
+					var thisUser = existingUsers[0];
+
+					if(typeof(thisUser.googleId) != "undefined"){
+						console.log("this IS a Google user");
+						if(thisUser.googleId == userid){
+							logUserIn(thisUser, db, req, function(response){
+								callback(response);
+							})
+						} else {
+							req.session.user = null;
+							callback({status: "fail", message: "You are not who you appear to be", errorType: "username"})
+						}
+					} else {
+						console.log("this isn't a Google user");
+						req.session.user = null;
+						callback({status: "fail", message: "Please log in with your username and password", errorType: "username"})
+					}
+				} else {
+					createNewUser(null, thisUser.googleId, db, req, function(newUser){
+						callback({status: "success", message: "Account created. Go ahead and log in!", user: newUser});
+					})
+
+				}
+
+			})
+
+
+
+	 });
+}
+
+function logUserIn(thisUser, db, req, callback){
+	if(thisUser.suspended == "false" || thisUser.suspended == false){
+
+		var userQuery = {
+			username: thisUser.username
+		}
+
+		var loginDateUpdate = {
+			$set: {
+				lastLoggedOn: new Date()
+			}
+		}
+
+		database.update(db, "users", userQuery, loginDateUpdate, function updateLastLogin(lastLogin){
+
+			console.log("Logged in successfully.")
+            req.session.user = thisUser.data;
+            req.session.user.admin = thisUser.admin;
+            req.session.user.moderator = thisUser.moderator;
+            req.session.user.email = thisUser.email;
+
+            var day = 60000*60*24;
+
+            if(req.body.rememberMe == "true" || req.body.rememberMe == true){
+            	req.session.cookie.expires = new Date(Date.now() + (14*day));
+            	req.session.cookie.maxAge = (14*day);                           // this is what makes the cookie expire
+            }
+
+            callback({status: "success", message: "Logged in", errorType: "username"});
+
+		})
+	} else {
+		req.session.user = null;
+		callback({status: "fail", message: "Your account has been suspended", errorType: "username"})
+	}
+}
+
+function createNewUser(hash, thisGoogleId, db, req, callback){
+
+	var thisUsername = null;
+	if(hash != null && thisGoogleId == null){
+		thisUsername = req.body.username.trim().toLowerCase();
+	}
+
+	var newUser = {
+		createdOn: new Date(),
+		email: req.body.email.trim().toLowerCase(),
+		username: thisUsername,
+        password: hash,
+        googleId: thisGoogleId,
+        lastLoggedOn: new Date(),
+        suspended: false,
+        admin: false,
+        moderator: false,
+			data: {
+				username: thisUsername,
+				newNotifications: false,
+				badges: {
+					topContributor: false,		// top 5% of contributions?
+					professor: false,			// added 10+ definitions
+					og: false, 					// first 50 contributors
+					cunningLinguist: false,		// added 10+ comments
+					gottaCatchThemAll: false	// added a definition in every category
+				}
+
+			}
+    }
+																
+	database.create(db, "users", newUser, function(newlyCreatedUser){
+		callback(newlyCreatedUser[0]);
+	});     
+}
+
 
 function getTopTerms(db, req, callback){
 
@@ -1292,7 +1397,7 @@ function getUpdatedUser(db, req, callback){
             }
 		} else {
 			req.session.user = null;
-			console.log("Something went wrong with fetchign the session");
+			console.log("Something went wrong with fetching the session");
 			callback(false);
 		}
 	});
@@ -1787,6 +1892,44 @@ function passwordResetAction(db, req, callback){
 	}
 }
 
+function selectUsername(db, req, callback){
+
+	console.log("dbops - selecting username");
+
+	var usernameQuery = { username: req.body.username.trim().toLowerCase() }
+
+	database.read(db, "users", usernameQuery, function checkForUsers(users){
+		if(users.length == 0){
+			console.log("This username is available!");
+
+			var thisUserQuery = {
+				email: req.session.user.email
+			}
+
+			var usernameUpdate = {
+				$set: {
+					username: usernameQuery.username
+				}
+			}
+
+			usernameUpdate.$set["data.username"] = usernameQuery.username;
+
+			database.update(db, "users", thisUserQuery, usernameUpdate, function updateUsername(user){
+				req.session.user.username = usernameQuery.username;
+				callback({status: "success"});
+			})
+
+		} else if (users.length == 1){
+			callback({status: "fail", message: "This username is not available"})
+		} else {
+			callback({status: "fail", message: "Something went wrong"})
+		}
+
+	})
+
+}
+
+
 function getFAQ(db, req, callback){	
 	database.read(db, "faq", {}, function getUpdatedFAQ(thisFAQ){
 		callback({faq: thisFAQ})
@@ -1911,6 +2054,7 @@ module.exports.logVisit = logVisit;
 
 module.exports.signup = signup;
 module.exports.login = login;
+module.exports.googleLogin = googleLogin;
 module.exports.getUpdatedUser = getUpdatedUser;
 
 module.exports.getAdminData = getAdminData;
@@ -1931,4 +2075,5 @@ module.exports.clearNotifications = clearNotifications;
 module.exports.passwordResetRequest = passwordResetRequest;
 module.exports.checkPasswordReset = checkPasswordReset;
 module.exports.passwordResetAction = passwordResetAction;
+module.exports.selectUsername = selectUsername;
 

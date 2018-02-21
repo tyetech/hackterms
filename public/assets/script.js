@@ -14,8 +14,89 @@ var triggerEvent = "click";
 var singleTermDefinition = false;
 
 
-function main(){
 
+function init(){
+    gapi.load("auth2", function(){
+            gapi.auth2.init();
+        })
+}
+/**/
+
+
+function onSignIn(googleUser) {     // this'll only run if a user is signed in
+                                    // googleUser IS THE SAME THING AS  gapi.auth2.getAuthInstance().currentUser.get();
+/*  
+    //var googleUser = gapi.auth2.getAuthInstance().currentUser.get();
+    var profile = googleUser.getBasicProfile();
+    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    console.log('Name: ' + profile.getName());
+    console.log('Image URL: ' + profile.getImageUrl());
+    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+*/
+
+    var id_token = googleUser.getAuthResponse().id_token;
+    var profile = googleUser.getBasicProfile();
+
+    console.log("a user is signed in");
+
+    var loginToken = {
+        idtoken: id_token
+    }
+
+    if($("#new-username").length == 0 && gapi.auth2.getAuthInstance().isSignedIn.get()){
+
+        $.ajax({
+            type: "post",
+            data: loginToken,
+            url: "/google-login",
+            success: function(result){
+                // do something
+
+                /* THIS IS DUPLICATE CODE */
+
+                if(result.status == "fail"){
+                    console.log("failing");
+                    $("." + result.errorType + "-error").text(result.message).css("display", "block");
+                } else if(result.status == "logged in"){
+                    console.log("already logged in");
+                } else {
+                    window.location.href = "/";
+                }
+            }
+        });
+
+    }
+}
+
+
+
+
+
+/*
+function onLoad(){
+
+    var isSignedIn  = gapi.auth2.getAuthInstance().isSignedIn.get();
+
+    console.log("loading!");
+    gapi.load('auth2,signin2', function(){
+        var auth2 = gapi.auth2.init();
+        auth2.then(function() {
+            var currentUser = auth2.currentUser.get();
+        });
+    });
+}
+*/
+
+/**/
+
+$("body").on(triggerEvent, "#google-sign-out", function(){
+    gapi.auth2.getAuthInstance().signOut().then(function () {
+        console.log('User signed out.');
+    });
+})
+
+
+function main(){
 
     var host = "www.hackterms.com";
     if ((host == window.location.host) && (window.location.protocol != "https:")){
@@ -478,7 +559,13 @@ function main(){
     });
 
     $("body").on(triggerEvent, "#logout", function(){
-        logout();
+
+        if(gapi.auth2.getAuthInstance().isSignedIn.get()){                  // google log out
+            gapi.auth2.getAuthInstance().signOut().then(function() {
+                console.log('User signed out.');
+            });
+        }
+
     });
 
     $("body").on(triggerEvent, "#password-reset-action", function(){
@@ -508,6 +595,15 @@ function main(){
         }
 
     });
+
+    $("body").on(triggerEvent, "#username-submit-button", function(){
+        $("#username-error").text("");
+        selectNewUsername();
+    });
+
+
+
+
 
     $("body").on(triggerEvent, "#password-reset-link", function(){
         resetNavBar();
@@ -1048,44 +1144,8 @@ function login(){
                         location.reload();
                     } else if(window.location.pathname.indexOf("/password-reset") != -1){
                         window.location.href = "http://hackterms.com";
-                    } else {
-                        $("#header-section").empty().append(result);
-                        $("#signup-section, #login-section").hide();
-
-
-                        // replace the "log in to add a comment" fields with textareas
-                        for(var i = 0; i < $(".add-one").length - 1; i++){
-                            var element = $(".add-one")[i];
-                            var id = element.dataset.id;
-                            element.innerHTML = "<div class = 'new-comment-error'></div><textarea class = 'new-comment-textarea' data-id = " + id + " rows = '2' maxlength = '750' placeholder = 'A penny for your thoughts?'></textarea><div class = 'button-wrapper'><button class = 'add-comment' data-id = " + id + " data-term = ''>Add</button></div>";
-                        }
-
-                        $(".login-link").attr("id", "new-def-link");
-                        $(".login-link").removeClass("login-link");
-
-
-                        $(".comment").removeClass("add-one");
-
-                        var welcomeMessages = [
-                            "Welcome back",
-                            "Good to see you again",
-                            "Let the learning begin!",
-                            "Happy [insert-day-of-week here]",
-                            "Did you know Guyana is located in South America?",
-                            "You are logged in",
-                            "0745 The humans suspect nothing",
-                            "0001 0011 1011 0001  I mean, uh ... hello,  human",
-                            "function(){req.session.insert.express.joke}",
-                            "Did you drink enough water today?",
-                            "On this day in history... people just like you did cool things",
-                            "'Hackterms' is a noun, in case you were wondering",
-                            "<div>My job is to show you errors and confirmations. </div>"
-                        ]
-
-                        var message = welcomeMessages[Math.floor(Math.random()*welcomeMessages.length)];
-
-                        //flash("message", message);
-                        flash("message", "You are logged in");
+                    } else {            
+                        window.location.href = "/";
                     } 
                 }
             }
@@ -1165,7 +1225,6 @@ function passwordReset(){
 
 
 function submitPasswordReset(){
-
     var resetData = {
         token: $(".standalone-password-reset-page")[0].dataset.token,
         password: $("#password-reset").val(),
@@ -1190,25 +1249,32 @@ function submitPasswordReset(){
             }
         }
     });
- 
 }
 
-function logout(){
+function selectNewUsername(){
+    var usernameData = {
+        username: $("#new-username").val().trim().toLowerCase()
+    }
 
-    $.ajax({
-        type: "get",
-        url: "/logout",
-        success: function(result){
-            if(result.status == "success"){
-                location.reload();
-                flash("error", "You have been logged out");
-            } else {
-                $("#login-username, #login-password, #signup-username, #signup-password").val("");
+    if(usernameData.username){
+        $.ajax({
+            type: "post",
+            data: usernameData,
+            url: "/select-username",
+            success: function(result){
+                if(result.status == "success"){                
+                    window.location.href = "/";
+                } else {   
+                    $("#username-error").text(result.message);
+                }
             }
-        }
-    })
- 
+        });  
+    } else {
+        $("#username-error").text("Please enter a username");
+    }
 }
+
+
 
 function displayDefinitionsOnPage(definitions, isLoggedIn, forUser){
 
@@ -1427,7 +1493,7 @@ function displayRelatedTerms(terms){                // messy solution to sorting
 /*        for(var k = 0; k < termsInOrder.length; k++){
             $("#related-terms-section").append("<a href = '/" + termsInOrder[k] + "'' class= 'related-term'>" + termsInOrder[k] + "</a>");
         }*/
-        
+
     } else {
         $("#related-terms-section").append("None yet");
     }

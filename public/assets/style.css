@@ -638,14 +638,13 @@ button:hover {
   transform: scale(1.4);
   opacity: 0; }
 
-.stay-signed-in {
-  text-align: left;
-  display: inline;
-  float: left;
-  width: 40%; }
+#login-oauth-wrapper {
+  display: flex;
+  justify-content: center; }
 
-#password-reset-link {
-  float: right; }
+.login-additional-options {
+  display: flex;
+  justify-content: space-between; }
 
 #reset-request-confirm {
   font-size: 1.2em;
@@ -661,13 +660,9 @@ button:hover {
   font-weight: 200;
   margin: 0; }
 
-.standalone-password-reset-page {
+.standalone-password-reset-page, #select-username-section {
   max-width: 400px;
   margin: 10vh auto; }
-
-.standalone-password-reset-page .account-title {
-  font-size: 1.8em;
-  margin-bottom: 25px; }
 
 #new-definition-modal {
   padding-top: 20px; }
@@ -677,7 +672,11 @@ button:hover {
   left: calc(50vw - 200px);
   padding-top: 0; }
 
-.pop-out input, #password-reset-section input {
+#select-username-section {
+  text-align: center;
+  max-width: 400px; }
+
+.pop-out input, #password-reset-section input, #select-username-section input {
   display: block;
   width: calc(100% - 12px);
   border: 1px solid #989494;
@@ -686,11 +685,10 @@ button:hover {
   font-size: 1.5em;
   padding: 2px 5px 5px 5px;
   margin-right: 8px; }
-
-.pop-out input:focus, #password-reset-section input:focus {
-  border: 1px solid #58A4B0;
-  border-bottom: 2px solid #58A4B0;
-  transition: border; }
+  .pop-out input:focus, #password-reset-section input:focus, #select-username-section input:focus {
+    border: 1px solid #58A4B0;
+    border-bottom: 2px solid #58A4B0;
+    transition: border; }
 
 .pop-out input[type="radio"] {
   display: inline;
@@ -721,6 +719,11 @@ button:hover {
 
 .active-account-title {
   color: #2C363F; }
+
+.standalone-title {
+  color: black;
+  font-size: 1.8em;
+  margin-bottom: 25px; }
 
 .report-error {
   min-height: 1.5em;
@@ -1292,9 +1295,14 @@ button:hover {
   .notification-bell:hover {
     font-weight: bold;
     cursor: pointer; }
+  .login-additional-options {
+    font-size: 0.9em; }
+  .stay-signed-in {
+    text-align: left; }
+  #password-reset-link {
+    text-align: right; }
   #signup-modal, #login-modal, #password-reset-modal {
     width: calc(94vw - 34px);
-    /*max-width: 400px;*/
     left: 3vw; }
   #signup-options {
     text-align: left;
