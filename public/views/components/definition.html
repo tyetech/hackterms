@@ -7,12 +7,12 @@
  	 --><div class = "definition-actions">
 	 		{{#if definition.owner}}
 	 			<!-- <div class = "bold action-icon link more-post" data-id = "{{id}}" data-type = "definitions"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></div> -->
-	 			<div class = "bold link action-icon edit-post" data-id = "{{id}}" data-type = "definitions"><i class="fa fa-pencil" aria-hidden="true"></i></div>
-	 			<div class = "bold link action-icon delete-post" data-id = "{{id}}" data-type = "definitions"><i class="fa fa-trash-o" aria-hidden="true"></i></div>
+	 			<div class = "bold link action-icon edit-post" data-id = "{{id}}" data-type = "definitions"><i class="fas fa-pencil-alt" aria-hidden="true"></i></div>
+	 			<div class = "bold link action-icon delete-post" data-id = "{{id}}" data-type = "definitions"><i class="far fa-trash-alt" aria-hidden="true"></i></div>
 	 		{{/if}}
 
 	 		{{#unless definition.owner}}
-				<span class = "action-icon report-post bold" data-id = "{{id}}" data-type = "definitions"><i class="fa fa-flag-o" aria-hidden="true"></i></span>
+				<span class = "action-icon report-post bold" data-id = "{{id}}" data-type = "definitions"><i class="far fa-flag" aria-hidden="true"></i></span>
 			{{/unless}}
 			
 			<span class = "link comment-on-post action-icon" data-id = "{{id}}" data-term = "{{definition.term}}" >

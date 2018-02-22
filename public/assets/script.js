@@ -59,26 +59,6 @@ function onSignIn(googleUser) {     // this'll only run if a user is signed in
 }
 
 
-
-
-
-/*
-function onLoad(){
-
-    var isSignedIn  = gapi.auth2.getAuthInstance().isSignedIn.get();
-
-    console.log("loading!");
-    gapi.load('auth2,signin2', function(){
-        var auth2 = gapi.auth2.init();
-        auth2.then(function() {
-            var currentUser = auth2.currentUser.get();
-        });
-    });
-}
-*/
-
-/**/
-
 $("body").on(triggerEvent, "#google-sign-out", function(){
     gapi.auth2.getAuthInstance().signOut().then(function () {
         console.log('User signed out.');
@@ -87,6 +67,8 @@ $("body").on(triggerEvent, "#google-sign-out", function(){
 
 
 function main(){
+
+    window.scrollTo(0, 0);
 
     var host = "www.hackterms.com";
     if ((host == window.location.host) && (window.location.protocol != "https:")){
@@ -310,12 +292,12 @@ function main(){
 
     $("body").on(triggerEvent, ".stay-signed-in", function(){
 
-        if($("#remember-account").hasClass("fa-check-square-o")){
-            $("#remember-account").removeClass("fa-check-square-o");
-            $("#remember-account").addClass("fa-square-o");
+        if($("#remember-account").hasClass("fa-check-square")){
+            $("#remember-account").removeClass("fa-check-square");
+            $("#remember-account").addClass("fa-square");
         } else {
-            $("#remember-account").removeClass("fa-square-o");
-            $("#remember-account").addClass("fa-check-square-o");
+            $("#remember-account").removeClass("fa-square");
+            $("#remember-account").addClass("fa-check-square");
         }
 
     });
@@ -634,8 +616,33 @@ function main(){
         }
     });
 
+    $("body").on(triggerEvent, "#github-login", function(){
+        githubLogin();
+    });
+
 }
 
+
+function githubLogin() {
+
+    var data = {
+        client_id: "029b90872503557c3d0e"
+    }
+
+    var githubURL = "https://github.com/login/oauth/authorize";
+
+    $.ajax({
+        type: "get",
+        data: data,
+        url: githubURL,
+        success: function(token){
+            console.log("token: ");
+            console.log(token); 
+        }
+    });
+
+
+}
 
 
 
@@ -1115,7 +1122,7 @@ function login(){
     var loginData = {
         username: $("#login-username").val().toLowerCase(),
         password: $("#login-password").val(),
-        rememberMe: $("#remember-account").hasClass("fa-check-square-o")
+        rememberMe: $("#remember-account").hasClass("fa-check-square")
 
     }
 

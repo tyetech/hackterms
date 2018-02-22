@@ -178,8 +178,8 @@ button:hover {
     width: calc(100% - 32px);
 	min-width: 200px;
 	max-width: calc(1600px - 32px);
-    z-index: -1;
-    position: relative;
+    z-index: 1;
+    //position: relative;
     @include placeholder($search-placeholder,$search-opacity );
 
     &:hover {
@@ -826,7 +826,43 @@ button:hover {
 
 #login-oauth-wrapper {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
+}
+
+#github-login {
+    height: 34px;
+    width: 120px;
+    background: #24292F;
+    border-radius: 1px;
+    padding: 1px;
+    display: flex;
+    justify-self: center;
+    align-self: center;
+    &:hover {
+        box-shadow: 0 0 7px black;
+    }
+}
+
+.github-logo-wrapper {
+    width: 34px;
+    height: 34px;
+    background: white;
+    display: flex;
+    justify-self: flex-start;
+}
+
+.github-logo-label {
+    color: white;
+    padding: 6px 0 0 21px;
+    font-size: 0.8em;
+    font-weight: 300;
+}
+
+#github-login i {
+    padding: 0 10px;
+    transform: scale(1.3);
+    display: flex;
+    align-self: center;
 }
 
 .login-additional-options {

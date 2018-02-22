@@ -7,6 +7,15 @@
     <meta name="description" content="Hackterms is a community-sourced dictionary of programming terms. Learn when, where, and why you'd use a particular programming tool, concept, process, or language.">
     <meta name="keywords" content="coding dictionary, hackterms, hack terms, programming dictionary, javascript, html, css, python, stack overflow, wikipedia, mdn, freecodecamp, codecademy, coding, what does, mean, dictionary">
 
+
+    <!-- FB sharing -->
+
+    <meta property="og:url"                content="https://www.hackterms.com" />
+    <meta property="og:title"              content="Hackterms" />
+    <meta property="og:description"        content="A dictionary of programming terms" />
+    <meta property="og:image"              content="/assets/logo.png" />
+
+
     <!-- Google Analytics -->
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-113877652-1"></script>
@@ -197,7 +206,8 @@
             <hr>
 
             <div id = "login-oauth-wrapper">
-                <div class="g-signin2" id = "google-sign-in" data-theme="dark" data-onsuccess="onSignIn"></div>
+                <div class="g-signin2" id = "google-signin" data-theme="dark" data-onsuccess="onSignIn"></div>
+                <button id = "github-login" ><i class="fab fa-github"></i>Sign in</button>
             </div>
         </div>
     </div>
@@ -222,7 +232,7 @@
                 <div class = "login-additional-options">
                     <div class = "stay-signed-in">
                         <input type = "checkbox" id = "hidden-remember-account-checkbox">
-                        <i class="fa fa-square-o" aria-hidden="true" id = "remember-account"></i>
+                        <i class="far fa-square" aria-hidden="true" id = "remember-account"></i>
                         <span class = "toggle-label">Remember me</span>
                     </div>
                     <div class = "link" id = "password-reset-link">Forgot your password?</div>
@@ -235,6 +245,10 @@
 
             <div id = "login-oauth-wrapper">
                 <div class="g-signin2" id = "google-sign-in" data-theme="dark" data-onsuccess="onSignIn"></div>
+                <div id = "github-login" >
+                    <div class = "github-logo-wrapper"><i class="fab fa-github"></i></div>
+                    <div class = "github-logo-label">Sign in</div>
+                </div>
             </div>
 
             
