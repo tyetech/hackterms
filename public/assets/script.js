@@ -25,14 +25,6 @@ function init(){
 
 function onSignIn(googleUser) {     // this'll only run if a user is signed in
                                     // googleUser IS THE SAME THING AS  gapi.auth2.getAuthInstance().currentUser.get();
-/*  
-    //var googleUser = gapi.auth2.getAuthInstance().currentUser.get();
-    var profile = googleUser.getBasicProfile();
-    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    console.log('Name: ' + profile.getName());
-    console.log('Image URL: ' + profile.getImageUrl());
-    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-*/
 
     var id_token = googleUser.getAuthResponse().id_token;
     var profile = googleUser.getBasicProfile();
@@ -50,9 +42,6 @@ function onSignIn(googleUser) {     // this'll only run if a user is signed in
             data: loginToken,
             url: "/google-login",
             success: function(result){
-                // do something
-
-                /* THIS IS DUPLICATE CODE */
 
                 if(result.status == "fail"){
                     console.log("failing");
