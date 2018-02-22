@@ -107,8 +107,14 @@ button:hover {
 /* HEADER AND FOOTER */
 
 #header-section {
-	padding: 0px 10vw 5px 10vw;
-	min-height: calc(5vh - 20px);
+	padding: 0px 10vw 10px 10vw;
+    min-height: calc(5vh - 20px);
+    border-bottom: 1px solid #eee;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    background: white;
+}
 }
 
 #home-link {
