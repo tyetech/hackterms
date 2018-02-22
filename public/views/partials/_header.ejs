@@ -26,7 +26,7 @@
     <link href="https://fonts.googleapis.com/css?family=Zilla+Slab:300,400,500,600" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Muli:200,300,400,600" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     <link rel = "stylesheet" type = "text/css" href ="/assets/style.css"/>
     <link rel="shortcut icon" type="image/png" href="/assets/icon.png">
 </head>
@@ -60,13 +60,13 @@
                 <span class = "welcome">Hello, <a href = "/profile"><%= session.user.username %></a></span>
                 
                 <% if(session.user.newNotifications){ %>
-                    <span class = "notifications-button"><i class="fa fa-bell-o notification-bell" aria-hidden="true" id = "new-alert"></i></span>
+                    <span class = "notifications-button"><i class="far fa-envelope notification-bell link" aria-hidden="true" id = "new-alert"></i></span>
                 <% } else {%>
-                    <span class = "notifications-button"><i class="fa fa-bell-o notification-bell" aria-hidden="true" ></i></span>
+                    <span class = "notifications-button"><i class="far fa-envelope notification-bell link" aria-hidden="true" ></i></span>
                 <% } %>
 
                 <% if(session.user.admin == "true" || session.user.admin == true || session.user.moderator == "true"|| session.user.moderator ==  true ){ %>
-                    <a href = "/admin"><i class="fa fa-id-card-o" aria-hidden="true" href = "/admin"></i></a>
+                    <a href = "/admin"><i class="far fa-id-card" aria-hidden="true" href = "/admin"></i></a>
                 <% } %>
 
                 <a href = "/logout" id = "logout">Log out</a>
