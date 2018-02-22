@@ -56,6 +56,7 @@ function onSignIn(googleUser) {     // this'll only run if a user is signed in
 
                 if(result.status == "fail"){
                     console.log("failing");
+                     gapi.auth2.getAuthInstance().signOut();
                     $("." + result.errorType + "-error").text(result.message).css("display", "block");
                 } else if(result.status == "logged in"){
                     console.log("already logged in");
