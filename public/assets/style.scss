@@ -95,7 +95,7 @@ button:hover {
 }
 
 .container {
-	padding: 0 10vw;
+	padding: 80px 10vw 0 10vw;
 	margin: 0px auto;
 	min-width: 300px;
 	max-width: 1600px;
@@ -107,13 +107,14 @@ button:hover {
 /* HEADER AND FOOTER */
 
 #header-section {
-	padding: 0px 10vw 10px 10vw;
+	padding: 5px 10vw 10px 10vw;
     min-height: calc(5vh - 20px);
     border-bottom: 1px solid #eee;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
     background: white;
+    position: fixed;
 }
 
 #home-link {
@@ -1383,7 +1384,7 @@ button:hover {
     /* GLOBAL STYLING */
 
     .container {
-        padding: 0 5vw;
+        padding: 45px 5vw 0 5vw;
     }
 
     /* HEADER AND FOOTER */
