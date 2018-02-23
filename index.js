@@ -439,6 +439,7 @@ MongoClient.connect(dbAddress, function(err, db){
             console.log("Already logged in");
             res.send({status: "logged in" });
         } else {
+            console.log(req.params);
             var code = req.params.code;
             console.log("got github code:" + code);
             res.send({status: "not logged in" });
