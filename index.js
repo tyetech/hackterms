@@ -434,6 +434,37 @@ MongoClient.connect(dbAddress, function(err, db){
         }
     })
 
+    app.get("/github-oauth", function(req, res){
+        if(req.session.user){
+            console.log("Already logged in");
+            res.send({status: "logged in" });
+        } else {
+            var code = req.params.code;
+
+            console.log("got github code:" + code);
+
+
+/*
+            dbops.githubLogin(db, req, function sendUserData(response){
+                if(response.status == "fail"){
+                    res.send({
+                        status: "fail",
+                        message: response.message,
+                        errorType: response.errorType
+                    });
+                } else {
+                    res.send({ status: "success" });
+                }
+            })
+
+            */
+
+        }
+
+
+    });
+
+
     app.get("/logout", function(req, res){
         req.session.destroy();   
         res.redirect("/");

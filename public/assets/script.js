@@ -616,9 +616,9 @@ function main(){
         }
     });
 
-    $("body").on(triggerEvent, "#github-login", function(){
+/*    $("body").on(triggerEvent, "#github-login", function(){
         githubLogin();
-    });
+    });*/
 
 }
 

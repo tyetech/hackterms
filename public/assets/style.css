@@ -35,7 +35,7 @@ button {
   font-size: 0.9em;
   vertical-align: top;
   border-radius: 5px;
-  padding: 3px 8px;
+  padding: 3px 8px 6px 8px;
   box-shadow: 0 1px 4px rgba(44, 54, 63, 0.75); }
 
 button:hover {
@@ -261,8 +261,7 @@ button:hover {
   min-width: 300px;
   background: #ffffff;
   border-radius: 3px;
-  border: 1px solid rgba(44, 54, 63, 0.3);
-  border-top: 4px solid #114B5F; }
+  box-shadow: -1px 1px 9px rgba(156, 156, 156, 0.5); }
 
 .definition-main-body {
   display: flex;
@@ -650,9 +649,11 @@ button:hover {
   padding: 1px;
   display: flex;
   justify-self: center;
-  align-self: center; }
+  align-self: center;
+  color: #24292F; }
   #github-login:hover {
-    box-shadow: 0 0 7px black; }
+    box-shadow: 0 0 7px black;
+    color: #24292F; }
 
 .github-logo-wrapper {
   width: 34px;

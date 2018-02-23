@@ -2,9 +2,9 @@
 
 
 $white: #ffffff;
-$beige: #f3eae0;
-// #BFB48F, #e9ece2
+$beige: #f3eae0;        // this is the original color
 $beige-dark: #e2d4c4;
+$beige-darkish: #eae1d7;
 $blue-light: #58A4B0;
 $blue-dark: #114B5F;
 $gray: #2C363F;
@@ -80,7 +80,7 @@ button {
     font-size: 0.9em;
     vertical-align: top;
     border-radius: 5px;
-    padding: 3px 8px;
+    padding: 3px 8px 6px 8px;
     box-shadow: 0 1px 4px rgba(44, 54, 63, 0.75);
 }
 
@@ -353,13 +353,12 @@ button:hover {
 }
 
 .definition {
-	margin: 35px auto 0 auto;  
+    margin: 35px auto 0 auto;
     display: block;
     min-width: 300px;
-    background: $white;
+    background: #ffffff;
     border-radius: 3px;
-    border: 1px solid $gray-transparent;
-    border-top: 4px solid $blue-dark;
+    box-shadow: -1px 1px 9px rgba(156, 156, 156, 0.5);
 }
 
 .definition-main-body{
@@ -644,10 +643,9 @@ button:hover {
 }
 
 .definition-meta{
-	font-size: 0.85em;
+    font-size: 0.85em;
     min-height: 2em;
     padding: 5px 15px 5px 20px;
-    //background: #c6e060;
     border-bottom: 1px solid $gray-transparent;
 }
 
@@ -838,8 +836,10 @@ button:hover {
     display: flex;
     justify-self: center;
     align-self: center;
+    color: #24292F;
     &:hover {
         box-shadow: 0 0 7px black;
+        color: #24292F;
     }
 }
 
