@@ -440,10 +440,8 @@ MongoClient.connect(dbAddress, function(err, db){
             res.send({status: "logged in" });
         } else {
             var code = req.params.code;
-
             console.log("got github code:" + code);
-
-
+            res.send({status: "not logged in" });
 /*
             dbops.githubLogin(db, req, function sendUserData(response){
                 if(response.status == "fail"){
