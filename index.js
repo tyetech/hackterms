@@ -435,12 +435,13 @@ MongoClient.connect(dbAddress, function(err, db){
     })
 
     app.get("/github-oauth", function(req, res){
+        
         if(req.session.user){
             console.log("Already logged in");
             res.send({status: "logged in" });
         } else {
-            console.log(req.params);
-            var code = req.params.code;
+            console.log(req.query);
+            var code = req.query.code;
             console.log("got github code:" + code);
             res.send({status: "not logged in" });
 /*
