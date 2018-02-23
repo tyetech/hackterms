@@ -434,8 +434,8 @@ MongoClient.connect(dbAddress, function(err, db){
         }
     })
 
-    app.get("/github-oauth", function(req, res){
-        
+    app.post("/github-login", function(req, res){
+
         if(req.session.user){
             console.log("Already logged in");
             res.send({status: "logged in" });
@@ -443,8 +443,9 @@ MongoClient.connect(dbAddress, function(err, db){
             console.log(req.query);
             var code = req.query.code;
             console.log("got github code:" + code);
-            res.send({status: "not logged in" });
-/*
+            //res.send({status: "not logged in" });
+
+
             dbops.githubLogin(db, req, function sendUserData(response){
                 if(response.status == "fail"){
                     res.send({
@@ -455,13 +456,34 @@ MongoClient.connect(dbAddress, function(err, db){
                 } else {
                     res.send({ status: "success" });
                 }
-            })
-
-            */
-
+            })   
         }
+    });
+
+    app.post("/githubLogin", function(req, res){
+
+        if(req.session.user){
+            console.log("Already logged in");
+            res.send({status: "logged in" });
+        } else {
+            console.log(req.query);
+            var code = req.query.code;
+            console.log("got github code:" + code);
+            //res.send({status: "not logged in" });
 
 
+            dbops.githubLogin(db, req, code, function sendUserData(response){
+                if(response.status == "fail"){
+                    res.send({
+                        status: "fail",
+                        message: response.message,
+                        errorType: response.errorType
+                    });
+                } else {
+                    res.send({ status: "success" });
+                }
+            })   
+        }
     });
 
 

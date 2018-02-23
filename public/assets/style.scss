@@ -644,7 +644,7 @@ button:hover {
     font-size: 0.85em;
     min-height: 2em;
     padding: 5px 15px 5px 20px;
-    border-bottom: 1px solid $gray-transparent;
+    background: #f1efed;
 }
 
 .comment-meta{
@@ -842,6 +842,7 @@ button:hover {
     &:hover {
         box-shadow: 0 0 7px black;
         color: #24292F;
+        cursor: pointer;
     }
 }
 

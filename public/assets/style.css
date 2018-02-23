@@ -492,7 +492,7 @@ button:hover {
   font-size: 0.85em;
   min-height: 2em;
   padding: 5px 15px 5px 20px;
-  border-bottom: 1px solid rgba(44, 54, 63, 0.3); }
+  background: #f1efed; }
 
 .comment-meta {
   font-size: 0.85em;
@@ -653,7 +653,8 @@ button:hover {
   color: #24292F; }
   #github-login:hover {
     box-shadow: 0 0 7px black;
-    color: #24292F; }
+    color: #24292F;
+    cursor: pointer; }
 
 .github-logo-wrapper {
   width: 34px;

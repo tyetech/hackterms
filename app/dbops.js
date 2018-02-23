@@ -1206,6 +1206,39 @@ function googleLogin(db, req, callback){
 	 });
 }
 
+function githubLogin(db, req, code, callback){
+
+
+	console.log("running github login from dbops");
+
+	var clientId = "029b90872503557c3d0e"
+
+	request.get("https://github.com/login/oauth/authorize?client_id=" + clientId, function (error, apiRes, body) {
+		
+		console.log("got a response");
+
+		if (error) {
+			console.log("error");
+	        console.log(error)
+	        callback({status: "fail", message: "Github error", errorType: "username"})
+	    } else {
+	    	console.log("great success!");
+	    	console.log("===================API RES=====================");
+	    	console.log(apiRes);
+	    	console.log("===================BODY=====================");
+	    	console.log(body)
+	    	callback({status: "success", message: "Account created. Go ahead and log in!"});
+	    }
+	});
+
+
+
+
+
+
+}
+
+
 function logUserIn(thisUser, db, req, callback){
 	if(thisUser.suspended == "false" || thisUser.suspended == false){
 
@@ -2061,6 +2094,7 @@ module.exports.logVisit = logVisit;
 module.exports.signup = signup;
 module.exports.login = login;
 module.exports.googleLogin = googleLogin;
+module.exports.githubLogin = githubLogin;
 module.exports.getUpdatedUser = getUpdatedUser;
 
 module.exports.getAdminData = getAdminData;

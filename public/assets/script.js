@@ -616,28 +616,23 @@ function main(){
         }
     });
 
-/*    $("body").on(triggerEvent, "#github-login", function(){
+    $("body").on(triggerEvent, "#github-login", function(){
         githubLogin();
-    });*/
+    });
 
 }
 
 
 function githubLogin() {
 
-    var data = {
-        client_id: "029b90872503557c3d0e"
-    }
-
-    var githubURL = "https://github.com/login/oauth/authorize";
+    var data = {}
 
     $.ajax({
-        type: "get",
+        type: "post",
         data: data,
-        url: githubURL,
-        success: function(token){
-            console.log("token: ");
-            console.log(token); 
+        url: "/github-login",
+        success: function(){
+            console.log("thumbs up!");
         }
     });
 
