@@ -17,6 +17,8 @@ $font-tech: "Zilla Slab", serif;
 $search-placeholder: #858585;
 $search-opacity: 0.8;
 
+$border-radius: 5px;
+
 /* normalize placeholder text */
 @mixin placeholder($color, $opacity){
     &::placeholder {
@@ -79,7 +81,7 @@ button {
     font-weight: 300;
     font-size: 0.9em;
     vertical-align: top;
-    border-radius: 5px;
+    border-radius: $border-radius;
     padding: 3px 8px 6px 8px;
     box-shadow: 0 1px 4px rgba(44, 54, 63, 0.75);
 }
@@ -179,6 +181,7 @@ button:hover {
 	min-width: 200px;
 	max-width: calc(1600px - 32px);
     z-index: 1;
+    border-radius: $border-radius;
     //position: relative;
     // @include placeholder($search-placeholder,$search-opacity );
 
@@ -236,7 +239,7 @@ button:hover {
 .related-term, .top-searched-term {
     padding: 0px 10px;
     border: 1px solid $gray-transparent;
-    border-radius: 6px;
+    border-radius: $border-radius;
     color: $blue-light;
     font-family: $font-tech;
     font-weight: 400;
@@ -299,7 +302,7 @@ button:hover {
     padding-top: 0;
     min-height: 10vh;
     min-width: 300px;
-    border-radius: 3px;
+    border-radius: $border-radius;
     display: none;
 }
 
@@ -357,7 +360,7 @@ button:hover {
     display: block;
     min-width: 300px;
     background: #ffffff;
-    border-radius: 3px;
+    border-radius: $border-radius;
     box-shadow: -1px 1px 9px rgba(156, 156, 156, 0.5);
 }
 
@@ -374,7 +377,7 @@ button:hover {
 	display: block;
 	min-width: 300px;
 	background: $white;
-	border-radius: 3px;
+	border-radius: $border-radius;
     box-shadow: 0 0 10px rgba(10,10,10, 0.2);
 }
 
@@ -401,7 +404,7 @@ button:hover {
 	display: block;
     background: $white;
     border: 1px solid rgba(10,10,10, 0.2);
-    border-radius: 3px;
+    border-radius: $border-radius;
     min-width: 300px;
 }
 
@@ -462,7 +465,7 @@ button:hover {
     color: $blue-light;
     padding: 0px 5px 3px 5px;
     border: 1px solid $gray-transparent;
-    border-radius: 5px;
+    border-radius: $border-radius;
     display: inline-block;
     &:hover {
         color: $white;
@@ -515,7 +518,7 @@ button:hover {
 
 .category-bar {
     border: 1px solid $gray;
-    border-radius: 3px;
+    border-radius: $border-radius;
 }
 
 .category-stat {
@@ -544,7 +547,7 @@ button:hover {
     width: 1em;
     border: 3px solid $gray;
     display: inline-block;
-    border-radius: 2px; 
+    border-radius: $border-radius; 
     vertical-align: text-bottom;
     margin-right: 5px;
 }
@@ -645,6 +648,8 @@ button:hover {
     min-height: 2em;
     padding: 5px 15px 5px 20px;
     background: #f1efed;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
 }
 
 .comment-meta{
@@ -1024,7 +1029,7 @@ button:hover {
 	font-weight: bold;
 	font-size: 0.85em;
 	padding: 5px;
-	border-radius: 5px;
+	border-radius: $border-radius;
 	border: 1px solid $gray;
 	font-family: $font-tech;
     font-weight: 400;
@@ -1036,7 +1041,7 @@ button:hover {
     text-align: center;
     border: 1px solid gray;
     padding: 3px 0;
-    border-radius: 4px;
+    border-radius: $border-radius;
     font-weight: 500;
 }
 
@@ -1173,7 +1178,7 @@ button:hover {
 	font-family: $font-tech;
 	font-weight: 400;
 	padding: 0px 5px;
-    border-radius: 4px;
+    border-radius: $border-radius;
     font-size: 1.05em;
 }
 
@@ -1233,7 +1238,7 @@ button:hover {
 }
 
 .admin-decision {
-	border-radius: 5px;
+	border-radius: $border-radius;
 	padding: 0 5px;
 	width: 40px;
 	font-size: 1.1em;
@@ -1558,7 +1563,6 @@ button:hover {
     .definition {
         margin: 20px auto 0 auto;
         min-width: 100px;
-        border-radius: 3px;
     }
 
     .definition-accent {
@@ -1954,7 +1958,7 @@ button:hover {
         font-family: $font-tech;
         font-weight: 400;
         padding: 0px 5px;
-        border-radius: 4px;
+        border-radius: $border-radius;
         font-size: 1.05em;
     }
 
@@ -1978,7 +1982,7 @@ button:hover {
     }
 
     .admin-decision {
-        border-radius: 5px;
+        border-radius: $border-radius;
         border: 1px solid $gray;
         padding: 0 5px;
         width: 40px;
