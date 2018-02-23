@@ -345,7 +345,7 @@ button:hover {
 .action-icon {
   margin-left: 4px;
   color: #58A4B0;
-  padding: 0px 8px 3px 8px;
+  padding: 0px 5px 3px 5px;
   border: 1px solid rgba(44, 54, 63, 0.3);
   border-radius: 5px;
   display: inline-block; }
@@ -368,13 +368,11 @@ button:hover {
 #category-summary, #related-terms {
   padding: 12px 20px 15px 20px;
   display: block;
-  border: 1px solid rgba(44, 54, 63, 0.3);
   border-left: 4px solid #114B5F;
   min-width: 400px;
   font-size: 0.85em;
   font-weight: 600;
-  margin: 0;
-  box-shadow: 0 0 10px rgba(10, 10, 10, 0.2); }
+  margin: 0; }
   #category-summary h3, #related-terms h3 {
     color: #114B5F;
     margin: 0 0 5px 0;
@@ -499,7 +497,7 @@ button:hover {
 .comment-meta {
   font-size: 0.85em;
   min-height: 2em;
-  padding: 2px 15px;
+  padding: 6px 15px;
   border-bottom: 1px solid rgba(44, 54, 63, 0.3); }
 
 .definition-history {
@@ -513,6 +511,8 @@ button:hover {
   vertical-align: top;
   display: inline-block;
   width: 30%; }
+  .definition-actions div {
+    display: inline-block; }
 
 .voting-column {
   display: inline-block;
@@ -1195,9 +1195,7 @@ button:hover {
   .definition {
     margin: 20px auto 0 auto;
     min-width: 100px;
-    border-radius: 3px;
-    border: 1px solid rgba(190, 173, 127, 0.6);
-    border-top: 2px solid #114B5F; }
+    border-radius: 3px; }
   .definition-accent {
     min-width: 100px;
     margin: 20px 0px;
@@ -1222,6 +1220,12 @@ button:hover {
     padding: 5px 10px; }
   .comment-meta {
     padding: 2px 10px; }
+    .comment-meta .definition-actions {
+      width: 30%; }
+    .comment-meta .definition-history {
+      width: 70%; }
+    .comment-meta .definition-actions div {
+      transform: scale(0.8); }
   .definition-history {
     width: 60%; }
   .definition-actions {

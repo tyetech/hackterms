@@ -6,13 +6,13 @@
 	
 	<div class = "comment-meta">
 		<div class = "definition-history">
-			<a href = "/profile/{{comment.author}}/definitions">@{{comment.author}}</a> on {{date}} | <a href = "/{{link}}">{{comment.term}}</a>
+			<a href = "/profile/{{comment.author}}/definitions">@{{comment.author}}</a> on <a href = "/{{link}}">{{comment.term}}</a>
  		</div><!-- 
      --><div class = "definition-actions">
 	 		{{#if comment.owner}}
-	 			<div class = "bold link delete-post" data-id = "{{id}}" data-type = "comments"><i class="far fa-trash" aria-hidden="true"></i></div>
+	 			<div class = "bold link action-icon delete-post" data-id = "{{id}}" data-type = "comments"><i class="far fa-trash-alt" aria-hidden="true"></i></div>
 	 		{{/if}}
-	 		<div class = "bold link report-post" data-id = "{{id}}" data-type = "comments"><i class="far fa-flag" aria-hidden="true"></i></div>
+	 		<div class = "bold link action-icon report-post" data-id = "{{id}}" data-type = "comments"><i class="far fa-flag" aria-hidden="true"></i></div>
 		</div>
 	</div>
 
