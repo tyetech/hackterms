@@ -1216,7 +1216,7 @@ function githubLogin(db, req, thisCode, callback){
 		code: thisCode
 	}
 
-	request.post({url: "https://github.com/login/oauth/access_token", data: userData }, function (error, apiRes){
+	request.post({url: "https://github.com/login/oauth/access_token", data: userData }, function (error, apiRes, resBody){
 		
 		console.log("got a response");
 
@@ -1226,8 +1226,10 @@ function githubLogin(db, req, thisCode, callback){
 	        callback({status: "fail", message: "Github error", errorType: "username"})
 	    } else {
 	    	console.log("great success!");
-	    	console.log("===================API RES=====================");
-	    	console.log(apiRes);
+	    	// console.log("===================API RES=====================");
+	    	// console.log(apiRes);
+	    	var body = JSON.parse(resBody);
+	    	console.log(body)
 	    	callback({status: "success", message: "Account created. Go ahead and log in!"});
 	    }
 	});
