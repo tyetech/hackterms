@@ -1254,7 +1254,7 @@ function githubLogin(db, req, thisCode, callback){
 				    		console.log(emailBody);
 
 				    		var userQuery = {
-					            email: emailBody["email"]
+					            email: emailBody[0]["email"]
 					        }	
 
 					        var userid = userBody.id;
