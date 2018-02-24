@@ -1239,13 +1239,9 @@ function githubLogin(db, req, thisCode, callback){
 	    		console.log("here's the user:");
 	    		console.log(userBody);
 	    		callback({status: "success", message: "Account created. Go ahead and log in!"});
-	    	}
+	    	});
 	    }
 	});
-
-
-
-
 
 
 }
