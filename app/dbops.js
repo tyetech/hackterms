@@ -1067,7 +1067,7 @@ function signup(db, req, callback){
 
 								bcrypt.genSalt(10, function(err, salt) {
 								    bcrypt.hash(req.body.password, salt, function(err, hash){
-								    	createNewUser(hash, null, req.body.email.trim().toLowerCase(), db, req, function(newUser){
+								    	createNewUser(hash, null, null, req.body.email.trim().toLowerCase(), db, req, function(newUser){
 											callback({status: "success", message: "Account created. Go ahead and log in!", user: newUser});
 										})  
 								    });
@@ -1192,7 +1192,7 @@ function googleLogin(db, req, callback){
 					
 					// if this user doesn't exist, let's try to create an account
 
-					createNewUser(null, userid, userQuery.email, db, req, function(newUser){
+					createNewUser(null, userid, null, userQuery.email, db, req, function(newUser){
 						callback({status: "success", message: "Account created. Go ahead and log in!", user: newUser});
 					})
 				} else {
@@ -1242,46 +1242,56 @@ function githubLogin(db, req, thisCode, callback){
 			    } else {
 		    		console.log("here's the user:");
 		    		console.log(userBody);
-		    		callback({status: "success", message: "Account created. Go ahead and log in!"});
+		    		// callback({status: "success", message: "Account created. Go ahead and log in!"});
 
 		    		/* from here on, we try to log the user in */
 
-			        /*
-			        database.read(db, "users", userQuery, function checkIfUserExists(existingUsers){
-						if(existingUsers.length == 1){
+			    	request.get({url: emailUrl, headers: profileHeaders, json: true}, function (error, apiRes, emailBody){
 
-							// if this user exists, let's try to log the user in
+			    		console.log("email body:");
+			    		console.log(emailBody);
 
-							var thisUser = existingUsers[0];
+			    		var userQuery = {
+				            email: emailBody["email"]
+				        }	
 
-							if(typeof(thisUser.googleId) != "undefined" && thisUser.googleId != null){
-								console.log("this IS a Google user");
-								if(thisUser.googleId == userid){
-									logUserIn(thisUser, db, req, function(response){
-										callback(response);
-									})
+				        var userid = userBody.id;
+
+				        database.read(db, "users", userQuery, function checkIfUserExists(existingUsers){
+							if(existingUsers.length == 1){
+
+								// if this user exists, let's try to log the user in
+
+								var thisUser = existingUsers[0];
+
+								if(typeof(thisUser.githubId) != "undefined" && thisUser.githubId != null){
+									console.log("this IS a Github user");
+									if(thisUser.githubId == userid){
+										logUserIn(thisUser, db, req, function(response){
+											callback(response);
+										})
+									} else {
+										req.session.user = null;
+										callback({status: "fail", message: "You are not who you appear to be", errorType: "username"})
+									}
 								} else {
+									console.log("this isn't a Github user");
 									req.session.user = null;
-									callback({status: "fail", message: "You are not who you appear to be", errorType: "username"})
+									callback({status: "fail", message: "Please log in with your username and password", errorType: "username"})
 								}
+							} else if (existingUsers.length == 0) {
+								
+								// if this user doesn't exist, let's try to create an account
+
+								createNewUser(null, null, userid, userQuery.email, db, req, function(newUser){
+									callback({status: "success", message: "Account created. Go ahead and log in!", user: newUser});
+								})
 							} else {
-								console.log("this isn't a Google user");
-								req.session.user = null;
-								callback({status: "fail", message: "Please log in with your username and password", errorType: "username"})
+								callback({status: "fail", message: "Something really weird happened", errorType: "username"})
 							}
-						} else if (existingUsers.length == 0) {
-							
-							// if this user doesn't exist, let's try to create an account
 
-							createNewUser(null, userid, userQuery.email, db, req, function(newUser){
-								callback({status: "success", message: "Account created. Go ahead and log in!", user: newUser});
-							})
-						} else {
-							callback({status: "fail", message: "Something really weird happened", errorType: "username"})
-						}
-
-					})*/
-				    
+						})
+				    });
 	    		}
 	    	});
 	    }
@@ -1328,10 +1338,10 @@ function logUserIn(thisUser, db, req, callback){
 	}
 }
 
-function createNewUser(hash, thisGoogleId, thisEmail, db, req, callback){
+function createNewUser(hash, thisGoogleId, thisGithubId, thisEmail, db, req, callback){
 
 	var thisUsername = null;
-	if(hash != null && thisGoogleId == null){
+	if(hash != null && thisGoogleId == null && thisGithubId == null){
 		thisUsername = req.body.username.trim().toLowerCase();
 	}
 
@@ -1341,6 +1351,7 @@ function createNewUser(hash, thisGoogleId, thisEmail, db, req, callback){
 		username: thisUsername,
         password: hash,
         googleId: thisGoogleId,
+        githubId: thisGithubId,
         lastLoggedOn: new Date(),
         suspended: false,
         admin: false,

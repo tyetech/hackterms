@@ -446,16 +446,11 @@ MongoClient.connect(dbAddress, function(err, db){
             console.log("got github code:" + code);
             //res.send({status: "not logged in" });
 
-
             dbops.githubLogin(db, req, code, function sendUserData(response){
                 if(response.status == "fail"){
-                    res.send({
-                        status: "fail",
-                        message: response.message,
-                        errorType: response.errorType
-                    });
+                    res.render("index", { searchTerm: "", error: response.message});
                 } else {
-                    res.render("index", { searchTerm: ""});
+                    res.render("index", { searchTerm: "", message: "You're logged in with your Github account!"});
                 }
             })   
         }
