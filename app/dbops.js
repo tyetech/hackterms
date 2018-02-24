@@ -1206,14 +1206,17 @@ function googleLogin(db, req, callback){
 	 });
 }
 
-function githubLogin(db, req, code, callback){
-
+function githubLogin(db, req, thisCode, callback){
 
 	console.log("running github login from dbops");
 
-	var clientId = "029b90872503557c3d0e"
+	var userData = {
+		client_id: "029b90872503557c3d0e",
+		client_secret: process.env.GITHUB_SECRET,
+		code: thisCode
+	}
 
-	request.get("https://github.com/login/oauth/authorize?client_id=" + clientId, function (error, apiRes, body) {
+	request.post({url: "https://github.com/login/oauth/access_token", data: userData }, function (error, apiRes){
 		
 		console.log("got a response");
 
@@ -1225,8 +1228,6 @@ function githubLogin(db, req, code, callback){
 	    	console.log("great success!");
 	    	console.log("===================API RES=====================");
 	    	console.log(apiRes);
-	    	console.log("===================BODY=====================");
-	    	console.log(body)
 	    	callback({status: "success", message: "Account created. Go ahead and log in!"});
 	    }
 	});

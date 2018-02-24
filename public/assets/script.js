@@ -617,7 +617,7 @@ function main(){
     });
 
     $("body").on(triggerEvent, "#github-login", function(){
-        githubLogin();
+    //ß    githubLogin();
     });
 
 }
