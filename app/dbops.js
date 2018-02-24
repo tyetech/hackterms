@@ -1210,13 +1210,18 @@ function githubLogin(db, req, thisCode, callback){
 
 	console.log("running github login from dbops");
 
-	var userData = {
+/*	var userData = {
 		client_id: "029b90872503557c3d0e",
 		client_secret: process.env.GITHUB_SECRET,
 		code: thisCode
-	}
+	}*/
 
-	request.post({url: "https://github.com/login/oauth/access_token", data: userData }, function (error, apiRes, resBody){
+	var u = 'https://github.com/login/oauth/access_token'
+       + '?client_id=' + "029b90872503557c3d0e"
+       + '&client_secret=' + process.env.GITHUB_SECRET
+       + '&code=' + thisCode
+
+	request.get({url: u, json: true}, function (error, apiRes, body){
 		
 		console.log("got a response");
 
@@ -1226,8 +1231,11 @@ function githubLogin(db, req, thisCode, callback){
 	        callback({status: "fail", message: "Github error", errorType: "username"})
 	    } else {
 	    	console.log("great success!");
+	    	console.log("===================API RES=====================");
+	    	console.log(apiRes);
+
 	    	console.log("===================API BODY=====================");
-	    	console.log(resBody);
+	    	console.log(body);
 
 	    	callback({status: "success", message: "Account created. Go ahead and log in!"});
 	    }
