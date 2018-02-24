@@ -1224,6 +1224,8 @@ function githubLogin(db, req, thisCode, callback){
 	request.get({url: u, json: true}, function (error, apiRes, body){
 		
 		console.log("got a response");
+		var access_token = body.access_token;
+
 
 		if (error) {
 			console.log("error");
@@ -1231,14 +1233,20 @@ function githubLogin(db, req, thisCode, callback){
 	        callback({status: "fail", message: "Github error", errorType: "username"})
 	    } else {
 	    	console.log("got a token!");
-	    	console.log("access_token:" + body.access_token);
+	    	console.log("access_token:" + access_token);
 
-	    	var profileUrl = "https://api.github.com/user?access_token=" + body.access_token;
+	    	var profileUrl = "https://api.github.com/user?access_token=" + access_token;
 
 	    	request.get({url: profileUrl, json: true}, function (error, apiRes, userBody){
-	    		console.log("here's the user:");
-	    		console.log(userBody);
-	    		callback({status: "success", message: "Account created. Go ahead and log in!"});
+	    		if (error) {
+					console.log("error");
+			        console.log(error)
+			        callback({status: "fail", message: "Github error", errorType: "username"})
+			    } else {
+		    		console.log("here's the user:");
+		    		console.log(userBody);
+		    		callback({status: "success", message: "Account created. Go ahead and log in!"});
+	    		}
 	    	});
 	    }
 	});
