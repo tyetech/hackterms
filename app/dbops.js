@@ -252,6 +252,10 @@ function logRequestedSearch(db, term){
 
 	var thisTerm = term;
 
+	if(term == "c++"){				// FIX THIS!
+		term = "c"
+	}
+
 	/* 
 		1. check requested terms collection for this term - use regex to find if this is a subterm of another term
 		2. if there are, find the max length term
