@@ -456,7 +456,7 @@ MongoClient.connect(dbAddress, function(err, db){
                     });
                 } else {
                     res.send({ status: "success" });
-                    res.render("index", {message: "Logged in with Github!"});
+                    res.render("index");
                 }
             })   
         }
