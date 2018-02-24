@@ -455,7 +455,7 @@ MongoClient.connect(dbAddress, function(err, db){
                         errorType: response.errorType
                     });
                 } else {
-                    res.render("index");
+                    res.render("index", { searchTerm: ""});
                 }
             })   
         }
