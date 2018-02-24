@@ -450,7 +450,13 @@ MongoClient.connect(dbAddress, function(err, db){
                 if(response.status == "fail"){
                     res.render("index", { searchTerm: "", error: response.message});
                 } else {
-                    res.render("index", { searchTerm: "", message: "Go ahead and log in with Github!"});
+                    if(response.status = "account created"){
+                        res.render("index", { searchTerm: "", message: "Account created. Log in with Github!"});
+                    } else if(response.status = "logged in"){
+                        res.redirect("/");
+                    }  else {
+                        res.render("index", { searchTerm: "", error: "Account created, then something weird happened."});
+                    }
                 }
             })   
         }

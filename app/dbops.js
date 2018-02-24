@@ -1272,7 +1272,7 @@ function githubLogin(db, req, thisCode, callback){
 										console.log("this IS a Github user");
 										if(thisUser.githubId == userid){
 											logUserIn(thisUser, db, req, function(response){
-												callback(response);
+												callback({status: "logged in"});
 											})
 										} else {
 											req.session.user = null;
@@ -1288,7 +1288,7 @@ function githubLogin(db, req, thisCode, callback){
 									// if this user doesn't exist, let's try to create an account
 
 									createNewUser(null, null, userid, thisEmail, db, req, function(newUser){
-										callback({status: "success", message: "Account created. Go ahead and log in!", user: newUser});
+										callback({status: "account created", message: "Account created. Go ahead and log in!", user: newUser});
 									})
 								} else {
 									callback({status: "fail", message: "Something really weird happened", errorType: "username"})
