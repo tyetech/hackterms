@@ -455,7 +455,6 @@ MongoClient.connect(dbAddress, function(err, db){
                         errorType: response.errorType
                     });
                 } else {
-                    res.send({ status: "success" });
                     res.render("index");
                 }
             })   
