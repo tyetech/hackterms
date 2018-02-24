@@ -1226,10 +1226,9 @@ function githubLogin(db, req, thisCode, callback){
 	        callback({status: "fail", message: "Github error", errorType: "username"})
 	    } else {
 	    	console.log("great success!");
-	    	// console.log("===================API RES=====================");
-	    	// console.log(apiRes);
-	    	var body = JSON.parse(resBody);
-	    	console.log(body)
+	    	console.log("===================API BODY=====================");
+	    	console.log(resBody);
+
 	    	callback({status: "success", message: "Account created. Go ahead and log in!"});
 	    }
 	});
