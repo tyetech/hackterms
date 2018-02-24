@@ -1246,61 +1246,66 @@ function githubLogin(db, req, thisCode, callback){
 
 		    		/* from here on, we try to log the user in */
 
-			    	request.get({url: emailUrl, headers: profileHeaders, json: true}, function (error, apiRes, emailBody){
+		    		if(typeof(userBody.id) != "undefined" && userBody.message != 'Bad credentials'){ 
 
-			    		if(emailBody.message != "Not Found"){
+				    	request.get({url: emailUrl, headers: profileHeaders, json: true}, function (error, apiRes, emailBody){
 
-			    			console.log("email body:");
-				    		console.log(emailBody);
+				    		if(emailBody.message != "Not Found"){
 
-				    		var thisEmail = emailBody[0]["email"];
+				    			console.log("email body:");
+					    		console.log(emailBody);
 
-				    		var userQuery = {
-					            email: thisEmail
-					        }	
+					    		var thisEmail = emailBody[0]["email"];
 
-					        var userid = userBody.id;
+					    		var userQuery = {
+						            email: thisEmail
+						        }	
 
-					        database.read(db, "users", userQuery, function checkIfUserExists(existingUsers){
-								if(existingUsers.length == 1){
+						        var userid = userBody.id;
 
-									// if this user exists, let's try to log the user in
+						        database.read(db, "users", userQuery, function checkIfUserExists(existingUsers){
+									if(existingUsers.length == 1){
 
-									var thisUser = existingUsers[0];
+										// if this user exists, let's try to log the user in
 
-									if(typeof(thisUser.githubId) != "undefined" && thisUser.githubId != null){
-										console.log("this IS a Github user");
-										if(thisUser.githubId == userid){
-											logUserIn(thisUser, db, req, function(response){
-												callback({status: "logged in"});
-											})
+										var thisUser = existingUsers[0];
+
+										if(typeof(thisUser.githubId) != "undefined" && thisUser.githubId != null){
+											console.log("this IS a Github user");
+											if(thisUser.githubId == userid){
+												logUserIn(thisUser, db, req, function(response){
+													callback({status: "logged in"});
+												})
+											} else {
+												req.session.user = null;
+												callback({status: "fail", message: "You are not who you appear to be", errorType: "username"})
+											}
 										} else {
+											console.log("this isn't a Github user");
 											req.session.user = null;
-											callback({status: "fail", message: "You are not who you appear to be", errorType: "username"})
+											callback({status: "fail", message: "Please log in with your username and password or Google account", errorType: "username"})
 										}
+									} else if (existingUsers.length == 0) {
+										
+										// if this user doesn't exist, let's try to create an account
+
+										createNewUser(null, null, userid, thisEmail, db, req, function(newUser){
+											callback({status: "account created", message: "Account created. Go ahead and log in!", user: newUser});
+										})
 									} else {
-										console.log("this isn't a Github user");
-										req.session.user = null;
-										callback({status: "fail", message: "Please log in with your username and password or Google account", errorType: "username"})
+										callback({status: "fail", message: "Something really weird happened", errorType: "username"})
 									}
-								} else if (existingUsers.length == 0) {
-									
-									// if this user doesn't exist, let's try to create an account
 
-									createNewUser(null, null, userid, thisEmail, db, req, function(newUser){
-										callback({status: "account created", message: "Account created. Go ahead and log in!", user: newUser});
-									})
-								} else {
-									callback({status: "fail", message: "Something really weird happened", errorType: "username"})
-								}
+								}) 
 
-							}) 
+				    		} else {
+				    			callback({status: "fail", message: "Github email error. Sorry!"})
+				    		}
 
-			    		} else {
-			    			callback({status: "fail", message: "Github email error. Sorry!"})
-			    		}
-
-				    });
+					    });
+					} else {
+		    			callback({status: "fail", message: "Invalid Github credentials. Try creating a regular email account."})
+		    		}
 	    		}
 	    	});
 	    }
