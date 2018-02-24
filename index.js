@@ -446,13 +446,17 @@ MongoClient.connect(dbAddress, function(err, db){
             console.log("got github code:" + code);
             //res.send({status: "not logged in" });
 
-            dbops.githubLogin(db, req, code, function sendUserData(response){
+            dbops.githubLogin(db, req, code, function talkToGithub(response){
+
+                console.log("github login response");
+                console.log(response);
+
                 if(response.status == "fail"){
                     res.render("index", { searchTerm: "", error: response.message});
                 } else {
-                    if(response.status = "account created"){
+                    if(response.status == "account created"){
                         res.render("index", { searchTerm: "", message: "Account created. Log in with Github!"});
-                    } else if(response.status = "logged in"){
+                    } else if(response.status == "logged in"){
                         res.redirect("/");
                     }  else {
                         res.render("index", { searchTerm: "", error: "Account created, then something weird happened."});
