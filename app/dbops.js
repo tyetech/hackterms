@@ -252,9 +252,8 @@ function logRequestedSearch(db, term){
 
 	var thisTerm = term;
 
-	if(term == "c++"){				// FIX THIS!
-		term = "c"
-	}
+	term = term.replace(/[^a-zA-Z\d\s:]/g,'');
+
 
 	/* 
 		1. check requested terms collection for this term - use regex to find if this is a subterm of another term
