@@ -1237,7 +1237,7 @@ function githubLogin(db, req, thisCode, callback){
 
 	    	var profileUrl = "https://api.github.com/user?access_token=" + access_token;
 	    	var profileHeaders = {
-	    		User-Agent: "Hackterms"
+	    		"User-Agent": "Hackterms"
 	    	}
 
 
