@@ -1236,8 +1236,12 @@ function githubLogin(db, req, thisCode, callback){
 	    	console.log("access_token:" + access_token);
 
 	    	var profileUrl = "https://api.github.com/user?access_token=" + access_token;
+	    	var profileHeaders = {
+	    		User-Agent: "Hackterms"
+	    	}
 
-	    	request.get({url: profileUrl, json: true}, function (error, apiRes, userBody){
+
+	    	request.get({url: profileUrl, headers: profileHeaders, json: true}, function (error, apiRes, userBody){
 	    		if (error) {
 					console.log("error");
 			        console.log(error)
