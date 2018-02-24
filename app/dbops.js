@@ -1233,7 +1233,7 @@ function githubLogin(db, req, thisCode, callback){
 	    	console.log("got a token!");
 	    	console.log("access_token:" + body.access_token);
 
-	    	var profileUrl = "https://github.com/api/v2/json/user/show?access_token=" + body.access_token;
+	    	var profileUrl = "https://api.github.com/user?access_token=" + body.access_token;
 
 	    	request.get({url: profileUrl, json: true}, function (error, apiRes, userBody){
 	    		console.log("here's the user:");
