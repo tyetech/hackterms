@@ -1259,9 +1259,6 @@ function githubLogin(db, req, thisCode, callback){
 
 					        var userid = userBody.id;
 
-					        if()
-
-
 					        database.read(db, "users", userQuery, function checkIfUserExists(existingUsers){
 								if(existingUsers.length == 1){
 
