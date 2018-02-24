@@ -1226,7 +1226,7 @@ function githubLogin(db, req, thisCode, callback){
 	    	console.log("access_token:" + access_token);
 
 	    	var profileUrl = "https://api.github.com/user?access_token=" + access_token;			// get basic user profile
-	    	var emailUrl = "https://api.github.com/user/email?access_token=" + access_token;		// get user emails
+	    	var emailUrl = "https://api.github.com/user/emails?access_token=" + access_token;		// get user emails
 
 	    	var profileHeaders = {
 	    		"User-Agent": "Hackterms"
@@ -1248,49 +1248,59 @@ function githubLogin(db, req, thisCode, callback){
 
 			    	request.get({url: emailUrl, headers: profileHeaders, json: true}, function (error, apiRes, emailBody){
 
-			    		console.log("email body:");
-			    		console.log(emailBody);
+			    		if(emailBody.message != "Not Found"){
 
-			    		var userQuery = {
-				            email: emailBody["email"]
-				        }	
+			    			console.log("email body:");
+				    		console.log(emailBody);
 
-				        var userid = userBody.id;
+				    		var userQuery = {
+					            email: emailBody["email"]
+					        }	
 
-				        database.read(db, "users", userQuery, function checkIfUserExists(existingUsers){
-							if(existingUsers.length == 1){
+					        var userid = userBody.id;
 
-								// if this user exists, let's try to log the user in
+					        if()
 
-								var thisUser = existingUsers[0];
 
-								if(typeof(thisUser.githubId) != "undefined" && thisUser.githubId != null){
-									console.log("this IS a Github user");
-									if(thisUser.githubId == userid){
-										logUserIn(thisUser, db, req, function(response){
-											callback(response);
-										})
+					        database.read(db, "users", userQuery, function checkIfUserExists(existingUsers){
+								if(existingUsers.length == 1){
+
+									// if this user exists, let's try to log the user in
+
+									var thisUser = existingUsers[0];
+
+									if(typeof(thisUser.githubId) != "undefined" && thisUser.githubId != null){
+										console.log("this IS a Github user");
+										if(thisUser.githubId == userid){
+											logUserIn(thisUser, db, req, function(response){
+												callback(response);
+											})
+										} else {
+											req.session.user = null;
+											callback({status: "fail", message: "You are not who you appear to be", errorType: "username"})
+										}
 									} else {
+										console.log("this isn't a Github user");
 										req.session.user = null;
-										callback({status: "fail", message: "You are not who you appear to be", errorType: "username"})
+										callback({status: "fail", message: "Please log in with your username and password", errorType: "username"})
 									}
+								} else if (existingUsers.length == 0) {
+									
+									// if this user doesn't exist, let's try to create an account
+
+									createNewUser(null, null, userid, userQuery.email, db, req, function(newUser){
+										callback({status: "success", message: "Account created. Go ahead and log in!", user: newUser});
+									})
 								} else {
-									console.log("this isn't a Github user");
-									req.session.user = null;
-									callback({status: "fail", message: "Please log in with your username and password", errorType: "username"})
+									callback({status: "fail", message: "Something really weird happened", errorType: "username"})
 								}
-							} else if (existingUsers.length == 0) {
-								
-								// if this user doesn't exist, let's try to create an account
 
-								createNewUser(null, null, userid, userQuery.email, db, req, function(newUser){
-									callback({status: "success", message: "Account created. Go ahead and log in!", user: newUser});
-								})
-							} else {
-								callback({status: "fail", message: "Something really weird happened", errorType: "username"})
-							}
+							}) 
 
-						})
+			    		} else {
+			    			callback({status: "fail", message: "Github email error. Sorry!"})
+			    		}
+
 				    });
 	    		}
 	    	});
