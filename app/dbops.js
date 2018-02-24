@@ -1230,14 +1230,16 @@ function githubLogin(db, req, thisCode, callback){
 	        console.log(error)
 	        callback({status: "fail", message: "Github error", errorType: "username"})
 	    } else {
-	    	console.log("great success!");
-	    	console.log("===================API RES=====================");
-	    	console.log(apiRes);
+	    	console.log("got a token!");
+	    	console.log("access_token:" + body.access_token);
 
-	    	console.log("===================API BODY=====================");
-	    	console.log(body);
+	    	var profileUrl = "https://github.com/api/v2/json/user/show?access_token=" + body.access_token;
 
-	    	callback({status: "success", message: "Account created. Go ahead and log in!"});
+	    	request.get({url: profileUrl, json: true}, function (error, apiRes, userBody){
+	    		console.log("here's the user:");
+	    		console.log(userBody);
+	    		callback({status: "success", message: "Account created. Go ahead and log in!"});
+	    	}
 	    }
 	});
 
