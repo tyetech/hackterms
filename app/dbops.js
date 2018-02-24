@@ -1200,9 +1200,6 @@ function googleLogin(db, req, callback){
 				}
 
 			})
-
-
-
 	 });
 }
 
@@ -1210,13 +1207,7 @@ function githubLogin(db, req, thisCode, callback){
 
 	console.log("running github login from dbops");
 
-/*	var userData = {
-		client_id: "029b90872503557c3d0e",
-		client_secret: process.env.GITHUB_SECRET,
-		code: thisCode
-	}*/
-
-	var u = 'https://github.com/login/oauth/access_token'
+	var u = 'https://github.com/login/oauth/access_token'					// build URL to request token
        + '?client_id=' + "029b90872503557c3d0e"
        + '&client_secret=' + process.env.GITHUB_SECRET
        + '&code=' + thisCode
@@ -1226,7 +1217,6 @@ function githubLogin(db, req, thisCode, callback){
 		console.log("got a response");
 		var access_token = body.access_token;
 
-
 		if (error) {
 			console.log("error");
 	        console.log(error)
@@ -1235,11 +1225,14 @@ function githubLogin(db, req, thisCode, callback){
 	    	console.log("got a token!");
 	    	console.log("access_token:" + access_token);
 
-	    	var profileUrl = "https://api.github.com/user?access_token=" + access_token;
+	    	var profileUrl = "https://api.github.com/user?access_token=" + access_token;			// get basic user profile
+	    	var emailUrl = "https://api.github.com/user/email?access_token=" + access_token;		// get user emails
+
 	    	var profileHeaders = {
 	    		"User-Agent": "Hackterms"
 	    	}
 
+	    	// get token from github and request user profile info
 
 	    	request.get({url: profileUrl, headers: profileHeaders, json: true}, function (error, apiRes, userBody){
 	    		if (error) {
@@ -1250,6 +1243,45 @@ function githubLogin(db, req, thisCode, callback){
 		    		console.log("here's the user:");
 		    		console.log(userBody);
 		    		callback({status: "success", message: "Account created. Go ahead and log in!"});
+
+		    		/* from here on, we try to log the user in */
+
+			        /*
+			        database.read(db, "users", userQuery, function checkIfUserExists(existingUsers){
+						if(existingUsers.length == 1){
+
+							// if this user exists, let's try to log the user in
+
+							var thisUser = existingUsers[0];
+
+							if(typeof(thisUser.googleId) != "undefined" && thisUser.googleId != null){
+								console.log("this IS a Google user");
+								if(thisUser.googleId == userid){
+									logUserIn(thisUser, db, req, function(response){
+										callback(response);
+									})
+								} else {
+									req.session.user = null;
+									callback({status: "fail", message: "You are not who you appear to be", errorType: "username"})
+								}
+							} else {
+								console.log("this isn't a Google user");
+								req.session.user = null;
+								callback({status: "fail", message: "Please log in with your username and password", errorType: "username"})
+							}
+						} else if (existingUsers.length == 0) {
+							
+							// if this user doesn't exist, let's try to create an account
+
+							createNewUser(null, userid, userQuery.email, db, req, function(newUser){
+								callback({status: "success", message: "Account created. Go ahead and log in!", user: newUser});
+							})
+						} else {
+							callback({status: "fail", message: "Something really weird happened", errorType: "username"})
+						}
+
+					})*/
+				    
 	    		}
 	    	});
 	    }
