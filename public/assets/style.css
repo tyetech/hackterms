@@ -46,7 +46,7 @@ button:hover {
   font-weight: 600; }
 
 .container {
-  padding: 80px 10vw 0 10vw;
+  padding: 0 10vw;
   margin: 0px auto;
   min-width: 300px;
   max-width: 1600px;
@@ -62,8 +62,7 @@ button:hover {
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
-  background: white;
-  position: fixed; }
+  background: white; }
 
 #home-link {
   font-family: "Zilla Slab", serif;
@@ -207,7 +206,7 @@ button:hover {
   z-index: 50;
   box-shadow: 0px 0px 15px rgba(20, 20, 20, 0.5);
   position: absolute;
-  top: 15vh;
+  top: 5vh;
   left: 18vw;
   background: #ffffff;
   padding: 20px;
@@ -1125,7 +1124,7 @@ button:hover {
 @media screen and (max-width: 980px) {
   /* GLOBAL STYLING */
   .container {
-    padding: 45px 5vw 0 5vw;
+    padding: 0 5vw;
     min-height: calc(100vh - 45px); }
   /* HEADER AND FOOTER */
   #header-section {
