@@ -450,7 +450,7 @@ MongoClient.connect(dbAddress, function(err, db){
                 if(response.status == "fail"){
                     res.render("index", { searchTerm: "", error: response.message});
                 } else {
-                    res.redirect("/");
+                    res.render("index", { searchTerm: "", message: "Go ahead and log in with Github!"});
                 }
             })   
         }
