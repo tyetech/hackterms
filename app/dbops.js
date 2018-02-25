@@ -2059,28 +2059,33 @@ function selectUsername(db, req, callback){
 
 	var usernameQuery = { username: req.body.username.trim().toLowerCase() }
 
+
 	if(validateCharset(req.body.username.trim())){
 
 		database.read(db, "users", usernameQuery, function checkForUsers(users){
 			if(users.length == 0){
 				console.log("This username is available!");
 
-				var thisUserQuery = {
-					email: req.session.user.email
-				}
-
-				var usernameUpdate = {
-					$set: {
-						username: usernameQuery.username
+				if(req.session.user && typeof(req.session.user.email) != "undefined"){
+					var thisUserQuery = {
+						email: req.session.user.email
 					}
+
+					var usernameUpdate = {
+						$set: {
+							username: usernameQuery.username
+						}
+					}
+
+					usernameUpdate.$set["data.username"] = usernameQuery.username;
+
+					database.update(db, "users", thisUserQuery, usernameUpdate, function updateUsername(user){
+						req.session.user.username = usernameQuery.username;
+						callback({status: "success"});
+					})
+				} else {
+					callback({status: "fail", message: "Something went wrong - please refresh the page or log out and back in"});
 				}
-
-				usernameUpdate.$set["data.username"] = usernameQuery.username;
-
-				database.update(db, "users", thisUserQuery, usernameUpdate, function updateUsername(user){
-					req.session.user.username = usernameQuery.username;
-					callback({status: "success"});
-				})
 
 			} else if (users.length == 1){
 				callback({status: "fail", message: "This username is not available"})
