@@ -770,8 +770,7 @@ function search(){
 
 function pageSearch(){
 
-    $("#search-bar").val($("#search-bar").val().replace("<script>", "").replace("</script>", "").replace("console.log(", "").replace("alert(", ""))
-
+    $("#search-bar").val($("#search-bar").val().replace("<script>", "").replace("</script>", "").replace("console.log", "").replace("alert", "").replace("<img", ""))
 
     var searchTerm = $("#search-bar").val().trim().toLowerCase().replace("<script>", "").replace("<%2Fscript>", "");
     
@@ -953,7 +952,6 @@ function addDefinition(){
             if(validateInput(term)){
                 relatedTerms.push(term);
             }
-
         });
     }
 
@@ -1772,10 +1770,9 @@ function getCommentsForUser(query){
 function validateInput(string){
 
     var isStringValid = true;
-    var extraBadWords = ["fuck", "cock", "cunt", "nigger", "pussy", "bitch"];
-    var forbiddenWords = ["anus", "ass", "asswipe", "ballsack", "bitch", "blowjob", "blow job", "clit", "clitoris", "cock", "coon", "cunt", "cum", "dick", "dildo", "dyke", "fag", "felching", "fuck", "fucking", "fucker", "fucktard", "fuckface", "fudgepacker", "fudge packer", "flange", "jizz", "nigger", "nigga", "penis", "piss", "prick", "pussy", "queer", "tits", "smegma", "spunk", "boobies", "tosser", "turd", "twat", "vagina", "wank", "whore"];
+    var extraBadWords = ["<script", "<img", "fuck", "cock", "cunt", "nigger", "pussy", "bitch"];
+    var forbiddenWords = ["<script>", "</script>", "<img>", "anus", "ass", "asswipe", "ballsack", "bitch", "blowjob", "blow job", "clit", "clitoris", "cock", "coon", "cunt", "cum", "dick", "dildo", "dyke", "fag", "felching", "fuck", "fucking", "fucker", "fucktard", "fuckface", "fudgepacker", "fudge packer", "flange", "jizz", "nigger", "nigga", "penis", "piss", "prick", "pussy", "queer", "tits", "smegma", "spunk", "boobies", "tosser", "turd", "twat", "vagina", "wank", "whore"];
     var linkWords = ["http://", "https://", "www."];
-
 
     // 1. split the string into an array of words
 

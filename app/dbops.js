@@ -7,7 +7,6 @@ var auth = new GoogleAuth;
 var client = new auth.OAuth2("285224215537-l5a1ol101rmutrvbcd2omt5r3rktmh6v.apps.googleusercontent.com", '', '');
 var sanitizeHtml = require('sanitize-html');			// sanitize HTML
 
-
 var transporter = nodemailer.createTransport({
     host: 'smtp.zoho.com',
     port: 465,
@@ -336,196 +335,206 @@ function addDefinition(db, req, callback){
 				removed: false
 			}
 
-			var sanitizedTerm = sanitizeHtml(req.body.term.trim().toLowerCase(), {
-			    allowedTags: [], allowedAttributes: []
-			});
 
-			var sanitizedBody = sanitizeHtml(req.body.definition, {
-			    allowedTags: [], allowedAttributes: []
-			});
+			console.log("term: " + validateInput(req.body.term));
+			console.log("definition: " + validateInput(req.body.definition));
+
+			if(validateInput(req.body.definition) && validateInput(req.body.term)){
+
+				var sanitizedTerm = sanitizeHtml(req.body.term, {
+				    allowedTags: [], allowedAttributes: []
+				});
+
+				var sanitizedBody = sanitizeHtml(req.body.definition, {
+				    allowedTags: [], allowedAttributes: []
+				});
+
+				if(sanitizedBody.length && sanitizedTerm.length){
+					database.read(db, "definitions", userSubmissionsQuery, function fetchUser(approvedDefinitions){
 
 
-			if(validateInput(sanitizedBody)  && sanitizedBody.length && sanitizedTerm.length){
+						var relatedTerms = [];
 
-				database.read(db, "definitions", userSubmissionsQuery, function fetchUser(approvedDefinitions){
+						// let's make sure the related terms exist and are kosher
+						if(req.body.related){
+							req.body.related.forEach(function(term){
 
+								var sanitizedTerm = sanitizeHtml(term, {
+								    allowedTags: [], allowedAttributes: []
+								});
 
-					var relatedTerms = [];
+								if(sanitizedTerm.trim().length && validateInput(term)){
+									relatedTerms.push(sanitizedTerm.toLowerCase())
+								}
+							})
+						}
 
-					// let's make sure the related terms exist and are kosher
-					if(req.body.related){
-						req.body.related.forEach(function(term){
+						console.log("This user has submitted " + approvedDefinitions.length + " definitions");
 
-							var sanitizedTerm = sanitizeHtml(term, {
-							    allowedTags: [], allowedAttributes: []
-							});
+						var newDefinitionQuery = {
+							id: Math.floor(Date.now()/Math.random()),							// hopefully this should give us a random ID
+							term: sanitizedTerm,
+							author: req.session.user.username,
+							upvotes: 1,
+							downvotes: 0, 
+							reportCount: 0,
+							removed: false,
+							approved: false,
+							rejected: false,
+							lastEdit: new Date(),
+							created: new Date(),
+							body: sanitizeInput(req.body.definition),
+							category: req.body.category,
+							related: relatedTerms
+						}
 
-							if(sanitizedTerm.trim().length && validateInput(term)){
-								relatedTerms.push(sanitizedTerm.toLowerCase())
-							}
-						})
-					}
-
-					console.log("This user has submitted " + approvedDefinitions.length + " definitions");
-
-					var newDefinitionQuery = {
-						id: Math.floor(Date.now()/Math.random()),							// hopefully this should give us a random ID
-						term: sanitizedTerm,
-						author: req.session.user.username,
-						upvotes: 1,
-						downvotes: 0, 
-						reportCount: 0,
-						removed: false,
-						approved: false,
-						rejected: false,
-						lastEdit: new Date(),
-						created: new Date(),
-						body: sanitizedBody,
-						category: req.body.category,
-						related: relatedTerms
-					}
-
-					var newVote = {
-						post: newDefinitionQuery.id,
-						author: newDefinitionQuery.author,
-						direction: "up",
-						date: new Date(),
-						type: "definition"
-					}
-
-					var moderator = (req.session.user.admin == "true" || req.session.user.moderator == "true" || req.session.user.admin == true || req.session.user.moderator == true);
-
-					// if((approvedDefinitions.length > 5 || moderator)){			
-					if(true){			// all definitions are auto-approved - change at launch!
-						console.log("Auto approve based on positive submission history");
-						newDefinitionQuery.approved = true;
-
-						var newNotification = {
-							to: newDefinitionQuery.author,
-							from: "admin",
+						var newVote = {
+							post: newDefinitionQuery.id,
+							author: newDefinitionQuery.author,
+							direction: "up",
 							date: new Date(),
-							body: "Your submission for '" + newDefinitionQuery.term + "' has been approved",
-							type: "definition",
-							term: newDefinitionQuery.term,
-							status: "approved"
+							type: "definition"
 						}
 
+						var moderator = (req.session.user.admin == "true" || req.session.user.moderator == "true" || req.session.user.admin == true || req.session.user.moderator == true);
 
-						var newNotificationsUpdate = {
-							$set: {
-								"data.newNotifications": true
+						// if((approvedDefinitions.length > 5 || moderator)){			
+						if(true){			// all definitions are auto-approved - change at launch!
+							console.log("Auto approve based on positive submission history");
+							newDefinitionQuery.approved = true;
+
+							var newNotification = {
+								to: newDefinitionQuery.author,
+								from: "admin",
+								date: new Date(),
+								body: "Your submission for '" + newDefinitionQuery.term + "' has been approved",
+								type: "definition",
+								term: newDefinitionQuery.term,
+								status: "approved"
 							}
+
+
+							var newNotificationsUpdate = {
+								$set: {
+									"data.newNotifications": true
+								}
+							}
+
+							var userQuery = {
+								username: newDefinitionQuery.author
+							}
+
+
+							database.create(db, "notifications", newNotification, function createNotification(newNotification){
+								database.update(db, "users", userQuery, newNotificationsUpdate, function addNewNotification(newNotification){
+									console.log("Notification for auto approval of '" + newDefinitionQuery.term + "' created");
+								});
+							})
+
 						}
 
-						var userQuery = {
-							username: newDefinitionQuery.author
+						var termLink = cleanUrl(req.body.term);
+
+						var termSearchQuery = { 
+							name: req.body.term,
 						}
 
 
-						database.create(db, "notifications", newNotification, function createNotification(newNotification){
-							database.update(db, "users", userQuery, newNotificationsUpdate, function addNewNotification(newNotification){
-								console.log("Notification for auto approval of '" + newDefinitionQuery.term + "' created");
-							});
-						})
+						var newTermQuery = { 
+							name: sanitizedTerm,
+							link: termLink,
+							searched: 0,
+							date: new Date()
+						}
 
-					}
+						database.read(db, "terms", termSearchQuery, function checkForExistingTerm(existingTerms){
 
-					var termLink = cleanUrl(req.body.term);
+							if(existingTerms.length == 0 && sanitizedTerm.length){
+								console.log("creating new definition for the term '" + newTermQuery.name + "'");
+								database.create(db, "terms", newTermQuery, function createdTerm(newTerm){
+									database.create(db, "definitions", newDefinitionQuery, function createdDefinition(newDefinition){
+										console.log(newDefinition.ops[0]);
+										database.create(db, "votes", newVote, function createdVote(newVote){
 
-					var termSearchQuery = { 
-						name: req.body.term,
-					}
+											// remove requests for this term 
 
+											var requestUpdateQuery = { term: newDefinition.ops[0].term }
 
-					var newTermQuery = { 
-						name: sanitizedTerm,
-						link: termLink,
-						searched: 0,
-						date: new Date()
-					}
-
-					database.read(db, "terms", termSearchQuery, function checkForExistingTerm(existingTerms){
-
-						if(existingTerms.length == 0 && sanitizedTerm.length){
-							console.log("creating new definition for the term '" + newTermQuery.name + "'");
-							database.create(db, "terms", newTermQuery, function createdTerm(newTerm){
-								database.create(db, "definitions", newDefinitionQuery, function createdDefinition(newDefinition){
-									console.log(newDefinition.ops[0]);
-									database.create(db, "votes", newVote, function createdVote(newVote){
-
-										/* remove requests for this term */
-
-										var requestUpdateQuery = { term: newDefinition.ops[0].term }
-
-										var requestUpdate = {
-											$set: {
-												termExists: true
+											var requestUpdate = {
+												$set: {
+													termExists: true
+												}
 											}
-										}
 
-										database.update(db, "requests", requestUpdateQuery, requestUpdate, function updateRequests(response){
+											database.update(db, "requests", requestUpdateQuery, requestUpdate, function updateRequests(response){
+												callback({
+													status: "success",
+													termAdded: newDefinitionQuery.approved,
+													term: newDefinition.ops[0].term
+												});
+											})
+										});
+									});
+								});
+							} else if (existingTerms.length == 1) {
+								console.log("Someone has already created the term '" + termSearchQuery.name + "'");
+
+								// we need to either create  a new id or update an existing one, depending on whethere there's an ID
+									
+								if(parseInt(req.body.id) == 0){
+									database.create(db, "definitions", newDefinitionQuery, function createdDefinition(newDefinition){
+										console.log(newDefinition.ops[0]);
+										database.create(db, "votes", newVote, function createdVote(newVote){
 											callback({
 												status: "success",
 												termAdded: newDefinitionQuery.approved,
 												term: newDefinition.ops[0].term
 											});
-										})
-									});
-								});
-							});
-						} else if (existingTerms.length == 1) {
-							console.log("Someone has already created the term '" + termSearchQuery.name + "'");
-
-							// we need to either create  a new id or update an existing one, depending on whethere there's an ID
-								
-							if(parseInt(req.body.id) == 0){
-								database.create(db, "definitions", newDefinitionQuery, function createdDefinition(newDefinition){
-									console.log(newDefinition.ops[0]);
-									database.create(db, "votes", newVote, function createdVote(newVote){
-										callback({
-											status: "success",
-											termAdded: newDefinitionQuery.approved,
-											term: newDefinition.ops[0].term
 										});
 									});
-								});
-							} else {
+								} else {
 
-								var definitionUpdateQuery = {
-									id: parseInt(req.body.id)
-								}
-
-								var updatedDefinition = {
-									$set: {
-										lastEdit: new Date(),
-										body: req.body.definition,
-										category: req.body.category,
-										related: relatedTerms
+									var definitionUpdateQuery = {
+										id: parseInt(req.body.id)
 									}
+
+									var updatedDefinition = {
+										$set: {
+											lastEdit: new Date(),
+											body: req.body.definition,
+											category: req.body.category,
+											related: relatedTerms
+										}
+									}
+
+									database.update(db, "definitions", definitionUpdateQuery, updatedDefinition, function updateDefinition(updatedDefinition){
+										console.log("updatedDefinition");
+										console.log(updatedDefinition);
+										callback({
+											status: "success",
+											termAdded: false,
+											term: updatedDefinition.term
+										});
+									});
 								}
 
-								database.update(db, "definitions", definitionUpdateQuery, updatedDefinition, function updateDefinition(updatedDefinition){
-									console.log("updatedDefinition");
-									console.log(updatedDefinition);
-									callback({
-										status: "success",
-										termAdded: false,
-										term: updatedDefinition.term
-									});
+							} else {
+								console.log("Hmm, found multiple instances of the same term");
+								callback({
+									status: "fail",
+									message: "Hmm, found multiple instances of the same term"
 								});
 							}
+						})
 
-						} else {
-							console.log("Hmm, found multiple instances of the same term");
-							callback({
-								status: "fail",
-								message: "Hmm, found multiple instances of the same term"
-							});
-						}
 					})
-
-				})
-
+					
+				} else {
+					callback({
+						status: "fail",
+						message: "Please enter a term and a definition"
+					});
+				}
 
 			} else {
 				callback({
@@ -632,7 +641,7 @@ function addComment(db, req, callback){
 					}
 				});
 			} else {
-				callback({ status: "fail", message: "No profanity or links, please" });
+				callback({ status: "fail", message: "No profanity, links, or scripts please" });
 			}
 
 		} else {
@@ -2119,12 +2128,17 @@ function cleanUrl(text){
 
 }
 
+function sanitizeInput(string){
+	string = string.replace("<script>", "").replace("</script>", "").replace("<img>", "").replace("<script", "").replace("<img", "");
+	return(string);
+}
+
 
 function validateInput(string){
 
     var isStringValid = true;
-    var extraBadWords = ["fuck", "cock", "cunt", "nigger", "pussy", "bitch"];
-    var forbiddenWords = ["<script>", "anus", "ass", "asswipe", "ballsack", "bitch", "blowjob", "blow job", "clit", "clitoris", "cock", "coon", "cunt", "cum", "dick", "dildo", "dyke", "fag", "felching", "fuck", "fucking", "fucker", "fucktard", "fuckface", "fudgepacker", "fudge packer", "flange", "jizz", "nigger", "nigga", "penis", "piss", "prick", "pussy", "queer", "tits", "smegma", "spunk", "boobies", "tosser", "turd", "twat", "vagina", "wank", "whore"];
+    var extraBadWords = ["<script", "<img", "fuck", "cock", "cunt", "nigger", "pussy", "bitch"];
+    var forbiddenWords = ["<script>", "</script>", "<img>", "anus", "ass", "asswipe", "ballsack", "bitch", "blowjob", "blow job", "clit", "clitoris", "cock", "coon", "cunt", "cum", "dick", "dildo", "dyke", "fag", "felching", "fuck", "fucking", "fucker", "fucktard", "fuckface", "fudgepacker", "fudge packer", "flange", "jizz", "nigger", "nigga", "penis", "piss", "prick", "pussy", "queer", "tits", "smegma", "spunk", "boobies", "tosser", "turd", "twat", "vagina", "wank", "whore"];
     var linkWords = ["http://", "https://", "www."];
 
 
