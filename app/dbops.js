@@ -1601,21 +1601,21 @@ function getMetrics(db, req, callback){
 		database.count(db, "visits", visitsQuery, function getVisits(visitList){
 			database.sortRead(db, "definitions", approvedDefinitionQuery, dateSort, function getApprovedDefinitionCount(approvedDefs){
 				database.read(db, "definitions", unapprovedDefinitionQuery, function getUnapprovedDefinitionCount(unapprovedDefs){
-					database.sortRead(db, "searches", searchQuery, searchSort, function getSearches(allSearches){
+					//database.sortRead(db, "searches", searchQuery, searchSort, function getSearches(allSearches){
 						database.count(db, "terms", termCountQuery, function getTermCount(thisTermCount){
 							var thisUserCount = userList.length;
 
 							callback({
 								visitCount: visitList,
 								userCount: thisUserCount,
-								searches: allSearches,
+							//	searches: allSearches,
 								users: userList,
 								approvedDefinitions: approvedDefs,
 								unapprovedDefinitions: unapprovedDefs,
 								termCount: thisTermCount
 							})
 						})
-					})
+					// })
 				})
 			})
 

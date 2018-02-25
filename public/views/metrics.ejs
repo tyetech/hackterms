@@ -66,6 +66,8 @@
 
     <div class = "metric">Searches:</div>
 
+    <% var searches = [] %>
+
     <% searches.forEach(function(search){ %>
         <div class = "metric-definition bold"><a class = "bold" href ="<%= search.term %>"><%= search.term %></a></div>
         <div class = "metric-search-author"><%= search.username %></div>
