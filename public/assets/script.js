@@ -770,7 +770,10 @@ function search(){
 
 function pageSearch(){
 
-    var searchTerm = $("#search-bar").val().trim().toLowerCase();
+    $("#search-bar").val($("#search-bar").val().replace("<script>", "").replace("</script>", "").replace("console.log(", "").replace("alert(", ""))
+
+
+    var searchTerm = $("#search-bar").val().trim().toLowerCase().replace("<script>", "").replace("<%2Fscript>", "");
     
     $("#definitions-section").empty();
 
