@@ -1455,6 +1455,10 @@ function getRandomTerm(db, req, callback){
 		var randomNumber = Math.floor(Math.random()*allTerms.length);
 		var randomTerm = allTerms[randomNumber].name;
 
+		if(typeof(randomTerm) == "undefined" || randomTerm == null){
+			randomTerm = ""
+		}
+
 		callback(randomTerm);
 
 	})
