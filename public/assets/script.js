@@ -1411,7 +1411,7 @@ function displayDefinitionsOnPage(definitions, isLoggedIn, forUser){
                     var compiled = myTemplate(context);
 
                     $("#definitions-section").append(compiled);
-                    if(typeof(thisDefinition.related) != "undefined"){
+                    if(typeof(thisDefinition.related) != "undefined" && thisDefinition.related != null){
                         thisDefinition.related.forEach(function(relatedTerm){ 
                             allRelatedTerms.push(relatedTerm);
                         });

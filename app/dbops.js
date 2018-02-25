@@ -5,7 +5,7 @@ var request = require('request');                         // send HTTP requests
 var GoogleAuth = require('google-auth-library');		  // authenticate google user tokens to sign users in with a google Account
 var auth = new GoogleAuth;
 var client = new auth.OAuth2("285224215537-l5a1ol101rmutrvbcd2omt5r3rktmh6v.apps.googleusercontent.com", '', '');
-
+var sanitizeHtml = require('sanitize-html');			// sanitize HTML
 
 
 var transporter = nodemailer.createTransport({
@@ -336,7 +336,16 @@ function addDefinition(db, req, callback){
 				removed: false
 			}
 
-			if(validateInput(req.body.definition)){
+			var sanitizedTerm = sanitizeHtml(req.body.term.trim().toLowerCase(), {
+			    allowedTags: [], allowedAttributes: []
+			});
+
+			var sanitizedBody = sanitizeHtml(req.body.definition, {
+			    allowedTags: [], allowedAttributes: []
+			});
+
+
+			if(validateInput(sanitizedBody)  && sanitizedBody.length){
 
 				database.read(db, "definitions", userSubmissionsQuery, function fetchUser(approvedDefinitions){
 
@@ -356,7 +365,7 @@ function addDefinition(db, req, callback){
 
 					var newDefinitionQuery = {
 						id: Math.floor(Date.now()/Math.random()),							// hopefully this should give us a random ID
-						term: req.body.term.trim().toLowerCase(),
+						term: sanitizedTerm,
 						author: req.session.user.username,
 						upvotes: 1,
 						downvotes: 0, 
@@ -366,7 +375,7 @@ function addDefinition(db, req, callback){
 						rejected: false,
 						lastEdit: new Date(),
 						created: new Date(),
-						body: req.body.definition,
+						body: sanitizedBody,
 						category: req.body.category,
 						related: relatedTerms
 					}
@@ -424,7 +433,7 @@ function addDefinition(db, req, callback){
 
 
 					var newTermQuery = { 
-						name: req.body.term,
+						name: sanitizedTerm,
 						link: termLink,
 						searched: 0,
 						date: new Date()
@@ -510,15 +519,13 @@ function addDefinition(db, req, callback){
 						}
 					})
 
-
-
 				})
 
 
 			} else {
 				callback({
 					status: "fail",
-					message: "No profanity or links, please"
+					message: "No profanity, links, or scripts, please"
 				});
 			}
 		} else {
@@ -2107,7 +2114,7 @@ function validateInput(string){
 
     var isStringValid = true;
     var extraBadWords = ["fuck", "cock", "cunt", "nigger", "pussy", "bitch"];
-    var forbiddenWords = ["anus", "ass", "asswipe", "ballsack", "bitch", "blowjob", "blow job", "clit", "clitoris", "cock", "coon", "cunt", "cum", "dick", "dildo", "dyke", "fag", "felching", "fuck", "fucking", "fucker", "fucktard", "fuckface", "fudgepacker", "fudge packer", "flange", "jizz", "nigger", "nigga", "penis", "piss", "prick", "pussy", "queer", "tits", "smegma", "spunk", "boobies", "tosser", "turd", "twat", "vagina", "wank", "whore"];
+    var forbiddenWords = ["<script>", "anus", "ass", "asswipe", "ballsack", "bitch", "blowjob", "blow job", "clit", "clitoris", "cock", "coon", "cunt", "cum", "dick", "dildo", "dyke", "fag", "felching", "fuck", "fucking", "fucker", "fucktard", "fuckface", "fudgepacker", "fudge packer", "flange", "jizz", "nigger", "nigga", "penis", "piss", "prick", "pussy", "queer", "tits", "smegma", "spunk", "boobies", "tosser", "turd", "twat", "vagina", "wank", "whore"];
     var linkWords = ["http://", "https://", "www."];
 
 
