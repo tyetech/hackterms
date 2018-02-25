@@ -1448,12 +1448,21 @@ function getTopTerms(db, req, callback){
 	})
 }
 
-function getTopRequests(db, req, callback){
+function getRandomTerm(db, req, callback){
 
+	database.read(db, "terms", {}, function(allTerms){
+
+		var randomNumber = Math.floor(Math.random()*allTerms.length);
+		var randomTerm = allTerms[randomNumber].name;
+
+		callback(randomTerm);
+
+	})
+}
+
+function getTopRequests(db, req, callback){
 	var requestQuery = { termExists: false }
 	var orderQuery = { searched: -1 }
-
-	
 }
 
 
@@ -2214,6 +2223,7 @@ module.exports.adminVote = adminVote;
 module.exports.addReport = addReport;
 
 module.exports.getTopTerms = getTopTerms;
+module.exports.getRandomTerm = getRandomTerm;
 
 module.exports.getUserRoles = getUserRoles;
 module.exports.updateUserRoles = updateUserRoles;
@@ -2227,4 +2237,3 @@ module.exports.passwordResetRequest = passwordResetRequest;
 module.exports.checkPasswordReset = checkPasswordReset;
 module.exports.passwordResetAction = passwordResetAction;
 module.exports.selectUsername = selectUsername;
-

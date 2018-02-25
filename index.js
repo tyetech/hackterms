@@ -837,6 +837,12 @@ MongoClient.connect(dbAddress, function(err, db){
         });
     });
 
+    app.get("/random-term", function(req, res){
+        dbops.getRandomTerm(db, req, function randomTerm(term){
+            res.redirect("/" + term);
+        });
+    });
+
 
 
 
