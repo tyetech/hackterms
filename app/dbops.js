@@ -355,8 +355,13 @@ function addDefinition(db, req, callback){
 					// let's make sure the related terms exist and are kosher
 					if(req.body.related){
 						req.body.related.forEach(function(term){
-							if(term.trim().length && validateInput(term)){
-								relatedTerms.push(term.toLowerCase())
+
+							var sanitizedTerm = sanitizeHtml(term, {
+							    allowedTags: [], allowedAttributes: []
+							});
+
+							if(sanitizedTerm.trim().length && validateInput(term)){
+								relatedTerms.push(sanitizedTerm.toLowerCase())
 							}
 						})
 					}
@@ -545,9 +550,14 @@ function addDefinition(db, req, callback){
 
 function addComment(db, req, callback){
 	if(req.session.user){
-		if(req.body.commentBody){
 
-			if(validateInput(req.body.commentBody)){
+		var sanitizedComment = sanitizeHtml(req.body.commentBody, {
+		    allowedTags: [], allowedAttributes: []
+		});
+
+
+		if(sanitizedComment){
+			if(validateInput(sanitizedComment)){
 				// search for identical comments or comments made within the last 5 mins
 
 				var duplicateCommentQuery = {
@@ -574,7 +584,7 @@ function addComment(db, req, callback){
 							console.log(errorMessage);
 						}
 
-						if(existingComment.body.trim() == req.body.commentBody.trim()){
+						if(existingComment.body.trim() == sanitizedComment.trim()){
 							commentApproved = false;
 							errorMessage = "You've already posted this comment";
 							console.log(errorMessage);
@@ -601,7 +611,7 @@ function addComment(db, req, callback){
 									approved: true,
 									rejected: false,
 									date: new Date(),
-									body: req.body.commentBody
+									body: sanitizedComment
 								}
 
 								database.create(db, "comments", newCommentQuery, function createComment(newComment){
