@@ -345,7 +345,7 @@ function addDefinition(db, req, callback){
 			});
 
 
-			if(validateInput(sanitizedBody)  && sanitizedBody.length){
+			if(validateInput(sanitizedBody)  && sanitizedBody.length && sanitizedTerm.length){
 
 				database.read(db, "definitions", userSubmissionsQuery, function fetchUser(approvedDefinitions){
 
@@ -446,7 +446,7 @@ function addDefinition(db, req, callback){
 
 					database.read(db, "terms", termSearchQuery, function checkForExistingTerm(existingTerms){
 
-						if(existingTerms.length == 0){
+						if(existingTerms.length == 0 && sanitizedTerm.length){
 							console.log("creating new definition for the term '" + newTermQuery.name + "'");
 							database.create(db, "terms", newTermQuery, function createdTerm(newTerm){
 								database.create(db, "definitions", newDefinitionQuery, function createdDefinition(newDefinition){
