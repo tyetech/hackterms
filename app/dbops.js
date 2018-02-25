@@ -1091,22 +1091,25 @@ function signup(db, req, callback){
 							username: req.body.username.trim().toLowerCase(),
 						}
 
-						database.read(db, "users", userQuery, function(existingUsers){
-							if(existingUsers.length == 0){	
+						if(validateCharset(req.body.username)){
+							database.read(db, "users", userQuery, function(existingUsers){
+								if(existingUsers.length == 0){	
 
-								bcrypt.genSalt(10, function(err, salt) {
-								    bcrypt.hash(req.body.password, salt, function(err, hash){
-								    	createNewUser(hash, null, null, req.body.email.trim().toLowerCase(), db, req, function(newUser){
-											callback({status: "success", message: "Account created. Go ahead and log in!", user: newUser});
-										})  
-								    });
-								});
+									bcrypt.genSalt(10, function(err, salt) {
+									    bcrypt.hash(req.body.password, salt, function(err, hash){
+									    	createNewUser(hash, null, null, req.body.email.trim().toLowerCase(), db, req, function(newUser){
+												callback({status: "success", message: "Account created. Go ahead and log in!", user: newUser});
+											})  
+									    });
+									});
 
-							} else {	
-								callback({status: "fail", message: "That username is not available", errorType: "username"})
-							}
-						})
-
+								} else {	
+									callback({status: "fail", message: "That username is not available", errorType: "username"})
+								}
+							})
+						} else {
+							callback({status: "fail", message: "Please only use letters, numbers, or: _ - . ", errorType: "username"});
+						}
 					} else {
 						callback({status: "fail", message: "Do you want to get hacked? Because that's how you get hacked.", errorType: "password"});
 					}
@@ -2056,34 +2059,39 @@ function selectUsername(db, req, callback){
 
 	var usernameQuery = { username: req.body.username.trim().toLowerCase() }
 
-	database.read(db, "users", usernameQuery, function checkForUsers(users){
-		if(users.length == 0){
-			console.log("This username is available!");
+	if(validateCharset(req.body.username.trim())){
 
-			var thisUserQuery = {
-				email: req.session.user.email
-			}
+		database.read(db, "users", usernameQuery, function checkForUsers(users){
+			if(users.length == 0){
+				console.log("This username is available!");
 
-			var usernameUpdate = {
-				$set: {
-					username: usernameQuery.username
+				var thisUserQuery = {
+					email: req.session.user.email
 				}
+
+				var usernameUpdate = {
+					$set: {
+						username: usernameQuery.username
+					}
+				}
+
+				usernameUpdate.$set["data.username"] = usernameQuery.username;
+
+				database.update(db, "users", thisUserQuery, usernameUpdate, function updateUsername(user){
+					req.session.user.username = usernameQuery.username;
+					callback({status: "success"});
+				})
+
+			} else if (users.length == 1){
+				callback({status: "fail", message: "This username is not available"})
+			} else {
+				callback({status: "fail", message: "Something went wrong"})
 			}
 
-			usernameUpdate.$set["data.username"] = usernameQuery.username;
-
-			database.update(db, "users", thisUserQuery, usernameUpdate, function updateUsername(user){
-				req.session.user.username = usernameQuery.username;
-				callback({status: "success"});
-			})
-
-		} else if (users.length == 1){
-			callback({status: "fail", message: "This username is not available"})
-		} else {
-			callback({status: "fail", message: "Something went wrong"})
-		}
-
-	})
+		})
+	} else {
+		callback({status: "fail", message: "Please only use letters, numbers, or: _ - ."})
+	}
 
 }
 
@@ -2139,6 +2147,19 @@ function cleanUrl(text){
 
 	return text;
 
+}
+
+function validateCharset(string){
+
+	var stringIsValid = true;
+	var validChars = "abcdefghijklmnopqrstuvwxyz1234567890_-.";
+
+	for(var i = 0; i < string.length; i++){
+		console.log(string[i] + ": " + validChars.indexOf(string[i]));
+		if(validChars.indexOf(string[i]) == -1){ stringIsValid = false }
+	}
+
+	return stringIsValid;
 }
 
 function sanitizeInput(string){
