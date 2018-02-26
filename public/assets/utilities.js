@@ -60,7 +60,8 @@ function sortRelatedTerms(terms){                // messy solution to sorting an
 
         if(j == objectLength - 1){
             for(var k = 0; k < termsInOrder.length; k++){
-                $("#related-terms-section").append("<a class= 'related-term'>" + termsInOrder[k] + "</a>").attr("href", termsInOrder[k]);
+                $("#related-terms-section").append("<a class= 'related-term'>" + termsInOrder[k] + "</a>");
+                $(".related-term").last().attr("href", termsInOrder[k])
             }
         }
 
