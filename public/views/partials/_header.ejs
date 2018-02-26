@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 <HTML>
 <head>
-    <title>Hackterms: a dictionary of programming terms</title>
+    <title>
+        <% if (typeof(title) != "undefined"){ %>
+            <%= title %>
+        <% } else { %>
+            Hackterms: a dictionary of programming terms
+        <% } %>
+    </title>
 
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <meta name="description" content="Hackterms is a crowdsourced dictionary of programming terms. Learn when, where, and why you'd use a particular programming tool, concept, process, or language.">

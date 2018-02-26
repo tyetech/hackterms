@@ -158,7 +158,8 @@ function main(){
         setTimeout(function(){ logSearch(term); }, 50);                    // wait for the search bar to populate
 		currentTerm = term;
         window.history.pushState("object or string", "Title", "/" + term);      // update url
-		getDefinition(term, false);
+		document.title = "Hackerms: " + term;
+        getDefinition(term, false);
 	});
 
     $("body").on(triggerEvent, ".definition-suggestion-link", function(){
@@ -391,9 +392,7 @@ function main(){
 
         if($("#search-bar").val().length > 1){
             if((e.which >= 48 && e.which <= 90) || (e.which >= 106 && e.which <= 111) || (e.which >= 186 && e.which <= 192) || e.which == 8 || e.which == 229){       // 48-90 are letters and numbers; 229 is registered on android
-                // window.history.pushState("object or string", "Title", "/" + thisSearch);      // update url
-
-                    search();
+                search();
             }
         } else {
             singleTermDefinition = false;
@@ -411,7 +410,8 @@ function main(){
 
         if(e.which == 8){                                         // 8 = backspace
             singleTermDefinition = false;
-            // window.history.pushState("object or string", "Title", "/" + thisSearch);      // update url
+            document.title = "Hackerms: " + thisSearch.toLowerCase();
+            window.history.pushState("object or string", "Title", "/" + thisSearch.toLowerCase());
             $("#new-definition").hide();
             $("#definitions-section").empty();
         }
@@ -922,6 +922,7 @@ function getDefinition(query, forUser){
 
                 if(!forUser){
                     window.history.pushState("object or string", "Title", "/" + query.toLowerCase());      // update url
+                    document.title = "Hackerms: " + query.toLowerCase();
                     var searchTerm = $("#search-bar").val().trim();
                 }
                 
@@ -1459,6 +1460,8 @@ function displayDefinitionsOnPage(definitions, isLoggedIn, forUser, isModerator)
         if(location.pathname.indexOf("/profile") == -1){
             var term = $("#search-bar").val();
             $("#definitions-section").append("<div class = 'definition-accent'>There are no definitions for <span class = 'bold'>" + term + "</span> yet. You should add one!</div>");
+            document.title = "Hackerms: " + term.toLowerCase();
+            window.history.pushState("object or string", "Title", "/" + term.toLowerCase());
             displayAddDefinitionButton(forUser, isLoggedIn);
         } else {
             $("#definitions-section").append("<div class = 'definition-accent'>This user hasn't added any definitions yet</div>");
