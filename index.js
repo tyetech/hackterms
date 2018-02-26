@@ -132,6 +132,10 @@ MongoClient.connect(dbAddress, function(err, db){
         res.render("faq");
     });
 
+    app.get("/darules", function(req, res){
+        res.render("rules");
+    });
+
     app.get("/all", function(req, res){
         dbops.getAllTerms(db, req, function renderTerms(allTerms){
             res.render("all", {terms: allTerms.terms});
@@ -242,7 +246,7 @@ MongoClient.connect(dbAddress, function(err, db){
                         moderatorStatus = true;
                     }
                 }
-                
+
                 var response = {
                     status: "success",
                     count: response.count,

@@ -91,14 +91,14 @@
         <% if(session.user){ %>
             <div id = "new-definition-modal">
                 <h3>Add a definition</h3>
-                <ul>
-                    <li>Avoid industry jargon</li>
-                    <li>Answer these questions:</li>
-                    <ol>
-                        <li>What does <span class = "new-definition-term"></span> do? When would you use it?</li>
-                        <li>What are the high level pros and cons of using <span class = "new-definition-term"></span>? What are some alternatives to <span class = "new-definition-term"></span>?</li>
-                    </ol>
-                </ul>
+                
+                &#8226; Avoid industry jargon and follow the <a href = "/darules" target = "_blank">rules</a><br>
+                &#8226; Answer these questions:
+                <ol>
+                    <li>What does <span class = "new-definition-term"></span> do? When would you use it?</li>
+                    <li>What are the high level pros and cons of using <span class = "new-definition-term"></span>? What are some alternatives to <span class = "new-definition-term"></span>?</li>
+                </ol>
+                
 
                 <p class = "textarea-label">Term</p>
                 <textarea id = "definition-term-textarea" maxlength="40" rows = "1" placeholder = "term"></textarea>

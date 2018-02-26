@@ -701,6 +701,8 @@ button:hover {
 
 #new-definition-modal {
   padding-top: 20px; }
+  #new-definition-modal ol {
+    margin: 0; }
 
 #signup-modal, #login-modal, #password-reset-modal {
   width: 400px;
@@ -1075,7 +1077,7 @@ button:hover {
   width: 25%;
   word-wrap: break-word; }
 
-/* FAQ */
+/* FAQ and DA RULES*/
 .faq-one-question {
   padding-bottom: 15px;
   clear: both; }
@@ -1087,7 +1089,7 @@ button:hover {
   margin-bottom: 10px;
   display: inline; }
 
-.faq-answer {
+.faq-answer, .one-rule {
   font-family: 'Muli', serif;
   font-weight: 300;
   line-height: 1.5;
@@ -1095,6 +1097,10 @@ button:hover {
   padding: 10px;
   margin-top: 10px;
   display: none; }
+
+.one-rule {
+  display: block;
+  margin-top: 20px; }
 
 .faq-control {
   color: #114B5F; }
@@ -1109,6 +1115,17 @@ button:hover {
   text-align: center;
   padding: 10px 0px;
   font-size: 2.5em; }
+
+.rule-title {
+  font-family: "Zilla Slab", serif;
+  font-weight: 500;
+  font-size: 1.4em; }
+
+.rule-blurb {
+  background: transparent;
+  font-family: "Zilla Slab", serif;
+  border: 1px solid #114B5F;
+  margin-top: 0; }
 
 /*  TEST CSS - REMOVE IN PROD! */
 #add-click-message {

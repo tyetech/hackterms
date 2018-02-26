@@ -903,6 +903,9 @@ button:hover {
 
 #new-definition-modal {
     padding-top: 20px;
+    & ol {
+        margin: 0;
+    }
 }
 
 #signup-modal, #login-modal, #password-reset-modal{
@@ -1366,7 +1369,7 @@ button:hover {
 
 
 
-/* FAQ */
+/* FAQ and DA RULES*/
 
 .faq-one-question{
     padding-bottom: 15px;
@@ -1380,7 +1383,7 @@ button:hover {
     margin-bottom: 10px;
     display: inline;
 }
-.faq-answer {
+.faq-answer, .one-rule {
     font-family: 'Muli', serif;
     font-weight: 300;
     line-height: 1.5;
@@ -1388,6 +1391,11 @@ button:hover {
     padding: 10px;
     margin-top: 10px;
     display: none;
+}
+
+.one-rule {
+    display: block;
+    margin-top: 20px;
 }
 
 .faq-control {
@@ -1408,8 +1416,18 @@ button:hover {
     font-size: 2.5em;
 }
 
+.rule-title {
+    font-family: "Zilla Slab", serif;
+    font-weight: 500;
+    font-size: 1.4em;
+}
 
-
+.rule-blurb {
+    background: transparent;
+    font-family: "Zilla Slab", serif;
+    border: 1px solid $blue-dark;
+    margin-top: 0;
+}
 
 
 /*  TEST CSS - REMOVE IN PROD! */
