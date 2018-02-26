@@ -1801,7 +1801,12 @@ function deletePost(db, req, callback){
 				term: posts[0].term 				// if not, we need to delete the term
 			}
 
-			if(posts[0].author == req.session.user.username || req.session.admin || req.session.moderator){
+			var isModerator = false;
+			if(req.session.user.admin == "true" || req.session.user.moderator == "true" || req.session.user.admin == true || req.session.user.moderator == true){
+				isModerator = true;
+			}
+
+			if(posts[0].author == req.session.user.username || isModerator){
 
 				database.remove(db, req.body.type, postQuery, function deletePost(post){
 					callback({status: "success", message: "Successfully removed post"})
@@ -1857,7 +1862,12 @@ function getExistingDefinition(db, req, callback){
 	database.read(db, "definitions", postQuery, function findPost(posts){
 		if (posts.length == 1){
 
-			if(posts[0].author == req.session.user.username){
+			var isModerator = false;
+			if(req.session.user.admin == "true" || req.session.user.moderator == "true" || req.session.user.admin == true || req.session.user.moderator == true){
+				isModerator = true;
+			}
+
+			if(posts[0].author == req.session.user.username || isModerator){
 
 				callback({status: "success", post: posts[0]});
 
@@ -1879,7 +1889,12 @@ function updateExistingDefinition(db, req, callback){
 	database.read(db, "definitions", postQuery, function findPost(posts){
 		if (posts.length == 1){
 
-			if(posts[0].author == req.session.user.username){
+			var isModerator = false;
+			if(req.session.user.admin == "true" || req.session.user.moderator == "true" || req.session.user.admin == true || req.session.user.moderator == true){
+				isModerator = true;
+			}
+
+			if(posts[0].author == req.session.user.username || isModerator){
 
 				callback({status: "success", post: posts[0]});
 

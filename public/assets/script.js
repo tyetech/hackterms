@@ -720,7 +720,7 @@ function search(){
                         
                         console.log("NO RESULTS");
                         $("#definitions-section").empty();
-                        displayDefinitionsOnPage([], result.loggedIn, false);
+                        displayDefinitionsOnPage([], result.loggedIn, false, result.isModerator);
                         currentText = $("#search-bar").val().trim().toLowerCase();
                         
                         //if after 2 seconds the search bar contents have not changed, log the search
@@ -794,7 +794,7 @@ function pageSearch(){
 
                 if(result.count > 0){
                     $("#definitions-section").empty();
-                    displayDefinitionsOnPage(result.body, result.isLoggedIn, false);
+                    displayDefinitionsOnPage(result.body, result.isLoggedIn, false, result.isModerator);
                 } else {
 
                     // if we don't, perform a regular search
@@ -925,7 +925,7 @@ function getDefinition(query, forUser){
                     var searchTerm = $("#search-bar").val().trim();
                 }
                 
-                displayDefinitionsOnPage(result.body, result.isLoggedIn, forUser);
+                displayDefinitionsOnPage(result.body, result.isLoggedIn, forUser, result.isModerator);
 
         	} else {
         		console.log(result.error)
@@ -1269,7 +1269,7 @@ function selectNewUsername(){
 
 
 
-function displayDefinitionsOnPage(definitions, isLoggedIn, forUser){
+function displayDefinitionsOnPage(definitions, isLoggedIn, forUser, isModerator){
 
     $("#definitions-section").empty();
 
@@ -1407,6 +1407,7 @@ function displayDefinitionsOnPage(definitions, isLoggedIn, forUser){
                         score: thisScore,
                         id: thisDefinition.id,
                         commentCount: thisDefinition.comments.length,
+                        moderator: isModerator
                     };
 
                     var compiled = myTemplate(context);

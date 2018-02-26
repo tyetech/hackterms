@@ -229,18 +229,32 @@ MongoClient.connect(dbAddress, function(err, db){
 
                 console.log("definition count: " + response.count);
 
-                loginStatus = false;
+                var loginStatus = false;
+                var moderatorStatus = false;
+
+                console.log("req.session:");
+                console.log(req.session);
+
+                if(req.session.user){ loginStatus = true }      
 
                 if(req.session.user){
-                    loginStatus = true;
+                    if(req.session.user.admin == "true" || req.session.user.moderator == "true" || req.session.user.admin == true || req.session.user.moderator == true){
+                        moderatorStatus = true;
+                    }
                 }
-
-                res.send({
+                
+                var response = {
                     status: "success",
                     count: response.count,
                     body: response.body,
-                    isLoggedIn: loginStatus
-                });
+                    isLoggedIn: loginStatus,
+                    isModerator: moderatorStatus
+                }
+
+                console.log("response:");
+                console.log(response);
+
+                res.send(response);
 
             } else if(response.status == "fail"){
                 res.send({

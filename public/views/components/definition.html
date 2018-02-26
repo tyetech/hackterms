@@ -9,7 +9,13 @@
 	 			<!-- <div class = "bold action-icon link more-post" data-id = "{{id}}" data-type = "definitions"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></div> -->
 	 			<div class = "bold link action-icon edit-post" data-id = "{{id}}" data-type = "definitions"><i class="fas fa-pencil-alt" aria-hidden="true"></i></div>
 	 			<div class = "bold link action-icon delete-post" data-id = "{{id}}" data-type = "definitions"><i class="far fa-trash-alt" aria-hidden="true"></i></div>
+	 		{{else}}
+	 			{{#if moderator}}
+		 			<div class = "bold link action-icon edit-post" data-id = "{{id}}" data-type = "definitions"><i class="fas fa-pencil-alt" aria-hidden="true"></i></div>
+		 		{{/if}}
 	 		{{/if}}
+
+	 		
 
 	 		{{#unless definition.owner}}
 				<span class = "action-icon report-post bold" data-id = "{{id}}" data-type = "definitions"><i class="far fa-flag" aria-hidden="true"></i></span>
