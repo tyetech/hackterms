@@ -57,14 +57,10 @@ function sortRelatedTerms(terms){                // messy solution to sorting an
 
         delete relatedTerms[currentTopKey];                   // remove that key from the object
         termsInOrder.push(currentTopKey)
-    
-        console.log(termsInOrder);
 
         if(j == objectLength - 1){
             for(var k = 0; k < termsInOrder.length; k++){
-                console.log(termsInOrder[k]);
-                var link = "/" + termsInOrder[k]
-                $("#related-terms-section").append('<a href = "' + link + '" class= "related-term">' + termsInOrder[k] + "</a>");
+                $("#related-terms-section").append("<a class= 'related-term'>" + termsInOrder[k] + "</a>").attr("href", termsInOrder[k]);
             }
         }
 
