@@ -1376,7 +1376,6 @@ function displayDefinitionsOnPage(definitions, isLoggedIn, forUser, isModerator)
                     }
 
                     for(var k = 0; k < sortedCategories.length; k++){
-
                         var idName = sortedCategories[k].name.substring(1, sortedCategories[k].name.length);
 
                         if(sortedCategories[k].percentage > 0){
