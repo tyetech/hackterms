@@ -164,7 +164,8 @@ MongoClient.connect(dbAddress, function(err, db){
                     approvedDefinitionCount: response.approvedDefinitions.length,
                     unapprovedDefinitionCount: response.unapprovedDefinitions.length,
                     termCount: response.termCount,
-                    searchCount: response.searchCount
+                    searchCount: response.searchCount,
+                    newDefinitionCount: response.newDefinitionCount
                 });
 
             });

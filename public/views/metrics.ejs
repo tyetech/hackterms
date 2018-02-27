@@ -62,14 +62,16 @@
         <br>
     <% }) %>
 
-    <br>
-
-    <div class = "metric">Searches:</div>
 
     <div class = "metric">Traffic history:</div>
+    <div class = "bold">
+        <div class = "metric-definition bold">Date:</div>
+        <div class = "metric-search-author">New Definitions:</div>
+        <div class = "metric-definition-author">Searches:</div>
+    </div>
     <% for (key in searchCount){ %>
         <div class = "metric-definition bold"><%= key.toString().substring(0, 15) %></div>
-        <div class = "metric-search-author"></div>
+        <div class = "metric-search-author"><%= newDefinitionCount[key] %></div>
         <div class = "metric-definition-author"><%= searchCount[key] %></div>
         <br>
     <% } %>

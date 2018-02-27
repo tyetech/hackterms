@@ -1652,13 +1652,15 @@ function getMetrics(db, req, callback){
 						database.count(db, "terms", termCountQuery, function getTermCount(thisTermCount){
 							var thisUserCount = userList.length;
 
-							var countOfSearches = getSearchesByDay(lastWeekSearches, 8);
+							var countOfSearches = getItemsByDay(lastWeekSearches, "date", 8);
+							var countOfNewDefinitions = getItemsByDay(approvedDefs, "created", 8);
 
 
 							callback({
 								visitCount: visitList,
 								userCount: thisUserCount,
 								searchCount: countOfSearches,
+								newDefinitionCount: countOfNewDefinitions,
 								users: userList,
 								approvedDefinitions: approvedDefs,
 								unapprovedDefinitions: [],			// later, if there's ever a submission process, we should actually fetch unapproved searches
@@ -2264,13 +2266,13 @@ function validateInput(string){
     return isStringValid;
 }
 
-function getSearchesByDay(searches, days){
+function getItemsByDay(items, field, days){
 
-    var searchData = {};
+    var itemData = {};
     var now = new Date();
     var oneDay = 24 * 60 *60 * 1000;
 
-    console.log("sorting " + searches.length + " total searches for the past " + days + " days");
+    console.log("sorting " + items.length + " total items for the past " + days + " days");
 
     // 0   1    2    3    4     5 ...
 
@@ -2279,22 +2281,22 @@ function getSearchesByDay(searches, days){
         var startDate = new Date(new Date((now.getTime() - oneDay * i)).setHours(0,0,0,0))        // subtract i day(s) from today
         var endDate = new Date(startDate.getTime() + oneDay)            // 24 hours later
        
-        searchData[startDate] = 0;
+        itemData[startDate] = 0;
 
-        for(var j = 0; j < searches.length; j++ ){
-        	//console.log("searches length " + searches.length);
+        for(var j = 0; j < items.length; j++ ){
+        	//console.log("items length " + items.length);
 
-        	var searchDate =  new Date(searches[j].date);
+        	var itemDate =  new Date(items[j][field]);
 
-        	if(searchDate >= startDate && searchDate < endDate){
-        		searchData[startDate]++;
+        	if(itemDate >= startDate && itemDate < endDate){
+        		itemData[startDate]++;
         	} 
         }
     }
 
-    console.log("searches left: " + searches.length);
+    console.log("items left: " + items.length);
 
-	return searchData;
+	return itemData;
 
 }
 
