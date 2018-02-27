@@ -70,7 +70,6 @@ function sortRelatedTerms(terms){                // messy solution to sorting an
 }
 
 
-
 function cleanUrl(text){
 
     text = text.split("%").join("%25");

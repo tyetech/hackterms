@@ -66,16 +66,14 @@
 
     <div class = "metric">Searches:</div>
 
-    <% var searches = [] %>
-
-    <% searches.forEach(function(search){ %>
-        <div class = "metric-definition bold"><a class = "bold" href ="<%= search.term %>"><%= search.term %></a></div>
-        <div class = "metric-search-author"><%= search.username %></div>
-        <div class = "metric-definition-author"><%= search.date.toString().substring(0,21) %></div>
+    <div class = "metric">Traffic history:</div>
+    <% for (key in searchCount){ %>
+        <div class = "metric-definition bold"><%= key.toString().substring(0, 15) %></div>
+        <div class = "metric-search-author"></div>
+        <div class = "metric-definition-author"><%= searchCount[key] %></div>
         <br>
-    <% }) %>
+    <% } %>
 
-    <br>
 
 </div>
 

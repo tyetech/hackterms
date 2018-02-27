@@ -1491,7 +1491,7 @@ function logVisit(db, req, callback){
     	page: req.url
     }
 
-    var ignoredUrls = ["/get-definitions", "/search", "/metrics", "/updated-user-data", "/log-search", "/login", "/robots.txt", "/password-reset"]
+    var ignoredUrls = ["/get-definitions", "/search", "/metrics", "/updated-user-data", "/log-search", "/login", "/robots.txt", "/password-reset", "/darules"]
     var ignoredISP = ["Googlebot", "Amazon.com", "YANDEX LLC", "Yandex", "Rostelecom"];
 
 
@@ -1622,26 +1622,51 @@ function getMetrics(db, req, callback){
 	}
 
 
+
+	/*
+		1. fetch all search records from 7 days ago to now
+		2. for each day starting 7 days ago (iterate...)
+			a. if a date is on that day, count it
+		3. 
+
+	*/
+
+	// 7 days ago: 7 * 24 * 60 * 60 * 1000
+
+	var timeQuery = {"date": { $gte: new Date((new Date().getTime() - (8 * 24 * 60 * 60 * 1000)))}}
+
+	// get for the past 8 days
+
+	console.log("timeQuery");
+	console.log(timeQuery);
+
+
+
+
+
 	database.read(db, "users", userQuery, function getUsers(userList){
 		database.count(db, "visits", visitsQuery, function getVisits(visitList){
 			database.sortRead(db, "definitions", approvedDefinitionQuery, dateSort, function getApprovedDefinitionCount(approvedDefs){
-				database.read(db, "definitions", unapprovedDefinitionQuery, function getUnapprovedDefinitionCount(unapprovedDefs){
-					//database.sortRead(db, "searches", searchQuery, searchSort, function getSearches(allSearches){
+				// database.read(db, "definitions", unapprovedDefinitionQuery, function getUnapprovedDefinitionCount(unapprovedDefs){
+					database.read(db, "searches", timeQuery, function getSearches(lastWeekSearches){
 						database.count(db, "terms", termCountQuery, function getTermCount(thisTermCount){
 							var thisUserCount = userList.length;
+
+							var countOfSearches = getSearchesByDay(lastWeekSearches, 8);
+
 
 							callback({
 								visitCount: visitList,
 								userCount: thisUserCount,
-							//	searches: allSearches,
+								searchCount: countOfSearches,
 								users: userList,
 								approvedDefinitions: approvedDefs,
-								unapprovedDefinitions: unapprovedDefs,
+								unapprovedDefinitions: [],			// later, if there's ever a submission process, we should actually fetch unapproved searches
 								termCount: thisTermCount
 							})
 						})
-					// })
-				})
+					 })
+				// })
 			})
 
 		})
@@ -2237,6 +2262,40 @@ function validateInput(string){
     }
 
     return isStringValid;
+}
+
+function getSearchesByDay(searches, days){
+
+    var searchData = {};
+    var now = new Date();
+    var oneDay = 24 * 60 *60 * 1000;
+
+    console.log("sorting " + searches.length + " total searches for the past " + days + " days");
+
+    // 0   1    2    3    4     5 ...
+
+    for(var i = 0; i < days; i++){			// cycle through each day, build start and end dates by midnight
+
+        var startDate = new Date(new Date((now.getTime() - oneDay * i)).setHours(0,0,0,0))        // subtract i day(s) from today
+        var endDate = new Date(startDate.getTime() + oneDay)            // 24 hours later
+       
+        searchData[startDate] = 0;
+
+        for(var j = 0; j < searches.length; j++ ){
+        	//console.log("searches length " + searches.length);
+
+        	var searchDate =  new Date(searches[j].date);
+
+        	if(searchDate >= startDate && searchDate < endDate){
+        		searchData[startDate]++;
+        	} 
+        }
+    }
+
+    console.log("searches left: " + searches.length);
+
+	return searchData;
+
 }
 
 

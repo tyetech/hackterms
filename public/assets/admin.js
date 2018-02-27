@@ -1,4 +1,4 @@
-$(document).ready(main);
+m$(document).ready(main);
 
 function main(){
 	
