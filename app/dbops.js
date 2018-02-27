@@ -2172,7 +2172,7 @@ function cleanUrl(text){
 function validateCharset(string){
 
 	var stringIsValid = true;
-	var validChars = "abcdefghijklmnopqrstuvwxyz1234567890_-.";
+	var validChars = "ABCDEFGHIJKLMONPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890_-.";
 
 	for(var i = 0; i < string.length; i++){
 		console.log(string[i] + ": " + validChars.indexOf(string[i]));
