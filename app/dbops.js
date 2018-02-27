@@ -1621,6 +1621,30 @@ function getMetrics(db, req, callback){
 	var termCountQuery = {
 	}
 
+	database.read(db, "users", userQuery, function getUsers(userList){
+		database.count(db, "visits", visitsQuery, function getVisits(visitList){
+			database.sortRead(db, "definitions", approvedDefinitionQuery, dateSort, function getApprovedDefinitionCount(approvedDefs){
+				// database.read(db, "definitions", unapprovedDefinitionQuery, function getUnapprovedDefinitionCount(unapprovedDefs){					
+					database.count(db, "terms", termCountQuery, function getTermCount(thisTermCount){
+						var thisUserCount = userList.length;
+
+						callback({
+							visitCount: visitList,
+							userCount: thisUserCount,
+							users: userList,
+							approvedDefinitions: approvedDefs,
+							unapprovedDefinitions: [],			// later, if there's ever a submission process, we should actually fetch unapproved searches
+							termCount: thisTermCount
+						})
+					})
+				// })
+			})
+		})
+	})
+}
+
+
+function getAnalytics(db, req, callback){
 
 
 	/*
@@ -1633,49 +1657,48 @@ function getMetrics(db, req, callback){
 
 	// 7 days ago: 7 * 24 * 60 * 60 * 1000
 
-	var timeQuery = {"date": { $gte: new Date((new Date().getTime() - (8 * 24 * 60 * 60 * 1000)))}}
-
-	// get for the past 8 days
-
-	console.log("timeQuery");
-	console.log(timeQuery);
 
 
+	var numDays = Math.floor(parseInt(req.body.days));
 
+	console.log("num days: " + numDays); 
 
+	var searchQuery = {
+		"date": { 
+			$gte: new Date((new Date().getTime() - (numDays * 24 * 60 * 60 * 1000)))
+		}
+	}
 
-	database.read(db, "users", userQuery, function getUsers(userList){
-		database.count(db, "visits", visitsQuery, function getVisits(visitList){
-			database.sortRead(db, "definitions", approvedDefinitionQuery, dateSort, function getApprovedDefinitionCount(approvedDefs){
-				// database.read(db, "definitions", unapprovedDefinitionQuery, function getUnapprovedDefinitionCount(unapprovedDefs){
-					database.read(db, "searches", timeQuery, function getSearches(lastWeekSearches){
-						database.count(db, "terms", termCountQuery, function getTermCount(thisTermCount){
-							var thisUserCount = userList.length;
+	console.log("searchQuery");
+	console.log(searchQuery);
 
-							var countOfSearches = getItemsByDay(lastWeekSearches, "date", 8);
-							var countOfNewDefinitions = getItemsByDay(approvedDefs, "created", 8);
+	var approvedDefinitionQuery = {
+		removed: false,
+		rejected: false,
+		approved: true,
+		"created": { 
+			$gte: new Date((new Date().getTime() - (numDays * 24 * 60 * 60 * 1000)))
+		}
+	}
 
+	var dateSort = {
+		created: -1
+	}
 
-							callback({
-								visitCount: visitList,
-								userCount: thisUserCount,
-								searchCount: countOfSearches,
-								newDefinitionCount: countOfNewDefinitions,
-								users: userList,
-								approvedDefinitions: approvedDefs,
-								unapprovedDefinitions: [],			// later, if there's ever a submission process, we should actually fetch unapproved searches
-								termCount: thisTermCount
-							})
-						})
-					 })
-				// })
+	database.read(db, "searches", searchQuery, function getSearches(lastWeekSearches){
+		database.sortRead(db, "definitions", approvedDefinitionQuery, dateSort, function getApprovedDefinitionCount(approvedDefs){
+
+			console.log("approvedDefs " + approvedDefs.length);
+
+			var countOfSearches = getItemsByDay(lastWeekSearches, "date", numDays);
+			var countOfNewDefinitions = getItemsByDay(approvedDefs, "created", numDays);
+
+			callback({
+				searchCount: countOfSearches,
+				newDefinitionCount: countOfNewDefinitions
 			})
-
-		})
-	})
-
-
-
+		});
+	});
 }
 
 
@@ -2325,6 +2348,7 @@ module.exports.getUpdatedUser = getUpdatedUser;
 
 module.exports.getAdminData = getAdminData;
 module.exports.getMetrics = getMetrics;
+module.exports.getAnalytics = getAnalytics;
 module.exports.adminVote = adminVote;
 module.exports.addReport = addReport;
 

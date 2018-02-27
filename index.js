@@ -145,27 +145,21 @@ MongoClient.connect(dbAddress, function(err, db){
     
     app.get("/metrics", function(req, res){
 
-
         if(req.session.user && req.session.user.username == "max"){
-
             dbops.getMetrics(db, req, function retrieveData(response){
-
-                console.log("unapproved: " + response.unapprovedDefinitionCount);
-
 
                 res.render("metrics", {
                     visitCount: response.visitCount,
                     userCount: response.userCount, 
                     visits: response.visits, 
                     users: response.users,
-                    searches: response.searches,
                     approvedDefinitions: response.approvedDefinitions,
                     unapprovedDefinitions: response.unapprovedDefinitions,
                     approvedDefinitionCount: response.approvedDefinitions.length,
                     unapprovedDefinitionCount: response.unapprovedDefinitions.length,
                     termCount: response.termCount,
-                    searchCount: response.searchCount,
-                    newDefinitionCount: response.newDefinitionCount
+                    searchCount:[],
+                    newDefinitionCount: []
                 });
 
             });
@@ -175,6 +169,31 @@ MongoClient.connect(dbAddress, function(err, db){
         }
         
     });
+
+    app.post("/analytics", function(req, res){
+        if(req.session.user && req.session.user.username == "max"){
+
+
+            console.log("req.body");
+            console.log(req.body);
+
+            dbops.getAnalytics(db, req, function retrieveData(response){
+
+                console.log("response");
+                console.log(response);
+
+                res.send({
+                    status: "success",
+                    searchCount: response.searchCount,
+                    newDefinitionCount: response.newDefinitionCount
+                });
+
+            });
+
+        } else {
+            res.redirect("/");
+        }
+    })
 
 
     app.post("/search", function(req, res){

@@ -47,7 +47,7 @@ function sortRelatedTerms(terms){                // messy solution to sorting an
 
     for(var j = 0; j < objectLength; j++){         // cycle through as many times as there are keys
         mostFrequentTermCount = 0;
-        for(key in relatedTerms){                                   // for each key...
+        for(var key in relatedTerms){                                   // for each key...
 
             if (relatedTerms[key] >= mostFrequentTermCount) {
                 mostFrequentTermCount = relatedTerms[key];

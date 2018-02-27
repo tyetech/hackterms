@@ -1,7 +1,13 @@
-m$(document).ready(main);
+triggerEvent = "click";
+$(document).ready(main);
 
 function main(){
 	
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        triggerEvent = "touchstart";
+    } 
+
+
 	if(window.location.pathname == "/admin"){
 		console.log("admin.js ready");
 		getAdminData("definitions");
@@ -93,6 +99,15 @@ function main(){
 
 }
 
+$("body").on(triggerEvent, "#get-metrics-history", function(){
+    var days = $("#metrics-num-days").val();
+
+    if (days == ""){ 
+        days = 1 
+        $("#metrics-num-days").val("1");
+    }
+    getAnalytics(days);
+});
 
 
 
@@ -236,6 +251,38 @@ function getUserRoles(user){
         }
     })
 }
+
+
+function getAnalytics(numDays){
+
+    var dayCount = {
+        days: numDays
+    }
+
+    $.ajax({
+        type: "post",
+        data: dayCount,
+        url: "/analytics",
+        success: function(response){
+
+            $(".analytics").empty();
+
+            if(response.status == "success"){ 
+
+                for(var key in response.searchCount){
+                    $(".analytics").append("<div class = 'metric-definition bold'>" + key.toString().substring(0, 15) + "</div>");
+                    $(".analytics").append("<div class = 'metric-search-author'>" + response.newDefinitionCount[key] + "</div>");
+                    $(".analytics").append("<div class = 'metric-definition-author'>" + response.searchCount[key] + "</div><br>");
+                }
+
+
+            } else {
+                $("#error").text(response.error);
+            }
+        }
+    })
+}
+
 
 
 function updateUserRoles(){
