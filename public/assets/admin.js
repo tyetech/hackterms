@@ -270,9 +270,12 @@ function getAnalytics(numDays){
             if(response.status == "success"){ 
 
                 for(var key in response.searchCount){
-                    $(".analytics").append("<div class = 'metric-definition bold'>" + key.toString().substring(0, 15) + "</div>");
-                    $(".analytics").append("<div class = 'metric-search-author'>" + response.newDefinitionCount[key] + "</div>");
-                    $(".analytics").append("<div class = 'metric-definition-author'>" + response.searchCount[key] + "</div><br>");
+                    $(".analytics").append("<div class = 'analytics-row'></div");
+
+                    $(".analytics-row").last().append("<div class = 'analytics-date bold'>" + key.toString().substring(0, 15) + "</div>");
+                    $(".analytics-row").last().append("<div class = 'analytics-number'>" + response.newDefinitionCount[key] + "</div>");
+                    $(".analytics-row").last().append("<div class = 'analytics-number'>" + response.searchCount[key] + "</div>");
+
                 }
 
 

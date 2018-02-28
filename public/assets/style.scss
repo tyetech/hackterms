@@ -1329,15 +1329,6 @@ button:hover {
     font-size: 1.5em;
 }
 
-.definition-count-metric {
-    font-size: 2em;
-    background: $blue-dark;
-    color: white;
-    padding: 5px 20px;
-    display: inline-block;
-    margin-bottom: 25px;
-}
-
 .metric-table {
     display: inline-block;
     width: 32%;
@@ -1369,6 +1360,76 @@ button:hover {
     display: inline-block;
     width: 25%;
     word-wrap: break-word;
+}
+
+#day-selector {
+    font-size: 1.3rem;
+    margin: 10px 0;
+}
+
+.analytics-section button{
+    padding: 9px 25px;
+    margin: 1px 0 10px 0;
+}
+
+.key-metrics-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5vh;
+}
+
+.key-metric {
+
+    background: #114B5F;
+    color: white;
+    font-size: 5rem;
+    width: calc(33% - 30px);
+    text-align: center;
+    padding: 15px;
+
+    & .metric-heading {
+        font-size: 1.5rem;
+        text-transform: capitalize;
+        font-weight: 400;
+        font-family: "Zilla Slab", serif;
+    }
+}
+
+.analytics-section{
+    text-align: center;
+    border: 1px solid $blue-dark;
+    padding: 15px;
+    border-radius: $border-radius;
+}
+
+.analytics-row {
+    background: rgba(44, 54, 63, 0.3);
+    margin: 5px 0;
+    padding: 3px 10px;
+}
+
+.analytics-headings{
+    font-weight: 600;
+    text-align: center;
+    margin: 10px 0;
+    font-family: "Zilla Slab", serif;
+    font-size: 1.3em;
+    vertical-align: top;
+    & div {
+        display: inline-block;
+    }
+}
+
+.analytics-date {
+    display: inline-block;
+    text-align: left;
+    width: 40%;
+}
+
+.analytics-number {
+    display: inline-block;
+    text-align: center;
+    width: 30%;
 }
 
 
@@ -2068,6 +2129,8 @@ button:hover {
         padding: 10px;
     }
 
+    /* METRICS  */
+
     .metric-table {
         display: inline-block;
         width: 32%;
@@ -2078,7 +2141,7 @@ button:hover {
     }
 
     .metric-username {
-        width: 40%;
+        width: 48%;
     }
 
     .metric-email {
@@ -2087,7 +2150,7 @@ button:hover {
     }
 
     .metric-date {
-        width: 40%;
+        width: 50%;
     }
 
     .metric-definition-author{
@@ -2097,6 +2160,32 @@ button:hover {
     .metric-search-author{
         width: 25%;
     }
+
+    .key-metric {
+
+        font-size: 3rem;
+        padding: 5px;
+        width: calc(33% - 10px);
+
+        & .metric-heading {
+            font-size: 1.2rem;
+        }
+    }
+
+    .analytics-headings {
+        font-size: 1.1em;
+    }
+
+
+    .analytics-date {
+        width: 50%;
+    }
+
+    .analytics-number {
+        width: 25%
+    }
+
+
 
     .page-title {
         margin-bottom: 15px;

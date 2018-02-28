@@ -4,14 +4,46 @@
 
     <br>
 
-    <div class = "metric definition-count-metric">
-        Definitions: <span class = "bold definition-count"><%= approvedDefinitionCount %></span> for <span class = "bold"><%= termCount %></span> terms
+    <div class = "key-metrics-section">
+        <div class = "key-metric">
+            <div class = "metric-heading">Users</div>
+            <div class = "metric-num"><%= userCount - 3 %></div>
+        </div>
+        <div class = "key-metric">
+            <div class = "metric-heading">Definitions</div>
+            <div class = "metric-num"><%= approvedDefinitionCount %></div>
+        </div>
+        <div class = "key-metric">
+            <div class = "metric-heading">Terms</div>
+            <div class = "metric-num"><%= termCount %></div>
+        </div>
     </div>
-    <br>
-    <div class = "metric definition-count-metric">
-        Users: <span class = "bold"><%= userCount - 3 %></span>
+
+    <div class = "analytics-section">
+        <div class = "metric bold">Traffic history</div>
+
+        <p id = "day-selector">Days to fetch:  <input type = "number" min="1" max="14" id = "metrics-num-days" placeholder = "1"/></p>
+        <button id = "get-metrics-history">Load Data</button>
+
+        <div class = "analytics-headings">
+            <div class = "analytics-date">Date</div><!-- 
+         --><div class = "analytics-number">New Definitions</div><!-- 
+         --><div class = "analytics-number">Searches</div>
+        </div>
+    
+        <div class = "analytics">
+            <% for (key in searchCount){ %>
+                <div class = "analytics-date bold"><%= key.toString().substring(0, 15) %></div><!-- 
+             --><div class = "analytics-number"><%= newDefinitionCount[key] %></div><!-- 
+             --><div class = "analytics-number"><%= searchCount[key] %></div>
+                <br>
+            <% } %>
+        </div>
     </div>
+
     <br>
+
+    <div class = "metric">Users</div>
 
     <% for(var i = 0; i < userCount; i++){ %>
         
@@ -43,7 +75,7 @@
     Unapproved definitions: <span class = "bold"><%= unapprovedDefinitionCount %></span>
     <br><br>
     </div>
-    <div class = "metric">Approved Definitions:</div>
+    <div class = "metric">Approved Definitions</div>
 
     <% approvedDefinitions.forEach(function(def){ %>
         <div class = "metric-definition"><a class = "bold" href ="<%= def.term %>"><%= def.term %></a> </div>
@@ -54,34 +86,13 @@
 
     <br>
 
-    <div class = "metric">Unapproved Definitions:</div>
+    <div class = "metric">Unapproved Definitions</div>
 
     <% unapprovedDefinitions.forEach(function(def){ %>
         <div class = "metric-definition bold"><a class = "bold" href ="<%= def.term %>"><%= def.term %></a> </div>
         <div class = "metric-definition-author"><a href ="profile/<%= def.author %>"><%= def.author %></a></div>
         <br>
     <% }) %>
-
-
-    <div class = "metric">Traffic history:</div>
-
-    <p>Days to fetch:  <input type = "number" min="1" max="14" id = "metrics-num-days" placeholder = "1"/></p>
-    <button id = "get-metrics-history">Load Data</button>
-
-    <div class = "bold">
-        <div class = "metric-definition bold">Date</div>
-        <div class = "metric-search-author">New Definitions</div>
-        <div class = "metric-definition-author">Searches</div>
-    </div>
-    
-    <div class = "analytics">
-        <% for (key in searchCount){ %>
-            <div class = "metric-definition bold"><%= key.toString().substring(0, 15) %></div>
-            <div class = "metric-search-author"><%= newDefinitionCount[key] %></div>
-            <div class = "metric-definition-author"><%= searchCount[key] %></div>
-            <br>
-        <% } %>
-    </div>
 
 </div>
 
