@@ -161,12 +161,22 @@ button:hover {
 
 #feedback-button {
     position: fixed;
+    display: flex;
+    align-items: center;
     bottom: 5vh;
     right: 0;
-    padding: 10px 30px;
+    //padding: 10px 25px 15px 25px;
     border-radius: $border-radius 0 0 $border-radius;
     box-shadow: 0px 0px 10px $gray;
     background: $blue-dark;
+    color: white;
+    z-index: 1;
+}
+
+#feedback-label{
+    margin: 0;
+    display: flex;
+    padding: 8px 5px 13px 5px;
     color: white;
     &:hover {
         background: $orange;
@@ -174,6 +184,21 @@ button:hover {
     }
 }
 
+#feedback-icon {
+    margin: 0 5px;
+}
+
+#feedback-close {
+    display: flex;
+    padding: 15px 5px;
+    z-index: 5;
+    background: $beige-dark;
+    border-radius: $border-radius 0 0 $border-radius;
+    &:hover {
+        background: $orange;
+        color: white;
+    }
+}
 
 /* SEARCH BAR */
 
@@ -335,7 +360,7 @@ button:hover {
 
 .pop-out .header {
 	position: relative;
-    background: #e2d4c4;
+    background: $beige-dark;
     display: inline-block;
     float: right;
     padding: 10px;
@@ -1578,11 +1603,19 @@ button:hover {
     }
 
     #feedback-button {
-        font-size: 0.8em;
-        padding: 6px 15px;
-        bottom: 5vh;
+        font-size: 0.9em;
+        bottom: 10vh;
+        text-align: center;
     }
 
+    #feedback-label{
+        font-size: 0.8em;
+        padding: 7px 5px 10px 5px;
+    }
+
+    #feedback-close {
+        padding: 10px 5px
+    }
 
 
     /* SEARCH BAR */

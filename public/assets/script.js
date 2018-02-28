@@ -496,6 +496,13 @@ function main(){
         $(".pop-out").hide();
     });
 
+
+    $("body").on(triggerEvent, "#feedback-close", function(e){
+        $("#feedback-button").hide();
+            e.stopPropagation();
+        
+    });
+
     /* ACCOUNT LINKS*/
 
     $("body").on(triggerEvent, "#login", function(){
