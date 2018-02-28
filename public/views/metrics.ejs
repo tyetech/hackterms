@@ -43,56 +43,55 @@
 
     <br>
 
-    <div class = "metric">Users</div>
+    <div class = "metric user-metrics-toggle link"><i class="fas fa-arrow-right"></i> Users</div>
 
-    <% for(var i = 0; i < userCount; i++){ %>
-        
-        <% var user = users[i] %>
+    <div id = "user-metrics-section">
 
-            <div class = "one-user">
-            <div class = "metric-table metric-username">
-                <%= (i+1) %>. <a class = "bold" href = "/profile/<%= user.username %>"><%= user.username %></a>
+        <% for(var i = 0; i < userCount; i++){ %>
+            
+            <% var user = users[i] %>
+
+                <div class = "one-user">
+                <div class = "metric-table metric-username">
+                    <%= (i+1) %>. <a class = "bold" href = "/profile/<%= user.username %>"><%= user.username %></a>
+                </div>
+
+                <div class = "metric-table metric-email">
+                    <%= user.email %>
+                </div>
+
+                <div class = "metric-table metric-date">
+                    <% if(user.createdOn){ %>
+                        <%= new Date(user.createdOn).toString().substring(0,21); %>
+                    <% } %>
+                </div>
             </div>
 
-            <div class = "metric-table metric-email">
-                <%= user.email %>
-            </div>
-
-            <div class = "metric-table metric-date">
-                <% if(user.createdOn){ %>
-                    <%= new Date(user.createdOn).toString().substring(0,21); %>
-                <% } %>
-            </div>
-        </div>
-
-    <% } %>
-
-    <br><br><br>
-
-
-    <div class = "metric">Visits: <span class = "bold"><%= visitCount %></span>
-    <br>
-    Unapproved definitions: <span class = "bold"><%= unapprovedDefinitionCount %></span>
-    <br><br>
+        <% } %>
     </div>
-    <div class = "metric">Approved Definitions</div>
-
-    <% approvedDefinitions.forEach(function(def){ %>
-        <div class = "metric-definition"><a class = "bold" href ="<%= def.term %>"><%= def.term %></a> </div>
-        <div class = "metric-search-author"><a href ="profile/<%= def.author %>"><%= def.author %></a></div>
-        <div class = "metric-definition-author"><%= def.created.toString().substring(0,21) %></div>
-        <br>
-    <% }) %>
 
     <br>
+    <div class = "metric definition-metrics-toggle link"><i class="fas fa-arrow-right"></i> Approved Definitions</div>
 
-    <div class = "metric">Unapproved Definitions</div>
+    <div id = "definition-metrics-section">
 
-    <% unapprovedDefinitions.forEach(function(def){ %>
-        <div class = "metric-definition bold"><a class = "bold" href ="<%= def.term %>"><%= def.term %></a> </div>
-        <div class = "metric-definition-author"><a href ="profile/<%= def.author %>"><%= def.author %></a></div>
+        <% approvedDefinitions.forEach(function(def){ %>
+            <div class = "metric-definition"><a class = "bold" href ="<%= def.term %>"><%= def.term %></a> </div>
+            <div class = "metric-search-author"><a href ="profile/<%= def.author %>"><%= def.author %></a></div>
+            <div class = "metric-definition-author"><%= def.created.toString().substring(0,21) %></div>
+            <br>
+        <% }) %>
+
         <br>
-    <% }) %>
+
+        <div class = "metric">Unapproved Definitions</div>
+
+        <% unapprovedDefinitions.forEach(function(def){ %>
+            <div class = "metric-definition bold"><a class = "bold" href ="<%= def.term %>"><%= def.term %></a> </div>
+            <div class = "metric-definition-author"><a href ="profile/<%= def.author %>"><%= def.author %></a></div>
+            <br>
+        <% }) %>
+    </div>
 
 </div>
 

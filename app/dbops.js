@@ -1622,24 +1622,23 @@ function getMetrics(db, req, callback){
 	}
 
 	database.read(db, "users", userQuery, function getUsers(userList){
-		database.count(db, "visits", visitsQuery, function getVisits(visitList){
-			database.sortRead(db, "definitions", approvedDefinitionQuery, dateSort, function getApprovedDefinitionCount(approvedDefs){
-				// database.read(db, "definitions", unapprovedDefinitionQuery, function getUnapprovedDefinitionCount(unapprovedDefs){					
-					database.count(db, "terms", termCountQuery, function getTermCount(thisTermCount){
-						var thisUserCount = userList.length;
+	
+		database.sortRead(db, "definitions", approvedDefinitionQuery, dateSort, function getApprovedDefinitionCount(approvedDefs){
+			// database.read(db, "definitions", unapprovedDefinitionQuery, function getUnapprovedDefinitionCount(unapprovedDefs){					
+				database.count(db, "terms", termCountQuery, function getTermCount(thisTermCount){
+					var thisUserCount = userList.length;
 
-						callback({
-							visitCount: visitList,
-							userCount: thisUserCount,
-							users: userList,
-							approvedDefinitions: approvedDefs,
-							unapprovedDefinitions: [],			// later, if there's ever a submission process, we should actually fetch unapproved searches
-							termCount: thisTermCount
-						})
+					callback({
+						userCount: thisUserCount,
+						users: userList,
+						approvedDefinitions: approvedDefs,
+						unapprovedDefinitions: [],			// later, if there's ever a submission process, we should actually fetch unapproved searches
+						termCount: thisTermCount
 					})
-				// })
-			})
+				})
+			// })
 		})
+	
 	})
 }
 

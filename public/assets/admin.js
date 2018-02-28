@@ -17,7 +17,7 @@ function main(){
 
 	/* LISTENERS */
 
-	$("body").on("touchstart click", ".admin-decision", function(){
+	$("body").on(triggerEvent, ".admin-decision", function(){
 
 		var votingData = {
 		        id: this.dataset.id,
@@ -54,33 +54,33 @@ function main(){
 
     });
 
-    $("body").on("touchstart click", "#unapproved-definitions-link", function(){
+    $("body").on(triggerEvent, "#unapproved-definitions-link", function(){
 		getAdminData("definitions");
     });
 
-    $("body").on("touchstart click", "#unresolved-reports-link", function(){
+    $("body").on(triggerEvent, "#unresolved-reports-link", function(){
         getAdminData("reports");
     });
 
-    $("body").on("touchstart click", "#unreviewed-comments", function(){
+    $("body").on(triggerEvent, "#unreviewed-comments", function(){
         getAdminData("comments");
     });
 
-    $("body").on("touchstart click", "#find-user", function(){
+    $("body").on(triggerEvent, "#find-user", function(){
     	getUserRoles($("#user-role-search"));
     });
 
-    $("body").on("touchstart click", "#update-user-roles", function(){
+    $("body").on(triggerEvent, "#update-user-roles", function(){
     	updateUserRoles();
     });
 
-    $("body").on("touchstart click", "#user-role-manager", function(){
+    $("body").on(triggerEvent, "#user-role-manager", function(){
     	getRoleEditor();
     });
 
 
 
-    $("body").on("touchstart click", "#convert-date", function(){
+    $("body").on(triggerEvent, "#convert-date", function(){
         console.log("this will convert the dates");
 
 
@@ -107,6 +107,28 @@ $("body").on(triggerEvent, "#get-metrics-history", function(){
         $("#metrics-num-days").val("1");
     }
     getAnalytics(days);
+});
+
+$("body").on(triggerEvent, ".user-metrics-toggle", function(){
+    $("#user-metrics-section").toggle();
+
+    if($(".user-metrics-toggle i").hasClass("fa-arrow-right")){
+        console.log("yes");
+        $(".user-metrics-toggle").children("i").removeClass("fa-arrow-right").addClass("fa-arrow-down");
+    } else {
+        $(".user-metrics-toggle").children("i").removeClass("fa-arrow-down").addClass("fa-arrow-right");
+    }
+});
+
+$("body").on(triggerEvent, ".definition-metrics-toggle", function(){
+    $("#definition-metrics-section").toggle();
+
+    if($(".definition-metrics-toggle i").hasClass("fa-arrow-right")){
+        console.log("yes");
+        $(".definition-metrics-toggle").children("i").removeClass("fa-arrow-right").addClass("fa-arrow-down");
+    } else {
+        $(".definition-metrics-toggle").children("i").removeClass("fa-arrow-down").addClass("fa-arrow-right");
+    }
 });
 
 

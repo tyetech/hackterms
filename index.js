@@ -151,7 +151,6 @@ MongoClient.connect(dbAddress, function(err, db){
                 res.render("metrics", {
                     visitCount: response.visitCount,
                     userCount: response.userCount, 
-                    visits: response.visits, 
                     users: response.users,
                     approvedDefinitions: response.approvedDefinitions,
                     unapprovedDefinitions: response.unapprovedDefinitions,
