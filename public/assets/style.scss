@@ -159,6 +159,22 @@ button:hover {
 	font-weight: 600;
 }
 
+#feedback-button {
+    position: fixed;
+    bottom: 5vh;
+    right: 0;
+    padding: 10px 30px;
+    border-radius: $border-radius 0 0 $border-radius;
+    box-shadow: 0px 0px 10px $gray;
+    background: $blue-dark;
+    color: white;
+    &:hover {
+        background: $orange;
+        box-shadow: 0px 0px 10px $orange;
+    }
+}
+
+
 /* SEARCH BAR */
 
 #search-bar-div {
@@ -1561,6 +1577,13 @@ button:hover {
         color: gray;
     }
 
+    #feedback-button {
+        font-size: 0.8em;
+        padding: 6px 15px;
+        bottom: 5vh;
+    }
+
+
 
     /* SEARCH BAR */
 
@@ -1570,7 +1593,7 @@ button:hover {
 
     #search-bar-label {
         margin: 0 0 0.5vh 0;
-        font-size: 0.9em;
+        font-size: 0.85em;
     }
 
     #search-bar {

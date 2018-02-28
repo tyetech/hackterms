@@ -2300,7 +2300,9 @@ function getItemsByDay(items, field, days){
 
     for(var i = 0; i < days; i++){			// cycle through each day, build start and end dates by midnight
 
-        var startDate = new Date(new Date((now.getTime() - oneDay * i)).setHours(0,0,0,0))        // subtract i day(s) from today
+    	var timezoneOffset = now.getTimezoneOffset()/60;			// this gets returned in minutes
+
+        var startDate = new Date(new Date((now.getTime() - oneDay * i)).setHours(timezoneOffset, 0,0,0))        // subtract i day(s) from today
         var endDate = new Date(startDate.getTime() + oneDay)            // 24 hours later
        
         itemData[startDate] = 0;
