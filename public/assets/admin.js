@@ -255,6 +255,8 @@ function getUserRoles(user){
 
 function getAnalytics(numDays){
 
+    $("#get-metrics-history").text("Loading...");
+
     var dayCount = {
         days: numDays
     }
@@ -264,6 +266,8 @@ function getAnalytics(numDays){
         data: dayCount,
         url: "/analytics",
         success: function(response){
+
+            $("#get-metrics-history").text("Load data");
 
             $(".analytics").empty();
 
