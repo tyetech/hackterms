@@ -247,6 +247,26 @@ function logSearch(db, req, callback){
 	}
 }
 
+function getTerms(db, req, callback){
+
+	var searchQuery = {
+		removed: false, 
+		approved: true
+	}
+
+	database.read(db, "definitions", searchQuery, function(allTerms){
+
+		var terms = [];
+
+		for(oneTerm in allTerms){
+			terms.push[oneTerm.name]
+		}
+
+		console.log("Fetched " + terms.length + " terms ");
+
+	});
+};
+
 function logRequestedSearch(db, term){
 
 	var thisTerm = term;
@@ -2174,12 +2194,11 @@ function getFAQ(db, req, callback){
 function getAllTerms(db, req, callback){	
 
 	// not using database.js for this
-	db.collection("terms").find({}).sort({name: 1}).toArray(function getTerms(err, result) {
-        if (err){
-            console.log("MAYDAY! MAYDAY! Crashing.");
-            console.log(err);
-        }
 
+	var sortQuery = {name: 1}
+
+	database.sortRead(db, "terms", {}, sortQuery, function getTerms(result){
+		console.log(result);
         callback({terms: result});
     });
 }
@@ -2301,10 +2320,14 @@ function getItemsByDay(items, field, days){
     for(var i = 0; i < days; i++){			// cycle through each day, build start and end dates by midnight
 
     	var timezoneOffset = now.getTimezoneOffset()/60;			// this gets returned in minutes
+    	console.log("Timezone offset: " + timezoneOffset);
 
-        var startDate = new Date(new Date((now.getTime() - oneDay * i)).setHours(timezoneOffset, 0,0,0))        // subtract i day(s) from today
+
+        var startDate = new Date(new Date((now.getTime() - oneDay * i)).setHours((timezoneOffset), 0,0,0))        // subtract i day(s) from today
         var endDate = new Date(startDate.getTime() + oneDay)            // 24 hours later
-       
+       	console.log(startDate + ", " + endDate);
+
+
         itemData[startDate] = 0;
 
         for(var j = 0; j < items.length; j++ ){
@@ -2332,6 +2355,7 @@ module.exports.search = search;
 module.exports.logSearch = logSearch;
 module.exports.getDefinitions = getDefinitions;
 module.exports.addDefinition = addDefinition;
+module.exports.getTerms = getTerms;
 module.exports.getComments = getComments;
 module.exports.addComment = addComment;
 module.exports.vote = vote;
