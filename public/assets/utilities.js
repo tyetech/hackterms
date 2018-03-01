@@ -85,6 +85,7 @@ function insertTermLinks(terms){            // inserts links to other terms into
                 var term = terms[i];
                   
                 if(term != null && term != thisTerm){                       // if this term exists and isn't the main searched term...
+                    term = term.replace(/[.,\/#!$%\^&\*;\+:{}=\-_`~()]/g,""); // get rid of special chars
                     var searchRegex = new RegExp("(^|\\W)" + term.toLowerCase() + "($|\\W)", "i");
                     console.log(searchRegex);
                     if(tempText.toLowerCase().search(searchRegex) != -1){

@@ -2244,7 +2244,7 @@ function validateInput(string){
 
     // 1. split the string into an array of words
 
-    var cleanString = string.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");          // use regex to remove all punctuation
+    var cleanString = string.replace(/[.,\/#!$%\^&\*;\+:{}=\-_`~()]/g,"");          // use regex to remove all punctuation
     var wordArray = cleanString.split(" ");
 
     for(var i = (wordArray.length - 1); i >= 0; i--) {              // we need to go backwards because splitting changes the length of the string
