@@ -158,10 +158,10 @@ function insertTermLinks(terms, thisTerm){              // inserts links to othe
                                     console.log(text);*/
 
                                     $(this).html(text);
-                                    if($(this).text() != preservedOriginalText){
+/*                                    if($(this).text() != preservedOriginalText){
                                         console.log("reverting");
                                         $(this).html(preservedOriginalText);        // if the text isn't equivalent to when we started, revert
-                                    }
+                                    }*/
                                 }
                             }
 
