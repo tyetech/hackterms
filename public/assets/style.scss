@@ -788,9 +788,11 @@ button:hover {
     color: $blue-light;
     cursor: pointer;
     padding-bottom: 10px;
+    font-weight: 400;
+    font-family: $font-tech;
+    font-size: 1.3em;   
     div {
         display: flex;
-        font-weight: 600;
         margin: 0 10px;
         &:hover:not(.active-top-term-label) {
             color: $orange;
