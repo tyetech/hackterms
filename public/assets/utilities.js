@@ -85,7 +85,7 @@ function insertTermLinks(terms){            // inserts links to other terms into
                 var term = terms[i];
                   
                 if(term != null && term != thisTerm){                       // if this term exists and isn't the main searched term...
-                    var searchRegex = new RegExp("(^|\\W)" + term.toLowerCase() + "($|\\W)");
+                    var searchRegex = new RegExp("(^|\\W)" + term.toLowerCase() + "($|\\W)", "i");
                     
                     if(tempText.toLowerCase().search(searchRegex) != -1){
                         console.log("found " + term.toLowerCase());
