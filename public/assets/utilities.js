@@ -83,22 +83,26 @@ function insertTermLinks(terms){            // inserts links to other terms into
             for(var i = 0; i < terms.length; i++){                     // go through each term...
                 
                 var term = terms[i];
-                
-                if(term != null && term != thisTerm && tempText.toLowerCase().indexOf(term.toLowerCase()) != -1){
-
-                    var startIndex = text.toLowerCase().indexOf(term.toLowerCase());
-                    var endIndex = startIndex + term.length;
-
-                    var termWithLink = "<a class = 'linked-term bold'>" + text.substring(startIndex, endIndex) + "</a>";
-                    text = text.replace(new RegExp(term, "ig"), termWithLink);
+                  
+                if(term != null && term != thisTerm){                       // if this term exists and isn't the main searched term...
+                    var searchRegex = new RegExp("(^|\\W)" + term.toLowerCase() + "($|\\W)");
                     
-                    tempText = tempText.toLowerCase().replace(new RegExp(term, "ig"), "");         // make sure we don't look for this anymore
-                    $(this).html(text);
-                    $(".linked-term").last().attr("href", term);
+                    if(tempText.toLowerCase().search(searchRegex) != -1){
+                        console.log("found " + term.toLowerCase());
+                        var startIndex = text.toLowerCase().indexOf(term.toLowerCase());
+                        var endIndex = startIndex + term.length;
+
+                        var termWithLink = "<a class = 'linked-term bold'>" + text.substring(startIndex, endIndex) + "</a>";
+                        text = text.replace(new RegExp(term, "ig"), termWithLink);
+                        
+                        tempText = tempText.toLowerCase().replace(new RegExp(term, "ig"), "");         // make sure we don't look for this anymore
+                        $(this).html(text);
+                        $(".linked-term").last().attr("href", term);
+                    }
                 }
             }
 
-            //console.log("======================");
+            console.log("======================");
 
         });
 
