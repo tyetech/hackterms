@@ -69,7 +69,8 @@ function sortRelatedTerms(terms){                // messy solution to sorting an
 
 }
 
-function insertTermLinks(terms, thisTerm){            // inserts links to other terms into definitions
+function insertTermLinks(terms, thisTerm){              // inserts links to other terms into definitions
+                                                        // this is ugly as all hell, but it works well
 
     if($(".definition-body").length > 0){      
 
@@ -79,6 +80,7 @@ function insertTermLinks(terms, thisTerm){            // inserts links to other 
             var preservedOriginalText = text;
             var tempText = text.toLowerCase();                         //this is the copy we're editing;
             var addedLinks = {};                                       // keep track of which links we've addedß
+            
 
             for(var i = 0; i < terms.length; i++){                     // go through each term...
                 
@@ -86,6 +88,7 @@ function insertTermLinks(terms, thisTerm){            // inserts links to other 
                     
                     var term = terms[i].toLowerCase().replace(/[.,\/#!$%\^&\*;\+:{}=\-_`~()]/g,""); // get rid of special chars
                     var searchRegex = new RegExp("(^|\\W)" + term + "($|\\W)", "i");        // search for this term if it matches the whole word
+                    var termLength = term.length;
 
                     // console.log(searchRegex);
                     
@@ -94,7 +97,7 @@ function insertTermLinks(terms, thisTerm){            // inserts links to other 
                         var startIndex = text.toLowerCase().indexOf(term);
                         var endIndex = startIndex + term.length;
                         var termOnPage = text.substring(startIndex, endIndex);              // this just tells us what word to replace with
-                        console.log("term on page is: " + termOnPage);
+                        //console.log("term on page is: " + termOnPage);
 
                         // we need to get the index of every instance of that word on the page
 
@@ -105,13 +108,20 @@ function insertTermLinks(terms, thisTerm){            // inserts links to other 
                         while(match){
                             match = searchRegex.exec(veryTempText);         // is there a regex-ed term within our string?
                             if(match != null){
-                                console.log(    searchRegex); 
+                                //console.log(searchRegex); 
+                                var tempTermLength = termLength;
+                                //console.log("tempText[match.index]: " + tempText[match.index]);
 
-                                if(tempText[match.index] == " "){
+                                if(text[match.index] == " "){
+                                    //console.log("THIS IS A SPACE! Incrementing");
                                     match.index++;                      // if there is, replace it with spaces
+                                    tempTermLength++;
+                                    //console.log(tempText[match.index]);
                                 }
 
-                                veryTempText = replaceAt(veryTempText, match.index, Array(term.length + 1).join(" "));   //replace this word with spaces
+
+
+                                veryTempText = replaceWith(veryTempText, match.index, Array(tempTermLength + 1).join(" "), tempTermLength);   //replace this word with spaces
                                 matchingIndexes.push(match.index);
                             } else {
                                 match = false;
@@ -119,33 +129,37 @@ function insertTermLinks(terms, thisTerm){            // inserts links to other 
                         }
 
                         matchingIndexes.reverse();
-
+/*
                         console.log("matchingIndexes for the term " + term);
                         console.log(matchingIndexes);
 
-                        
+                        */
                         if(matchingIndexes.length > 0){
 
                             for(var j = 0; j < matchingIndexes.length; j++){
+
+/*                                console.log("on page HTML");
+                                console.log(text);
                                 console.log("current text: ");
                                 console.log(tempText);
                                 console.log("index: " + matchingIndexes[j]);
-                                console.log(tempText[matchingIndexes[j]]);
+                                console.log("letter at tempText: " + tempText[matchingIndexes[j]]);*/
+
                                 if(tempText[matchingIndexes[j]] != "ಠ"){        // if this hasn't already been replaced...
                                     
-                                    tempText = replaceAt(tempText, matchingIndexes[j], Array(term.length + 1 + 33).join("ಠ"));      // 33 is how much space the a tag takes up
-                                    
                                     var termWithLink = "<a class = 'linked-term bold'>" + termOnPage + "</a>";
-                                    text = replaceWith(text, matchingIndexes[j], termWithLink, term);
+                                    tempText = replaceWith(tempText, matchingIndexes[j], Array(termWithLink.length).join("ಠ"), termLength);      // 33 is how much space the a tag takes up
+                                    text = replaceWith(text, matchingIndexes[j], termWithLink, termLength);
 
-                                    console.log("new tempText");
+/*                                    console.log("new tempText");
                                     console.log(tempText);
 
                                     console.log("new text");
-                                    console.log(text);
+                                    console.log(text);*/
 
                                     $(this).html(text);
                                     if($(this).text() != preservedOriginalText){
+                                        console.log("reverting");
                                         $(this).html(preservedOriginalText);        // if the text isn't equivalent to when we started, revert
                                     }
                                 }
@@ -155,18 +169,16 @@ function insertTermLinks(terms, thisTerm){            // inserts links to other 
                             console.log("No matches");
                         }
 
-                    } else {
-                        console.log("did not find " + searchRegex);
-                    }
+                    } 
                 }
             }
-
+            // after all the links are set up, cycle through each one and add the actual href attributes
             $(this).find("a").each(function(){
                 $(this).attr("href", $(this).text()); 
             })
 
 
-            console.log("======== done with this definition ==============");
+//            console.log("======== done with this definition ==============");
 
         });
 
@@ -179,8 +191,8 @@ function replaceAt(text, index, replacement) {
     return text.substr(0, index) + replacement + text.substr(index + replacement.length);
 }
 
-function replaceWith(text, index, replacement, term){
-    return text.substr(0, index) + replacement + text.substr(index + term.length, text.length)
+function replaceWith(text, index, replacement, termLength){
+    return text.substr(0, index) + replacement + text.substr(index + termLength, text.length)
 }
 
 
