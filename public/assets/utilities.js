@@ -69,41 +69,104 @@ function sortRelatedTerms(terms){                // messy solution to sorting an
 
 }
 
-function insertTermLinks(terms){            // inserts links to other terms into definitions
+function insertTermLinks(terms, thisTerm){            // inserts links to other terms into definitions
 
-    if($(".definition-body").length > 0){      // iterate through each definition
+    if($(".definition-body").length > 0){      
 
-        $(".definition-body").each(function(){
-
-            var thisTerm = $(this).parent().parent().parent().find(".definition-term").text();
+        $(".definition-body").each(function(){                         // iterate through each definition
 
             var text = $(this).text();
-            var tempText = text;            // we'll need to edit this copy;
+            var preservedOriginalText = text;
+            var tempText = text.toLowerCase();                         //this is the copy we're editing;
+            var addedLinks = {};                                       // keep track of which links we've addedß
 
             for(var i = 0; i < terms.length; i++){                     // go through each term...
                 
-                var term = terms[i];
-                  
-                if(term != null && term != thisTerm){                       // if this term exists and isn't the main searched term...
-                    term = term.replace(/[.,\/#!$%\^&\*;\+:{}=\-_`~()]/g,""); // get rid of special chars
-                    var searchRegex = new RegExp("(^|\\W)" + term.toLowerCase() + "($|\\W)", "i");
-                    console.log(searchRegex);
-                    if(tempText.toLowerCase().search(searchRegex) != -1){
-                        console.log("found " + term.toLowerCase());
-                        var startIndex = text.toLowerCase().indexOf(term.toLowerCase());
-                        var endIndex = startIndex + term.length;
+                if(terms[i] != null && terms[i] != thisTerm){          // if this term exists and isn't the main searched term...
+                    
+                    var term = terms[i].toLowerCase().replace(/[.,\/#!$%\^&\*;\+:{}=\-_`~()]/g,""); // get rid of special chars
+                    var searchRegex = new RegExp("(^|\\W)" + term + "($|\\W)", "i");        // search for this term if it matches the whole word
 
-                        var termWithLink = "<a class = 'linked-term bold'>" + text.substring(startIndex, endIndex) + "</a>";
-                        text = text.replace(new RegExp(term, "ig"), termWithLink);
+                    // console.log(searchRegex);
+                    
+                    if(text.search(searchRegex) != -1){
                         
-                        tempText = tempText.toLowerCase().replace(new RegExp(term, "ig"), "");         // make sure we don't look for this anymore
-                        $(this).html(text);
-                        $(".linked-term").last().attr("href", term);
+                        var startIndex = text.toLowerCase().indexOf(term);
+                        var endIndex = startIndex + term.length;
+                        var termOnPage = text.substring(startIndex, endIndex);              // this just tells us what word to replace with
+                        console.log("term on page is: " + termOnPage);
+
+                        // we need to get the index of every instance of that word on the page
+
+                        var veryTempText = text;
+                        var matchingIndexes = [];
+                        var match = true;
+
+                        while(match){
+                            match = searchRegex.exec(veryTempText);         // is there a regex-ed term within our string?
+                            if(match != null){
+                                console.log(    searchRegex); 
+
+                                if(tempText[match.index] == " "){
+                                    match.index++;                      // if there is, replace it with spaces
+                                }
+
+                                veryTempText = replaceAt(veryTempText, match.index, Array(term.length + 1).join(" "));   //replace this word with spaces
+                                matchingIndexes.push(match.index);
+                            } else {
+                                match = false;
+                            }
+                        }
+
+                        matchingIndexes.reverse();
+
+                        console.log("matchingIndexes for the term " + term);
+                        console.log(matchingIndexes);
+
+                        
+                        if(matchingIndexes.length > 0){
+
+                            for(var j = 0; j < matchingIndexes.length; j++){
+                                console.log("current text: ");
+                                console.log(tempText);
+                                console.log("index: " + matchingIndexes[j]);
+                                console.log(tempText[matchingIndexes[j]]);
+                                if(tempText[matchingIndexes[j]] != "ಠ"){        // if this hasn't already been replaced...
+                                    
+                                    tempText = replaceAt(tempText, matchingIndexes[j], Array(term.length + 1 + 33).join("ಠ"));      // 33 is how much space the a tag takes up
+                                    
+                                    var termWithLink = "<a class = 'linked-term bold'>" + termOnPage + "</a>";
+                                    text = replaceWith(text, matchingIndexes[j], termWithLink, term);
+
+                                    console.log("new tempText");
+                                    console.log(tempText);
+
+                                    console.log("new text");
+                                    console.log(text);
+
+                                    $(this).html(text);
+                                    if($(this).text() != preservedOriginalText){
+                                        $(this).html(preservedOriginalText);        // if the text isn't equivalent to when we started, revert
+                                    }
+                                }
+                            }
+
+                        } else {
+                            console.log("No matches");
+                        }
+
+                    } else {
+                        console.log("did not find " + searchRegex);
                     }
                 }
             }
 
-            console.log("======================");
+            $(this).find("a").each(function(){
+                $(this).attr("href", $(this).text()); 
+            })
+
+
+            console.log("======== done with this definition ==============");
 
         });
 
@@ -113,7 +176,11 @@ function insertTermLinks(terms){            // inserts links to other terms into
 }
 
 function replaceAt(text, index, replacement) {
-    return text.substr(0, index) + replacement+ text.substr(index + replacement.length);
+    return text.substr(0, index) + replacement + text.substr(index + replacement.length);
+}
+
+function replaceWith(text, index, replacement, term){
+    return text.substr(0, index) + replacement + text.substr(index + term.length, text.length)
 }
 
 
@@ -137,3 +204,5 @@ function cleanUrl(text){
     return text;
 
 }
+
+    

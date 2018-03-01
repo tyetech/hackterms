@@ -110,7 +110,6 @@ function main(){
 
     resetNavBar();
     populateRandomSearchTerm();
-    hilightLinks();
 
 
     if($("#search-bar").length == 1 && $("#search-bar").val().length == 0){
@@ -1457,10 +1456,11 @@ function displayDefinitionsOnPage(definitions, isLoggedIn, forUser, isModerator)
                     $("#related-terms-section").append("None yet");
                 }
 
-                
+                var mainTerm = (definitions[0].term == null) ? "" : definitions[0].term  // mainTerm is nothing if null
+
 
                 displayAddDefinitionButton(forUser, isLoggedIn);
-                hilightLinks();
+                hilightLinks(mainTerm);
 
             }, 'html');
         }, 'html');
@@ -1747,7 +1747,7 @@ function getExistingDefinition(thisId, callback){
     })
 }
 
-function hilightLinks(){
+function hilightLinks(thisTerm){
 
     if($(".definition-body").length >0){
         $.ajax({
@@ -1755,7 +1755,7 @@ function hilightLinks(){
             url: "/all-terms",
             success: function(result){
                 if(result.status == "success"){
-                    insertTermLinks(result.terms);
+                    insertTermLinks(result.terms, thisTerm);
                 } else {
                     console.log("ERROR!");
                     console.log(result.error);
