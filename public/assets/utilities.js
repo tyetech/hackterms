@@ -75,6 +75,8 @@ function insertTermLinks(terms){            // inserts links to other terms into
 
         $(".definition-body").each(function(){
 
+            var thisTerm = $(this).parent().parent().parent().find(".definition-term").text();
+
             var text = $(this).text();
             var tempText = text;            // we'll need to edit this copy;
 
@@ -82,9 +84,12 @@ function insertTermLinks(terms){            // inserts links to other terms into
                 
                 var term = terms[i];
                 
-                if(term != null && tempText.toLowerCase().indexOf(term.toLowerCase()) != -1){
+                if(term != null && term != thisTerm && tempText.toLowerCase().indexOf(term.toLowerCase()) != -1){
 
-                    var termWithLink = "<a class = 'linked-term bold'>" + term + "</a>";
+                    var startIndex = text.toLowerCase().indexOf(term.toLowerCase());
+                    var endIndex = startIndex + term.length;
+
+                    var termWithLink = "<a class = 'linked-term bold'>" + text.substring(startIndex, endIndex) + "</a>";
                     text = text.replace(new RegExp(term, "ig"), termWithLink);
                     
                     tempText = tempText.toLowerCase().replace(new RegExp(term, "ig"), "");         // make sure we don't look for this anymore
@@ -93,13 +98,17 @@ function insertTermLinks(terms){            // inserts links to other terms into
                 }
             }
 
-            console.log("======================");
+            //console.log("======================");
 
         });
 
     } else {
         console.log("There are no definitions on the page");
     }
+}
+
+function replaceAt(text, index, replacement) {
+    return text.substr(0, index) + replacement+ text.substr(index + replacement.length);
 }
 
 
