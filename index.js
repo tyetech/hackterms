@@ -141,6 +141,29 @@ MongoClient.connect(dbAddress, function(err, db){
             res.render("all", {terms: allTerms.terms});
         })
     });
+
+    app.get("/all-terms", function(req, res){
+
+        dbops.getAllTerms(db, req, function getTerms(allTerms){
+
+            allTerms = allTerms.terms;
+            var termNames = [];
+
+            for(var i = 0; i < allTerms.length; i++){
+                if(allTerms[i] != null){
+                    termNames.push(allTerms[i].name);
+                }
+            }
+
+            console.log(termNames);
+            termNames.sort(function(a,b){return b.length - a.length})
+            console.log(termNames);
+
+            res.send({status: "success", terms: termNames});
+        })
+
+
+    })
     
     
     app.get("/metrics", function(req, res){
@@ -256,9 +279,6 @@ MongoClient.connect(dbAddress, function(err, db){
                 var loginStatus = false;
                 var moderatorStatus = false;
 
-                console.log("req.session:");
-                console.log(req.session);
-
                 if(req.session.user){ loginStatus = true }      
 
                 if(req.session.user){
@@ -274,9 +294,6 @@ MongoClient.connect(dbAddress, function(err, db){
                     isLoggedIn: loginStatus,
                     isModerator: moderatorStatus
                 }
-
-                console.log("response:");
-                console.log(response);
 
                 res.send(response);
 

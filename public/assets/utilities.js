@@ -69,6 +69,39 @@ function sortRelatedTerms(terms){                // messy solution to sorting an
 
 }
 
+function insertTermLinks(terms){            // inserts links to other terms into definitions
+
+    if($(".definition-body").length > 0){      // iterate through each definition
+
+        $(".definition-body").each(function(){
+
+            var text = $(this).text();
+            var tempText = text;            // we'll need to edit this copy;
+
+            for(var i = 0; i < terms.length; i++){                     // go through each term...
+                
+                var term = terms[i];
+                
+                if(term != null && tempText.toLowerCase().indexOf(term.toLowerCase()) != -1){
+
+                    var termWithLink = "<a class = 'linked-term bold'>" + term + "</a>";
+                    text = text.replace(new RegExp(term, "ig"), termWithLink);
+                    
+                    tempText = tempText.toLowerCase().replace(new RegExp(term, "ig"), "");         // make sure we don't look for this anymore
+                    $(this).html(text);
+                    $(".linked-term").last().attr("href", term);
+                }
+            }
+
+            console.log("======================");
+
+        });
+
+    } else {
+        console.log("There are no definitions on the page");
+    }
+}
+
 
 function cleanUrl(text){
 

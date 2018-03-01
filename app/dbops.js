@@ -247,26 +247,6 @@ function logSearch(db, req, callback){
 	}
 }
 
-function getTerms(db, req, callback){
-
-	var searchQuery = {
-		removed: false, 
-		approved: true
-	}
-
-	database.read(db, "definitions", searchQuery, function(allTerms){
-
-		var terms = [];
-
-		for(oneTerm in allTerms){
-			terms.push[oneTerm.name]
-		}
-
-		console.log("Fetched " + terms.length + " terms ");
-
-	});
-};
-
 function logRequestedSearch(db, term){
 
 	var thisTerm = term;
@@ -2193,12 +2173,10 @@ function getFAQ(db, req, callback){
 
 function getAllTerms(db, req, callback){	
 
-	// not using database.js for this
-
+	console.log("getting all terms");
 	var sortQuery = {name: 1}
 
 	database.sortRead(db, "terms", {}, sortQuery, function getTerms(result){
-		console.log(result);
         callback({terms: result});
     });
 }
@@ -2355,7 +2333,6 @@ module.exports.search = search;
 module.exports.logSearch = logSearch;
 module.exports.getDefinitions = getDefinitions;
 module.exports.addDefinition = addDefinition;
-module.exports.getTerms = getTerms;
 module.exports.getComments = getComments;
 module.exports.addComment = addComment;
 module.exports.vote = vote;
