@@ -108,12 +108,12 @@ function insertTermLinks(terms, thisTerm){              // inserts links to othe
                         while(match){
                             match = searchRegex.exec(veryTempText);         // is there a regex-ed term within our string?
                             if(match != null){
-                                //console.log(searchRegex); 
+                                console.log(searchRegex); 
                                 var tempTermLength = termLength;
-                                //console.log("tempText[match.index]: " + tempText[match.index]);
+                                console.log("tempText[match.index]: " + tempText[match.index]);
 
                                 if(text[match.index] == " "){
-                                    //console.log("THIS IS A SPACE! Incrementing");
+                                    console.log("THIS IS A SPACE! Incrementing");
                                     match.index++;                      // if there is, replace it with spaces
                                     tempTermLength++;
                                     //console.log(tempText[match.index]);
@@ -129,21 +129,21 @@ function insertTermLinks(terms, thisTerm){              // inserts links to othe
                         }
 
                         matchingIndexes.reverse();
-/*
+
                         console.log("matchingIndexes for the term " + term);
                         console.log(matchingIndexes);
 
-                        */
+                        
                         if(matchingIndexes.length > 0){
 
                             for(var j = 0; j < matchingIndexes.length; j++){
 
-/*                                console.log("on page HTML");
+                                console.log("on page HTML");
                                 console.log(text);
                                 console.log("current text: ");
                                 console.log(tempText);
                                 console.log("index: " + matchingIndexes[j]);
-                                console.log("letter at tempText: " + tempText[matchingIndexes[j]]);*/
+                                console.log("letter at tempText: " + tempText[matchingIndexes[j]]);
 
                                 if(tempText[matchingIndexes[j]] != "ಠ"){        // if this hasn't already been replaced...
                                     
@@ -151,11 +151,11 @@ function insertTermLinks(terms, thisTerm){              // inserts links to othe
                                     tempText = replaceWith(tempText, matchingIndexes[j], Array(termWithLink.length).join("ಠ"), termLength);      // 33 is how much space the a tag takes up
                                     text = replaceWith(text, matchingIndexes[j], termWithLink, termLength);
 
-/*                                    console.log("new tempText");
+                                    console.log("new tempText");
                                     console.log(tempText);
 
                                     console.log("new text");
-                                    console.log(text);*/
+                                    console.log(text);
 
                                     $(this).html(text);
 /*                                    if($(this).text() != preservedOriginalText){
