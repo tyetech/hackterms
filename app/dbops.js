@@ -1455,7 +1455,7 @@ function getRandomTerm(db, req, callback){
 
 	database.read(db, "terms", {}, function(allTerms){
 
-		if(allterms.length){
+		if(allTerms.length){
 
 			var randomNumber = Math.floor(Math.random()*allTerms.length);
 			var randomTerm = allTerms[randomNumber].name;
