@@ -1750,7 +1750,7 @@ function getExistingDefinition(thisId, callback){
 function hilightLinks(thisTerm){
 
 console.log("This feature is off for now");
-
+/*
     if($(".definition-body").length >0){
         $.ajax({
             type: "get",
@@ -1765,7 +1765,7 @@ console.log("This feature is off for now");
                 }
             }
         })
-    }
+    }*/
 }
 
 
