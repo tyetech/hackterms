@@ -2181,6 +2181,86 @@ function getAllTerms(db, req, callback){
     });
 }
 
+
+
+
+function fillInTerms(db, req, callback){
+
+	var definitionQuery = {
+		removed: false,
+		rejected: false,
+		approved: true
+	}
+
+	database.read(db, "definitions", definitionQuery, function fetchAllDefinitions(definitions){
+		console.log("Got " + definitions.length + " definitions");
+
+		for(var i = 0; i < definitions.length; i++){
+			var definition = definitions[i];
+			createTermFromDefinition(db, req, i, definition);
+		}
+
+	})
+
+
+
+
+	
+
+
+
+}
+
+
+
+
+function createTermFromDefinition(db, req, i, definition){
+
+
+	setTimeout(function(i){
+		var termLink = cleanUrl(definition.term);
+
+		var termSearchQuery = { 
+			name: definition.term,
+		}
+
+		var sanitizedTerm = sanitizeHtml(definition.term, {
+		    allowedTags: [], allowedAttributes: []
+		});
+
+
+		var newTermQuery = { 
+			name: sanitizedTerm,
+			link: termLink,
+			searched: 0,
+			date: new Date()
+		}
+
+		database.read(db, "terms", termSearchQuery, function checkForExistingTerm(existingTerms){
+
+			if(existingTerms.length == 0){
+				console.log("creating new definition for the term '" + newTermQuery.name + "'");
+
+				database.create(db, "terms", newTermQuery, function createdTerm(newTerm){
+					console.log();
+				});
+			} else {
+				console.log(definition.term + ": DEFINITION ALREADY EXISTS");
+
+			}
+
+		})
+	}, 50*i);
+
+}
+
+
+
+
+
+
+
+
 /* NON-DB FUNCTIONS */
 
 function generateHash(hashLength){
@@ -2369,3 +2449,6 @@ module.exports.passwordResetRequest = passwordResetRequest;
 module.exports.checkPasswordReset = checkPasswordReset;
 module.exports.passwordResetAction = passwordResetAction;
 module.exports.selectUsername = selectUsername;
+
+
+module.exports.fillInTerms = fillInTerms;

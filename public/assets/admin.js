@@ -96,6 +96,20 @@ function main(){
         })
     });
 
+    $("body").on(triggerEvent, "#jesus", function(){
+
+        $.ajax({
+            type: "post",
+            url: "/restore-database",
+            success: function(result){
+                if(result.status == "success"){
+                    console.log("converted");
+                } 
+            }
+        })
+    });
+
+
 
 }
 

@@ -899,6 +899,21 @@ MongoClient.connect(dbAddress, function(err, db){
     });
 
 
+    app.post("/restore-database", function(req, res){
+
+        if(req.session.user && req.session.user.username == "max"){
+            dbops.fillInTerms(db, req, function retrieveData(response){
+
+                if(response.status == "success"){
+                    res.redirect("/")
+                } else {
+                    res.render("inded", {error: response.message})
+                }
+            })
+        }
+    })
+
+
 
 
     // putting this last to make sure we don't overwrite any other routes
