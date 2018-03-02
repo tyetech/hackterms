@@ -1465,14 +1465,17 @@ function getRandomTerm(db, req, callback){
 			}
 		} else {
 			randomTerm = ""
-		}*/
+		}
 
 
-		randomTerm == ""
 
-		callback(randomTerm);
 
-	})
+	})*/
+
+
+	randomTerm == ""
+
+	callback(randomTerm);
 }
 
 function getTopRequests(db, req, callback){
