@@ -1453,6 +1453,7 @@ function getTopTerms(db, req, callback){
 
 function getRandomTerm(db, req, callback){
 
+
 	database.read(db, "terms", {}, function(allTerms){
 
 		if(allTerms.length){
@@ -1463,19 +1464,14 @@ function getRandomTerm(db, req, callback){
 			if(typeof(randomTerm) == "undefined" || randomTerm == null){
 				randomTerm = ""
 			}
+			callback(randomTerm);
 		} else {
-			randomTerm = ""
+
+			callback("");
 		}
 
-
-
-
 	})
-
-
-	randomTerm == ""
-
-	callback(randomTerm);
+	
 }
 
 function getTopRequests(db, req, callback){
