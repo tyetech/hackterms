@@ -1452,7 +1452,7 @@ function getTopTerms(db, req, callback){
 }
 
 function getRandomTerm(db, req, callback){
-/*
+
 	database.read(db, "terms", {}, function(allTerms){
 
 		if(allterms.length){
@@ -1470,7 +1470,7 @@ function getRandomTerm(db, req, callback){
 
 
 
-	})*/
+	})
 
 
 	randomTerm == ""
