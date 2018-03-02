@@ -159,7 +159,7 @@ function main(){
         setTimeout(function(){ logSearch(term); }, 50);                    // wait for the search bar to populate
 		currentTerm = term;
         window.history.pushState("object or string", "Title", "/" + term);      // update url
-		document.title = "Hackerms: " + term;
+		document.title = "Hackterms: " + term;
         getDefinition(term, false);
 	});
 
