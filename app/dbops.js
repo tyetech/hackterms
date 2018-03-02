@@ -1455,10 +1455,15 @@ function getRandomTerm(db, req, callback){
 
 	database.read(db, "terms", {}, function(allTerms){
 
-		var randomNumber = Math.floor(Math.random()*allTerms.length);
-		var randomTerm = allTerms[randomNumber].name;
+		if(allterms.length){
 
-		if(typeof(randomTerm) == "undefined" || randomTerm == null){
+			var randomNumber = Math.floor(Math.random()*allTerms.length);
+			var randomTerm = allTerms[randomNumber].name;
+
+			if(typeof(randomTerm) == "undefined" || randomTerm == null){
+				randomTerm = ""
+			}
+		} else {
 			randomTerm = ""
 		}
 
