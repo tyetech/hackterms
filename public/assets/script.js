@@ -1764,8 +1764,8 @@ console.log("This feature is off for now");
                     flash("error", result.error);
                 }
             }
-        })*/
-    }
+        })
+    }*/
 }
 
 
