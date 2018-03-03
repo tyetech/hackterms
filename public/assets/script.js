@@ -411,7 +411,7 @@ function main(){
 
         if(e.which == 8){                                         // 8 = backspace
             singleTermDefinition = false;
-            document.title = "Hackerms: " + thisSearch.toLowerCase();
+            document.title = "Hackterms: " + thisSearch.toLowerCase();
             window.history.pushState("object or string", "Title", "/" + thisSearch.toLowerCase());
             $("#new-definition").hide();
             $("#definitions-section").empty();
@@ -930,7 +930,7 @@ function getDefinition(query, forUser){
 
                 if(!forUser){
                     window.history.pushState("object or string", "Title", "/" + query.toLowerCase());      // update url
-                    document.title = "Hackerms: " + query.toLowerCase();
+                    document.title = "Hackterms: " + query.toLowerCase();
                     var searchTerm = $("#search-bar").val().trim();
                 }
                 
@@ -1468,7 +1468,7 @@ function displayDefinitionsOnPage(definitions, isLoggedIn, forUser, isModerator)
         if(location.pathname.indexOf("/profile") == -1){
             var term = $("#search-bar").val();
             $("#definitions-section").append("<div class = 'definition-accent'>There are no definitions for <span class = 'bold'>" + term + "</span> yet. You should add one!</div>");
-            document.title = "Hackerms: " + term.toLowerCase();
+            document.title = "Hackterms: " + term.toLowerCase();
             window.history.pushState("object or string", "Title", "/" + term.toLowerCase());
             displayAddDefinitionButton(forUser, isLoggedIn);
         } else {
