@@ -983,7 +983,6 @@ button:hover {
 .all-terms-link {
   display: table;
   text-align: center;
-  margin: 0px auto;
   border-bottom: 1px solid rgba(17, 75, 95, 0.7); }
 
 .all-terms-link-wrapper:hover {
@@ -997,6 +996,16 @@ button:hover {
   border-bottom: 1px solid #E88D67;
   transition-property: border-bottom, margin;
   transition-duration: 0.25s; }
+
+/*   */
+#table-of-contents {
+  font-weight: 600;
+  text-align: center; }
+
+.content-letter {
+  margin: 5px 5px;
+  padding: 2px 0;
+  font-size: 1.3em; }
 
 /* ADMIN PANEL */
 #admin-panel-link {
