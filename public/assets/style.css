@@ -973,31 +973,10 @@ button:hover {
   max-width: 600px;
   margin: 0px auto; }
 
-.all-terms-link-wrapper {
-  display: block;
-  width: 100%;
-  font-size: 1.5em;
-  padding: 2px 0 6px 0;
-  margin: 8px auto; }
-
 .all-terms-link {
   display: table;
-  text-align: center;
-  border-bottom: 1px solid rgba(17, 75, 95, 0.7); }
+  text-align: center; }
 
-.all-terms-link-wrapper:hover {
-  background: rgba(10, 10, 10, 0.08);
-  transform: scale(1.2, 1.2);
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0px 0px 3px rgba(10, 10, 10, 0.15); }
-
-.all-terms-link-wrapper:hover > .all-terms-link {
-  border-bottom: 1px solid #E88D67;
-  transition-property: border-bottom, margin;
-  transition-duration: 0.25s; }
-
-/*   */
 #table-of-contents {
   font-weight: 600;
   text-align: center; }
