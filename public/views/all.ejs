@@ -4,11 +4,7 @@
 
     <p class = "page-title">ALL TERMS</p>
 
-
-
-
     <% var alphabet = "abcdefghijklmonpqrstuvwxyz" %>
-    <% var tempTerms = terms.slice(0) %>
 
     <div id = "table-of-contents">
         <% for (var i = 0; i < alphabet.length; i++){ %>
@@ -19,28 +15,28 @@
             <% } %>
 
         <% } %>
-        <br><a href ="#content-other" class = "content-letter">0-9</a> 
+        <br><a href ="#content-other" class = "content-letter">other</a> 
     </div>
 
 
     <% for (var i = 0; i < alphabet.length; i++){ %>
 
-        <h2 id = "content-<%= alphabet[i] %>"><%= alphabet[i] %></h2>
-        <hr>
+        <h3 id = "content-<%= alphabet[i] %>"><%= alphabet[i] %></h3>
 
-        <% tempTerms.forEach(function(term){%>
+        <% terms.forEach(function(term){%>
             <% if (term && term.name[0].toLowerCase() == alphabet[i]){ %>
                 <a class = "all-terms-link" href = "/<%= term.link %>"><%= term.name %></a>
-                <% tempTerms.splice(tempTerms.indexOf(term.name), 1)%>
             <% } %>
         <% }) %>
 
     <% } %>
 
-    <h2 id = "content-other">0-9</h2>
+    <h3 id = "content-other">other</h3>
 
-    <% tempTerms.forEach(function(term){%>
-        <a class = "all-terms-link" href = "/<%= term.link %>"><%= term.name %></a>
+    <% terms.forEach(function(term){%>
+        <% if (term && alphabet.indexOf(term.name[0].toLowerCase()) == -1){ %>
+            <a class = "all-terms-link" href = "/<%= term.link %>"><%= term.name %></a>
+        <% } %>
     <% }) %>
 
 
