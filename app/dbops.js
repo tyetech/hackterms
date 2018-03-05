@@ -996,14 +996,14 @@ function adminVote(db, req, callback){
 								if(users.length == 1){
 									// email user about this
 
-									var emailBody = "<p>Hey " +  updatedPost.author + ",<br><br>Max from Hackterms here. Our small team of moderators routinely reviews new definitions, and has unfortunately made the decision to remove your submission for '"  + updatedPost.term + "'. This happened because your post violates one of our rules, which you can find here: <a href = 'https://www.hackterms.com/darules'>Hackterms Rules</a>.<br>I personally really appreciate the time you took to contibute a definition, and I hope you review the rules and make another submission! Finally, if you're still confused about why your submission was removed or have any questions, don't hesitate to reply to this email.<br>Thanks a lot, and happy coding!<br>-Max";
+									var emailBody = "<p>Hey " +  updatedPost.author + ",<br><br>Max from Hackterms here. Our small team of moderators routinely reviews new definitions, and has unfortunately made the decision to remove your submission for '"  + updatedPost.term + "'. This happened because your post violates one of our rules, which you can find here: <a href = 'https://www.hackterms.com/darules'>Hackterms Rules</a>.<br><br><br>I really appreciate the time you took to contibute a definition, and I hope you review the rules and make another submission! Finally, if you're still confused about why your definition was removed or have any questions, don't hesitate to reply to this email.<br><br><br>Thanks a lot, and happy coding!<br></p>-Max";
 
 
 									var mailOptions = {
 									    from: 'Hackterms <hello@hackterms.com>',
 									    to:  users[0].email, 
 									    subject: 'Your submission has been removed', 
-									    text: "Hey " + updatedPost.author + "\r\n\r\n, Max from Hackterms here. Our small team of moderators routinely reviews new definitions, and has unfortunately made the decision to remove your submission for '"  + updatedPost.term + "'. This happened because your post violates one of our rules, which you can find here: https://www.hackterms.com/darules" + "\r\n\r\nI personally really appreciate the time you took to contibute a definition, and I hope you review the rules and make another submission! Finally, if you're still confused about why your submission was removed or have any questions, don't hesitate to reply to this email.\r\n\r\nThanks a lot, and happy coding!\r\n\r\n-Max",
+									    text: "Hey " + updatedPost.author + "\n\n, Max from Hackterms here. Our small team of moderators routinely reviews new definitions, and has unfortunately made the decision to remove your submission for '"  + updatedPost.term + "'. This happened because your post violates one of our rules, which you can find here: https://www.hackterms.com/darules" + "\n\n I personally really appreciate the time you took to contibute a definition, and I hope you review the rules and make another submission! Finally, if you're still confused about why your submission was removed or have any questions, don't hesitate to reply to this email.\n\n Thanks a lot, and happy coding!\n\n-Max",
 									    html: emailBody
 									};
 
