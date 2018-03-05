@@ -926,7 +926,8 @@ function adminVote(db, req, callback){
 			author: req.body.author
 		}
 
-		var thisDecision = "report dismissed"
+		var thisDecision = "report dismissed";
+
 		if(req.body.type == "approved")	{ thisDecision == "post removed"}
 
 		var reportUpdateQuery = {
@@ -962,6 +963,65 @@ function adminVote(db, req, callback){
 							type: thisType,
 							status: "removed"
 						}
+
+						var remainingDefinitionQuery = {
+							removed: false,
+							approved: true,
+							term: updatedPost.term
+						}
+
+
+						database.read(db, "definitions", remainingDefinitionQuery, function(definitions){
+
+							console.log("There are " + definitions.length + " definitions left for this term");
+
+							if(definitions.length == 0){			// if there are no definitions left, let's delete the term
+
+								var termQuery = {
+									name: updatedPost.term
+								}
+
+								database.remove(db, "terms", termQuery, function(message){
+									console.log(message);
+								})
+
+							}
+
+							var userQuery = {
+								username: updatedPost.author
+							}
+
+							database.read(db, "users", userQuery, function getUsers(users){
+
+								if(users.length == 1){
+									// email user about this
+
+									var emailBody = "<p>Hey " +  updatedPost.author + ",<br><br>Max from Hackterms here. Our small team of moderators routinely reviews new definitions, and has unfortunately made the decision to remove your submission for '"  + updatedPost.term + "'. This happened because your post violates one of our rules, which you can find here: <a href = 'https://www.hackterms.com/darules'>Hackterms Rules</a>.<br>I personally really appreciate the time you took to contibute a definition, and I hope you review the rules and make another submission! Finally, if you're still confused about why your submission was removed or have any questions, don't hesitate to reply to this email.<br>Thanks a lot, and happy coding!<br>-Max";
+
+
+									var mailOptions = {
+									    from: 'Max (Hackterms) <max@hackterms.com>',
+									    to:  users[0].email, 
+									    subject: 'Your submission has been removed', 
+									    text: "Hey " + updatedPost.author + "\r\n\r\n, Max from Hackterms here. Our small team of moderators routinely reviews new definitions, and has unfortunately made the decision to remove your submission for '"  + updatedPost.term + "'. This happened because your post violates one of our rules, which you can find here: https://www.hackterms.com/darules" + "\r\n\r\nI personally really appreciate the time you took to contibute a definition, and I hope you review the rules and make another submission! Finally, if you're still confused about why your submission was removed or have any questions, don't hesitate to reply to this email.\r\n\r\nThanks a lot, and happy coding!\r\n\r\n-Max",
+									    html: emailBody
+									};
+
+									transporter.sendMail(mailOptions, function(error, info){
+									    if(error){
+									        console.log(error);
+									    }else{
+									        console.log('Message sent: ' + info.response);
+									        callback({status: "success", message: "If we have your email on file, you will receive an instructions to reset your password shortly!"});
+									    };
+									});
+
+
+								} else {
+									console.log("Trouble fetching users");
+								}
+							})
+						})
 
 						if(updatedReport.type == "definitions"){
 							console.log("THIS IS A DEFINITION");
