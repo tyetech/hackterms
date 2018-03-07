@@ -10,7 +10,8 @@ $blue-dark: #114B5F;
 $gray: #2C363F;
 $gray-transparent: rgba(44, 54, 63, 0.3);
 $orange: #E88D67;
-$red: #b50000;
+$red-error: #b50000;
+$green-confirmation: #25d225;
 
 $font-normal: 'Muli', sans-serif;
 $font-tech: "Zilla Slab", serif; 
@@ -427,7 +428,7 @@ button:hover {
     box-shadow: 0 0 10px rgba(10,10,10, 0.2);
 }
 
-.new-def-button {
+.new-def-button, .request-def-button {
     width: 45%;
     max-width: 420px;
     font-size: 1.2em;
@@ -435,6 +436,10 @@ button:hover {
     padding: 12px 0px;
     display: block;
     font-weight: 200;
+}
+
+.request-def-button {
+    background: $blue-dark;
 }
 
 
@@ -504,6 +509,10 @@ button:hover {
 
 .fa-chevron-circle-up{
 	display: none;
+}
+
+.confirmation-check{
+    color: $green-confirmation;
 }
 
 .action-icon {
@@ -759,13 +768,17 @@ button:hover {
 }
 
 .report-error, .new-definition-error, .new-comment-error {
-    color: $red;
+    color: $red-error;
 	font-weight: 600;
     margin: 10px 10px 0 0;
 }
 
 .definition-category-section select {
     font-size: 1em;
+}
+
+.request-definition-error {
+    display: none;
 }
 
 
@@ -855,9 +868,18 @@ button:hover {
     width: 100%;
 }
 
-#password-reset-section p{
-    text-align: left;
-    margin-bottom: 0;
+#password-reset-section{
+    & p {
+        text-align: left;
+        margin-bottom: 0;
+    }
+}
+
+#request-definition-section{
+    & p {
+        margin: 15px 0;
+
+    }
 }
 
 #remember-account {
@@ -1021,6 +1043,12 @@ button:hover {
 
 .active-account-title {
     color: $gray;
+}
+
+.request-definition-title {
+    font-size: 2em;
+    text-align: center;
+    margin-top: 15px;
 }
 
 .standalone-title {
@@ -1695,7 +1723,7 @@ button:hover {
         margin: 0 auto;
     }
 
-    #definitions-section p{
+    #definitions-section p :not(".request-button-paragraph"){
         margin-top: 5vh;
     }
 
@@ -1720,12 +1748,10 @@ button:hover {
         padding: 15px 10px;
     }
 
-    .new-def-button {
+    .new-def-button, .request-def-button {
         margin-top: 20px;
         width: 100%;
     }
-
-
 
     /* COMMENTS */
 
@@ -1887,7 +1913,7 @@ button:hover {
     }
 
     .report-error, .new-definition-error, .new-comment-error {
-        color: $red;
+        color: $red-error;
         font-weight: 600;
     }
 
@@ -1958,6 +1984,12 @@ button:hover {
         text-align: right;
     }
 
+    #request-definition-section{
+        & p {
+            font-size: 0.9em;
+        }
+    }
+
 
     #signup-modal, #login-modal, #password-reset-modal {
         width: calc(94vw - 34px);
@@ -1967,6 +1999,10 @@ button:hover {
     #signup-options {
         text-align: left;
         margin-top: 4px;
+    }
+
+    .request-definition-title {
+        font-size: 1.5em;
     }
 
 

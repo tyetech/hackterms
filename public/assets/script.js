@@ -489,11 +489,39 @@ function main(){
         $("#definition-term-textarea").focus();
         $("#terms-section").empty();
     });
+
+    $("body").on(triggerEvent, "#request-def-link", function(){
+        window.scrollTo(0, 0);
+
+        // show new definition modal and empty text fields
+
+
+
+
+        $("#request-definition-modal").show();
+       
+        if($("#category-summary").length){
+            $("#category-summary").before("<div class = 'definition-accent'><i class='fas fa-check confirmation-check'></i> We've logged your request for our contributors. Come back soon to see a definition here!</div>");
+        }
+        $(".definition-accent").html("<i class='fas fa-check confirmation-check'></i> We've logged your request for our contributors. Come back soon to see a definition here!");
+    
+        $("#request-def-link").remove();
+
+        var requestedTerm = $("#search-bar").val();
+
+        if($(".definition-meta").length){
+            requestedTerm = $(".definition-meta").eq(0).find(".definition-term").text();
+        }
+
+        $("#request-definition-term").val(requestedTerm);
+
+    });
+
     
     $("body").on(triggerEvent, "#close", function(){
         $(".pop-out").find("input").val("");
         $(".pop-out").find(".report-error").text("");
-        $(".new-definition-error").text("");
+        $(".new-definition-error .new-request-error").text("");
         $(".pop-out").hide();
     });
 
@@ -764,6 +792,7 @@ function search(){
 
                         $("#definitions-section").empty();
                         displayAddDefinitionButton(false, result.loggedIn);
+        
                     }
                         		
             	} else {
@@ -1460,6 +1489,7 @@ function displayDefinitionsOnPage(definitions, isLoggedIn, forUser, isModerator)
 
 
                 displayAddDefinitionButton(forUser, isLoggedIn);
+
                 hilightLinks(mainTerm);
 
             }, 'html');
@@ -1484,11 +1514,14 @@ function displayAddDefinitionButton(forUser, isLoggedIn){
     if(!forUser){
         if(isLoggedIn){
             $("#definitions-section").append("<button class = 'new-def-button' id = 'new-def-link'>Add a Definition<span></div>");
+        //    $("#definitions-section").append("<button class = 'request-def-button' id = 'request-def-link'>Request a Definition<span></div>");
         } else {
             $("#definitions-section").append("<button class = 'new-def-button login-link'>Add a Definition</div>");
+        //    $("#definitions-section").append("<button class = 'request-def-button login-link'>Request a Definition<span></div>");
         } 
-    }
+    }   
 }
+
 
 function displayRelatedTerms(terms){                // messy solution to sorting an array in order of frequency
     
@@ -1562,8 +1595,8 @@ function sortPosts(posts){
 }
 
 function displaySearchTerm(term){
-	$("#terms-section").append("<div class = 'term'><span class = 'title'><span id = '" + term.name + "' class ='term-link'>" + term.name + "</span></span></div>");
-
+	$("#terms-section").append("<div class = 'term'><span class = 'title'><span class ='term-link'>" + term.name + "</span></span></div>");
+    $(".term-link").last().attr("id", term.name)
 } 
 
 function displayDefinitionSuggestion(term){

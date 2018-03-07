@@ -196,7 +196,7 @@ function logSearch(db, req, callback){
     	thisUsername = req.session.user.username;
     }
 
-	var newSearchRecord = {
+    var newSearchRecord = {
 		term: req.body.term,
 		username: thisUsername,
 		ip: userIP,
@@ -213,27 +213,20 @@ function logSearch(db, req, callback){
 			// 1. if term exists, update the searched count on it, set search to true
 			if(existingTerms.length == 1){
 
-				newSearchRecord.termExists = true;
-
 				var termUpdate = { 
 					$inc: {
 						"searched": 1
 					} 
 				}
 
+				newSearchRecord.termExists = true;
+
 				database.update(db, "terms", termQuery, termUpdate, function confirmUpdate(result){
 					console.log("Search recorded");
 				})
-			} else {
-				if(typeof(req.body.term) != "undefined" && req.body.term.length){
-					logRequestedSearch(db, req.body.term);
-				} else { 
-					console.log( "There is no term to search"); 
-				} 
-			}
+			} 
 
-			/* THIS IS NOT GOOD - should be counting, not reading. Weird error with counting here. */
-			// 2. create search for this
+			// either way, a search is created
 			database.create(db, "searches", newSearchRecord, function logSearch(loggedSearch){
 				callback();
 			});
@@ -241,10 +234,62 @@ function logSearch(db, req, callback){
 
 		})
 
-
 	} else {
 		callback();
 	}
+}
+
+function logUserTermRequest(db, req, callback){				// if a user clicks "request definition", log it
+
+	/* 
+		if the term exists, up the requested count 
+		if it doesn't, log the request
+	*/
+
+
+	req.body.term = req.body.term.toLowerCase().trim();
+
+	// first, let's check if a request for this term exists
+
+	var newEmailRequest = {
+		term: req.body.term,
+		username: thisUsername,
+		email: req.session.email,
+		date: new Date()
+	}
+
+	var newRequest = {
+		term: term.toLowerCase(),
+		searched: 1
+	}
+
+	var existingRequestQuery = {
+		term: req.body.term
+	}
+
+	database.read(db, "requests", existingRequestQuery, function checkForExistingRequests(existingRequests){
+
+		if(existingRequests.length == 1){		// if the request exists, increment it
+			var requestUpdate = { 
+				$inc: {
+					"searched": 1
+				} 
+			}
+
+			database.update(db, "requests", existingRequestQuery, requestUpdate, function confirmUpdate(result){
+				console.log("The existing request has been incremented by 1");
+				callback({status: "success"})
+			})
+		} else {								// if the request doesn't exist, create it
+
+			database.create(db, "requests", newSearchRecord, function createNewRequest(request){
+				console.log("A new request has been created for " + req.body.term);
+				callback({status: "success"})
+			})
+
+		}
+	});
+
 }
 
 function logRequestedSearch(db, term){
@@ -1484,7 +1529,9 @@ function createNewUser(hash, thisGoogleId, thisGithubId, thisEmail, db, req, cal
 
 function getTopTerms(db, req, callback){
 
-	var requestQuery = { termExists: false }
+	// var requestQuery = { termExists: false } 
+
+	var requestQuery = {manuallyRequested: true} 
 	var orderQuery = { searched: -1 }
 
 	database.sortRead(db, "terms", {}, orderQuery, function getSearches(allSearches){
@@ -1505,7 +1552,6 @@ function getTopTerms(db, req, callback){
 				topSearches: topSearches
 			}
 
-			//console.log(response);
 			callback(response);
 		})
 	})
@@ -2057,7 +2103,7 @@ function passwordResetRequest(db, req, callback){
 				database.create(db, "passwordResets", passwordResetRequest, function confirmRequest(request){
 
  
-					var emailBody = "<p>Hey " +  users[0].username + "!<br><br>Here is the password reset link you requested: <br><br>www.hackterms.com/password-reset/" + passwordResetRequest.id + "<br><br>If you did not request this password request, please ignore this email.<br><br>Thanks!<br>~your Hackterms friends";
+					var emailBody = "<p>Hey " +  users[0].username + "!<br><br>Here is the password reset link you requested: <br><br>www.hackterms.com/password-reset/" + passwordResetRequest.id + "<br><br>If you did not request this password request, please ignore this email.<br><br>Thanks!<br>-Max from Hackterm";
 
 
 					var mailOptions = {

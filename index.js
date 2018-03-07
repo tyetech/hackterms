@@ -151,6 +151,10 @@ MongoClient.connect(dbAddress, function(err, db){
         })
     });
 
+    app.get("/changelog", function(req, res){
+        res.render("changelog");
+    });
+
     app.get("/all-terms", function(req, res){
 
         dbops.getAllTerms(db, req, function getTerms(allTerms){
