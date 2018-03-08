@@ -586,6 +586,17 @@ function main(){
         }
     });
 
+
+    $("body").on(triggerEvent, "#request-definition-action", function(){
+
+        var definition = $("#request-definition-term").val();
+        if(definition.length){
+            requestDefinition();
+        } else {
+            $(".request-definition-error").show().text("Please enter a definition");
+        }
+    });
+
     $("body").on(triggerEvent, "#password-reset-submit-action", function(){
 
         var password = $("#password-reset").val();
@@ -1251,7 +1262,30 @@ function passwordReset(){
             }
         }
     })
- 
+}
+
+function requestDefinition(){
+
+    var termData = {
+        term: $("#request-definition-term").val().toLowerCase().trim()
+    }
+
+
+    $.ajax({
+        type: "post",
+        data: termData,
+        url: "/request-definition",
+        success: function(result){
+            if(result.status == "success"){     
+                $("#popout").hide();           
+                $("#password-reset-email, #password-reset-action, #password-reset-modal .account-title, #password-reset-modal p, .email-error").hide();
+                $("#reset-request-confirm").show();
+            } else {
+                $(".report-error").text("");
+                $("." + result.errorType + "-error").text(result.message).css("display", "block");
+            }
+        }
+    })
 }
 
 

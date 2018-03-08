@@ -155,6 +155,10 @@ MongoClient.connect(dbAddress, function(err, db){
         res.render("changelog");
     });
 
+    app.get("/press", function(req, res){
+        res.render("press");
+    });
+
     app.get("/all-terms", function(req, res){
 
         dbops.getAllTerms(db, req, function getTerms(allTerms){
@@ -905,6 +909,17 @@ MongoClient.connect(dbAddress, function(err, db){
         });
     });
 
+    app.post("/request-definition", function(req, res){
+        dbops.requestDefinition(db, req, function confirmReset(response){
+            
+            if(response.status == "success")
+                res.send({status: "success"});
+            else {
+                res.send({ status: "fail", message: response.message })
+            }
+        });
+    });
+
     app.get("/random-term", function(req, res){
         dbops.getRandomTerm(db, req, function randomTerm(term){
             res.redirect("/" + term);
@@ -937,6 +952,10 @@ MongoClient.connect(dbAddress, function(err, db){
         console.log(req.params.term);
         res.render("index", {searchTerm: req.params.term, title: "Hackterms: " + req.params.term});
     });
+
+/*    app.get("/term/:term", function(req, res){            // add this soon
+        res.redirect("/term/" + req.params.term)
+    });*/
 
 
 

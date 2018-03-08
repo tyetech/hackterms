@@ -239,10 +239,10 @@ function logSearch(db, req, callback){
 	}
 }
 
-function logUserTermRequest(db, req, callback){				// if a user clicks "request definition", log it
+function requestDefinition(db, req, callback){				// if a user clicks "request definition", log it
 
 	/* 
-		if the term exists, up the requested count 
+		if the term exists, up the requested count by 10
 		if it doesn't, log the request
 	*/
 
@@ -253,14 +253,17 @@ function logUserTermRequest(db, req, callback){				// if a user clicks "request 
 
 	var newEmailRequest = {
 		term: req.body.term,
-		username: thisUsername,
+		username: req.session.username,
 		email: req.session.email,
 		date: new Date()
 	}
 
 	var newRequest = {
-		term: term.toLowerCase(),
-		searched: 1
+		term: req.body.term.toLowerCase(),
+		weight: 10,
+		searched: 1,
+		manuallyRequested: true,
+		version2: true
 	}
 
 	var existingRequestQuery = {
@@ -272,22 +275,27 @@ function logUserTermRequest(db, req, callback){				// if a user clicks "request 
 		if(existingRequests.length == 1){		// if the request exists, increment it
 			var requestUpdate = { 
 				$inc: {
+					"weight": 10,				// we'll increment by 10 for request (maybe 100?) - 1 for search
 					"searched": 1
 				} 
 			}
 
 			database.update(db, "requests", existingRequestQuery, requestUpdate, function confirmUpdate(result){
-				console.log("The existing request has been incremented by 1");
+				console.log("The existing request weight has been incremented by 10");
 				callback({status: "success"})
 			})
 		} else {								// if the request doesn't exist, create it
-
-			database.create(db, "requests", newSearchRecord, function createNewRequest(request){
+			database.create(db, "requests", newRequest, function createNewRequest(request){
 				console.log("A new request has been created for " + req.body.term);
 				callback({status: "success"})
 			})
-
 		}
+
+
+		database.create(db, "definitionRequestEmails", newEmailRequest, function createEmailDefinition(response){
+			console.log("Email created");
+		});
+
 	});
 
 }
@@ -346,7 +354,8 @@ function logRequestedSearch(db, term){
 
 			var requestUpdate = { 
 				$inc: {
-					"searched": 1
+					"searched": 1,
+					"weight": 1
 				} 
 			}
 
@@ -358,8 +367,10 @@ function logRequestedSearch(db, term){
 
 			var newRequest = {
 				term: term.toLowerCase(),
+				weight: 1,
 				searched: 1,
-				termExists: false
+				manuallyRequested: false,
+				version2: true
 			}
 
 			database.create(db, "requests", newRequest, function createRequest(request){
@@ -1055,7 +1066,7 @@ function adminVote(db, req, callback){
 									transporter.sendMail(mailOptions, function(error, info){
 									    if(error){
 									        console.log(error);
-									    }else{
+									    } else {
 									        console.log('Message sent: ' + info.response);
 									        callback({status: "success", message: "If we have your email on file, you will receive an instructions to reset your password shortly!"});
 									    };
@@ -1529,10 +1540,11 @@ function createNewUser(hash, thisGoogleId, thisGithubId, thisEmail, db, req, cal
 
 function getTopTerms(db, req, callback){
 
-	// var requestQuery = { termExists: false } 
+	 var requestQuery = { termExists: false } 
 
-	var requestQuery = {manuallyRequested: true} 
+//	var requestQuery = { version2: true } 
 	var orderQuery = { searched: -1 }
+	var weightQuery = { weight: -1 }
 
 	database.sortRead(db, "terms", {}, orderQuery, function getSearches(allSearches){
 		var topSearches = allSearches.splice(0, 10);
@@ -1540,7 +1552,7 @@ function getTopTerms(db, req, callback){
 		console.log("topSearches");
 		console.log(topSearches);
 
-		database.sortRead(db, "requests", requestQuery, orderQuery, function getSearches(allRequests){
+		database.sortRead(db, "requests", requestQuery, weightQuery, function getSearches(allRequests){
 			var topRequests = allRequests.splice(0, 10);
 
 			console.log("topRequests");
@@ -2563,5 +2575,7 @@ module.exports.checkPasswordReset = checkPasswordReset;
 module.exports.passwordResetAction = passwordResetAction;
 module.exports.selectUsername = selectUsername;
 
+
+module.exports.requestDefinition = requestDefinition;
 
 module.exports.fillInTerms = fillInTerms;
