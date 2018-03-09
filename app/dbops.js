@@ -2448,15 +2448,15 @@ function sendRequestDefinitionEmail(db, email, i){
 
 		console.log("Sending email to " + email.email);
 		
-		var emailBody = "<p>Hey " +  email.username + ",<br>Just wanted to let you know that a new definition for " + email.term + ' has been added. <a href = "https://hackterms.com/' + email.term + '" You can see it here.</a> If you are not happy with this definition, you can always request another! <br></p>-Hactkerms Team';
+		var emailBody = "<p>Hey " +  email.username + ",<br>Just wanted to let you know that a new definition for <span class = 'bold'>" + email.term + '</span> has been added. <a href = "https://www.hackterms.com/' + email.term + '" You can see it here.</a> If you are not happy with this definition, you can always request another! <br></p>-Hactkerms Team';
 
 		var emailSubject = "A definition for " + email.term + " has been added"
 
 		var mailOptions = {
 		    from: 'Hackterms <hello@hackterms.com>',
 		    to:  email.email, 
-		    subject: 'A definition for', 
-		    text: "Hey " +  email.username + ",\n\nJust wanted to let you know that a new definition for " + email.term + " has been added here: https://hackterms.com/" + email.term + ". You asked us to notify you when this happens - hope you check it out. If you are not happy with this definition, you can always request another!\n\n-Hactkerms Team",
+		    subject: emailSubject, 
+		    text: "Hey " +  email.username + ",\n\nJust wanted to let you know that a new definition for " + email.term + " has been added here: https://www.hackterms.com/" + email.term + ". You asked us to notify you when this happens - hope you check it out. If you are not happy with this definition, you can always request another!\n\n-Hactkerms Team",
 		    html: emailBody
 		};
 
