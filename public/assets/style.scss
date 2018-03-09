@@ -137,19 +137,17 @@ button:hover {
 }
 
 #footer-section	 {
-  color: $gray-transparent;
-  font-weight: 500;
-  text-align: center;
-  min-height: calc(5vh - 20px);
-  font-size: 0.8em;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-
-}
-
-#footer-section p {
-	padding-top: 10px;
+    color: $white;
+    font-weight: 500;
+    text-align: center;
+    min-height: calc(5vh - 20px);
+    font-size: 0.8em;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    &a{
+        padding: 0px 5px;
+    }
 }
 
 #footer-section .fa-heart{
@@ -1640,8 +1638,8 @@ button:hover {
     }
 
     #footer-section p {
-        margin: 20px 0 10px 0;
-        padding-bottom: 10px;
+
+
         color: gray;
     }
 
