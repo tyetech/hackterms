@@ -225,7 +225,7 @@ function logSearch(db, req, callback){
 					console.log("Search recorded");
 				})
 
-			} else if (existingTerms.length == 0){
+			} else if (existingTerms.length == 0 && req.body.term.length > 1){
 				logRequestedSearch(db, req.body.term);				// if this term doesn't exist, log as requested
 			}
 
@@ -255,79 +255,85 @@ function requestDefinition(db, req, callback){				// if a user clicks "request d
 	// first, let's check if a request for this term exists
 
 	if(validateInput(req.body.term)){
+		if(req.body.term.length >1){
 
 
-		var userQuery = {
-			username: req.session.user.username
-		}
-
-		database.read(db, "users", userQuery, function findUser(user){
-
-			if(user.length == 1 && user[0].username != null && user[0].email != null){
-
-				user = user[0];
-
-				console.log(req.session);
-
-				var newEmailRequest = {
-					term: req.body.term,
-					username: user.username,
-					email: user.email,
-					date: new Date()
-				}
-
-				var newRequest = {
-					term: req.body.term.toLowerCase(),
-					weight: 10,
-					searched: 1,
-					manuallyRequested: true,
-					version2: true
-				}
-
-				var existingRequestQuery = {
-					term: req.body.term
-				}
-
-				database.read(db, "requests", existingRequestQuery, function checkForExistingRequests(existingRequests){
-
-					if(existingRequests.length > 0){		// if the request exists, increment it
-						var requestUpdate = { 
-							$inc: {
-								"weight": 10,				// we'll increment by 10 for request (maybe 100?) - 1 for search
-								"searched": 1
-							} 
-						}
-
-						database.update(db, "requests", existingRequestQuery, requestUpdate, function confirmUpdate(result){
-							console.log("The existing request weight has been incremented by 10");
-							callback({status: "success"})
-						})
-					} else {								// if the request doesn't exist, create it
-						database.create(db, "requests", newRequest, function createNewRequest(request){
-							console.log("A new request has been created for " + req.body.term);
-							callback({status: "success"})
-						})
-					}
-
-					if(req.session && req.session.user){
-						database.create(db, "definitionRequestEmails", newEmailRequest, function createEmailDefinition(response){
-							console.log("Email created");
-						});
-					}
-					
-
-				});
-
-
-
-
-			} else {
-				callback({
-					status: "fail", message: "Please refresh the page and/or log in again."
-				})
+			var userQuery = {
+				username: req.session.user.username
 			}
 
-		})
+			database.read(db, "users", userQuery, function findUser(user){
+
+				if(user.length == 1 && user[0].username != null && user[0].email != null){
+
+					user = user[0];
+
+					console.log(req.session);
+
+					var newEmailRequest = {
+						term: req.body.term,
+						username: user.username,
+						email: user.email,
+						date: new Date()
+					}
+
+					var newRequest = {
+						term: req.body.term.toLowerCase(),
+						weight: 50,
+						searched: 1,
+						manuallyRequested: true,
+						version2: true
+					}
+
+					var existingRequestQuery = {
+						term: req.body.term
+					}
+
+					database.read(db, "requests", existingRequestQuery, function checkForExistingRequests(existingRequests){
+
+						if(existingRequests.length > 0){		// if the request exists, increment it
+							var requestUpdate = { 
+								$inc: {
+									"weight": 10,				// we'll increment by 10 for request (maybe 100?) - 1 for search
+									"searched": 1
+								} 
+							}
+
+							database.update(db, "requests", existingRequestQuery, requestUpdate, function confirmUpdate(result){
+								console.log("The existing request weight has been incremented by 10");
+								callback({status: "success"})
+							})
+						} else {								// if the request doesn't exist, create it
+							database.create(db, "requests", newRequest, function createNewRequest(request){
+								console.log("A new request has been created for " + req.body.term);
+								callback({status: "success"})
+							})
+						}
+
+						if(req.session && req.session.user){
+							database.create(db, "definitionRequestEmails", newEmailRequest, function createEmailDefinition(response){
+								console.log("Email created");
+							});
+						}
+						
+
+					});
+
+
+
+
+				} else {
+					callback({
+						status: "fail", message: "Please refresh the page and/or log in again."
+					})
+				}
+
+			})
+		} else {
+			callback({
+				status: "fail", message: "Your definition needs to be at least 2 characters long."
+			})
+		}
 	} else {
 		callback({
 			status: "fail", message: "No profanity or links, please"
@@ -369,6 +375,7 @@ function logRequestedSearch(db, term){
 		console.log("Found " + requests.length + " request matches for the term: " + thisTerm);
 
 		if(requests.length > 0){
+
 			// if a request exists, update it
 
 			// find the max length term
