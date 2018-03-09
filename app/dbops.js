@@ -2463,8 +2463,8 @@ function sendRequestDefinitionEmail(db, email, i){
 		transporter.sendMail(mailOptions, function(error, info){
 		    if(error){
 		        console.log(error);
-
-
+		    } else {
+		        console.log('Message sent: ' + info.response);
 		        var thisEmailQuery = {
 		        	username: email.username,
 		        	email: email.email,
@@ -2474,9 +2474,6 @@ function sendRequestDefinitionEmail(db, email, i){
 		        database.remove(db, "definitionRequestEmails", thisEmailQuery, function(result){
 		        	console.log("Query for the term " + email.term + " has been removed for user " + email.user);
 		        })
-
-		    } else {
-		        console.log('Message sent: ' + info.response);
 		    };
 		});
 
