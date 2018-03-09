@@ -2448,7 +2448,7 @@ function sendRequestDefinitionEmail(db, email, i){
 
 		console.log("Sending email to " + email.email);
 		
-		var emailBody = "<p>Hey " +  email.username + ",<br>Just wanted to let you know that one of our contributors added a new definition for <strong>[" + email.term + ']</strong>. <a href = "https://www.hackterms.com/' + email.term + '">You can see it here.</a> If you are not happy with this definition, you can always request another! <br></p>-Hactkerms Team';
+		var emailBody = "<p>Hey " +  email.username + ",<br><br>Just wanted to let you know that one of our contributors added a new definition for <strong>" + email.term + '</strong>. <a href = "https://www.hackterms.com/' + email.term + '">You can see it here.</a> If this explanation still doesn not make sense, you can always request another! <br></p>-Hactkerms Team';
 
 		var emailSubject = "A definition for [" + email.term + "] has been added"
 
@@ -2456,7 +2456,7 @@ function sendRequestDefinitionEmail(db, email, i){
 		    from: 'Hackterms <hello@hackterms.com>',
 		    to:  email.email, 
 		    subject: emailSubject, 
-		    text: "Hey " +  email.username + ",\n\nJust wanted to let you know that a new definition for " + email.term + " has been added here: https://www.hackterms.com/" + email.term + ". You asked us to notify you when this happens - hope you check it out. If you are not happy with this definition, you can always request another!\n\n-Hactkerms Team",
+		    text: "Hey " +  email.username + ",\n\nJust wanted to let you know that one of our contributors added a new definition for[ " + email.term + "]: https://www.hackterms.com/" + email.term + ". You asked us to notify you when this happens - hope you check it out. If this explanation still doesn not make sense, you can always request another!\n\n-Hactkerms Team",
 		    html: emailBody
 		};
 
