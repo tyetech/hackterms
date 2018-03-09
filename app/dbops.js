@@ -225,7 +225,6 @@ function logSearch(db, req, callback){
 					console.log("Search recorded");
 				})
 
-				logRequestedSearch(db, req.body.term);
 			} 
 
 			// either way, a search is created
