@@ -122,7 +122,12 @@ MongoClient.connect(dbAddress, function(err, db){
         }
     })
 
-/*    app.use(function(req, res, next){
+/*    
+
+    // emergency middleware to shut the site down to everyone but the user named "max" (err... me)
+
+
+    app.use(function(req, res, next){                 
         if(req.session.user && req.session.user.username == "max"){ 
             next();
 
@@ -264,10 +269,6 @@ MongoClient.connect(dbAddress, function(err, db){
             }   
         });
     });
-
-
-
-
 
 
     app.post("/log-search", function(req, res){

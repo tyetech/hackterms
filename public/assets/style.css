@@ -245,7 +245,8 @@ button:hover {
   box-shadow: 0px 0px 15px rgba(20, 20, 20, 0.5);
   position: absolute;
   top: 5vh;
-  left: 18vw;
+  left: 50vw;
+  transform: translateX(-50%);
   background: #ffffff;
   padding: 20px;
   padding-top: 0;
@@ -253,6 +254,8 @@ button:hover {
   min-width: 300px;
   border-radius: 5px;
   display: none; }
+  .pop-out.skinny {
+    max-width: 400px; }
 
 .pop-out h3 {
   margin-top: 0;
@@ -675,6 +678,13 @@ button:hover {
 #request-definition-section p {
   margin: 15px 0; }
 
+#request-definition-confirmation {
+  display: none;
+  text-align: center;
+  font-weight: 600;
+  margin: 10px 0 0 0;
+  flex-direction: column; }
+
 #remember-account {
   transform: scale(1.2);
   vertical-align: bottom;
@@ -757,8 +767,6 @@ button:hover {
     margin: 0; }
 
 #signup-modal, #login-modal, #password-reset-modal {
-  width: 400px;
-  left: calc(50vw - 200px);
   padding-top: 0; }
 
 #select-username-section {
@@ -1300,7 +1308,6 @@ button:hover {
     width: calc(94vw - 34px);
     top: 10vh;
     /**/
-    left: 3vw;
     padding: 15px;
     padding-top: 0;
     min-height: 10vh;
@@ -1473,8 +1480,7 @@ button:hover {
   #request-definition-section p {
     font-size: 0.9em; }
   #signup-modal, #login-modal, #password-reset-modal {
-    width: calc(94vw - 34px);
-    left: 3vw; }
+    width: calc(94vw - 34px); }
   #signup-options {
     text-align: left;
     margin-top: 4px; }

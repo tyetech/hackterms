@@ -224,10 +224,13 @@ function logSearch(db, req, callback){
 				database.update(db, "terms", termQuery, termUpdate, function confirmUpdate(result){
 					console.log("Search recorded");
 				})
+
+				logRequestedSearch(db, req.body.term);
 			} 
 
 			// either way, a search is created
 			database.create(db, "searches", newSearchRecord, function logSearch(loggedSearch){
+				logRequestedSearch(db, req.body.term);
 				callback();
 			});
 
@@ -251,52 +254,85 @@ function requestDefinition(db, req, callback){				// if a user clicks "request d
 
 	// first, let's check if a request for this term exists
 
-	var newEmailRequest = {
-		term: req.body.term,
-		username: req.session.username,
-		email: req.session.email,
-		date: new Date()
-	}
+	if(validateInput(req.body.term)){
 
-	var newRequest = {
-		term: req.body.term.toLowerCase(),
-		weight: 10,
-		searched: 1,
-		manuallyRequested: true,
-		version2: true
-	}
 
-	var existingRequestQuery = {
-		term: req.body.term
-	}
-
-	database.read(db, "requests", existingRequestQuery, function checkForExistingRequests(existingRequests){
-
-		if(existingRequests.length == 1){		// if the request exists, increment it
-			var requestUpdate = { 
-				$inc: {
-					"weight": 10,				// we'll increment by 10 for request (maybe 100?) - 1 for search
-					"searched": 1
-				} 
-			}
-
-			database.update(db, "requests", existingRequestQuery, requestUpdate, function confirmUpdate(result){
-				console.log("The existing request weight has been incremented by 10");
-				callback({status: "success"})
-			})
-		} else {								// if the request doesn't exist, create it
-			database.create(db, "requests", newRequest, function createNewRequest(request){
-				console.log("A new request has been created for " + req.body.term);
-				callback({status: "success"})
-			})
+		var userQuery = {
+			username: req.session.user.username
 		}
 
+		database.read(db, "users", userQuery, function findUser(user){
 
-		database.create(db, "definitionRequestEmails", newEmailRequest, function createEmailDefinition(response){
-			console.log("Email created");
+			if(user.length == 1 && user[0].username != null && user[0].email != null){
+
+				user = user[0];
+
+				console.log(req.session);
+
+				var newEmailRequest = {
+					term: req.body.term,
+					username: user.username,
+					email: user.email,
+					date: new Date()
+				}
+
+				var newRequest = {
+					term: req.body.term.toLowerCase(),
+					weight: 10,
+					searched: 1,
+					manuallyRequested: true,
+					version2: true
+				}
+
+				var existingRequestQuery = {
+					term: req.body.term
+				}
+
+				database.read(db, "requests", existingRequestQuery, function checkForExistingRequests(existingRequests){
+
+					if(existingRequests.length > 0){		// if the request exists, increment it
+						var requestUpdate = { 
+							$inc: {
+								"weight": 10,				// we'll increment by 10 for request (maybe 100?) - 1 for search
+								"searched": 1
+							} 
+						}
+
+						database.update(db, "requests", existingRequestQuery, requestUpdate, function confirmUpdate(result){
+							console.log("The existing request weight has been incremented by 10");
+							callback({status: "success"})
+						})
+					} else {								// if the request doesn't exist, create it
+						database.create(db, "requests", newRequest, function createNewRequest(request){
+							console.log("A new request has been created for " + req.body.term);
+							callback({status: "success"})
+						})
+					}
+
+					if(req.session && req.session.user){
+						database.create(db, "definitionRequestEmails", newEmailRequest, function createEmailDefinition(response){
+							console.log("Email created");
+						});
+					}
+					
+
+				});
+
+
+
+
+			} else {
+				callback({
+					status: "fail", message: "Please refresh the page and/or log in again."
+				})
+			}
+
+		})
+	} else {
+		callback({
+			status: "fail", message: "No profanity or links, please"
 		});
-
-	});
+	}
 
 }
 
@@ -320,8 +356,9 @@ function logRequestedSearch(db, term){
 
 	var requestSearchQuery = {
 		term: {
-			$regex: new RegExp(regexSearch)
-		}
+			$regex: new RegExp(regexSearch),
+		},
+		version2: true
 	}
 
 
@@ -510,6 +547,10 @@ function addDefinition(db, req, callback){
 								database.create(db, "terms", newTermQuery, function createdTerm(newTerm){
 									database.create(db, "definitions", newDefinitionQuery, function createdDefinition(newDefinition){
 										console.log(newDefinition.ops[0]);
+
+										emailAboutNewDefinition(db, newDefinition.ops[0].term);
+
+
 										database.create(db, "votes", newVote, function createdVote(newVote){
 
 											// remove requests for this term 
@@ -538,8 +579,12 @@ function addDefinition(db, req, callback){
 								// we need to either create  a new id or update an existing one, depending on whethere there's an ID
 									
 								if(parseInt(req.body.id) == 0){
+
 									database.create(db, "definitions", newDefinitionQuery, function createdDefinition(newDefinition){
 										console.log(newDefinition.ops[0]);
+										
+										emailAboutNewDefinition(db, newDefinition.ops[0].term);
+
 										database.create(db, "votes", newVote, function createdVote(newVote){
 											callback({
 												status: "success",
@@ -566,6 +611,9 @@ function addDefinition(db, req, callback){
 									database.update(db, "definitions", definitionUpdateQuery, updatedDefinition, function updateDefinition(updatedDefinition){
 										console.log("updatedDefinition");
 										console.log(updatedDefinition);
+
+										
+
 										callback({
 											status: "success",
 											termAdded: false,
@@ -1540,9 +1588,9 @@ function createNewUser(hash, thisGoogleId, thisGithubId, thisEmail, db, req, cal
 
 function getTopTerms(db, req, callback){
 
-	 var requestQuery = { termExists: false } 
+//	 var requestQuery = { termExists: false } 
 
-//	var requestQuery = { version2: true } 
+	var requestQuery = { version2: true } 
 	var orderQuery = { searched: -1 }
 	var weightQuery = { weight: -1 }
 
@@ -2324,16 +2372,7 @@ function fillInTerms(db, req, callback){
 			var definition = definitions[i];
 			createTermFromDefinition(db, req, i, definition);
 		}
-
 	})
-
-
-
-
-	
-
-
-
 }
 
 
@@ -2380,7 +2419,59 @@ function createTermFromDefinition(db, req, i, definition){
 }
 
 
+function emailAboutNewDefinition(db, thisTerm){
 
+	//console.log("EMAIL ABOUT NEW DEFINITION");
+
+	var emailRequestQuery = {
+		term: thisTerm
+	}
+
+	database.read(db, "definitionRequestEmails", emailRequestQuery, function getPendingEmails(emails){
+
+		if(emails.length > 0){
+
+			console.log("Got " + emails.length + " emails");
+
+			for(var i = 0; i < emails.length; i++){
+				var email = emails[i];
+				sendRequestDefinitionEmail(db, email, i);
+			}
+		}
+
+	});
+
+}
+
+function sendRequestDefinitionEmail(db, email, i){
+	setTimeout(function(i){
+
+		console.log("Sending email to " + email.email);
+		
+		var emailBody = "<p>Hey " +  email.username + ",<br>Just wanted to let you know that a new definition for " + email.term + ' has been added. <a href = "https://hackterms.com/' + email.term + '" You can see it here.</a> If you are not happy with this definition, you can always request another! <br></p>-Hactkerms Team';
+
+		var emailSubject = "A definition for " + email.term + " has been added"
+
+		var mailOptions = {
+		    from: 'Hackterms <hello@hackterms.com>',
+		    to:  email.email, 
+		    subject: 'A definition for', 
+		    text: "Hey " +  email.username + ",\n\nJust wanted to let you know that a new definition for " + email.term + " has been added here: https://hackterms.com/" + email.term + ". You asked us to notify you when this happens - hope you check it out. If you are not happy with this definition, you can always request another!\n\n-Hactkerms Team",
+		    html: emailBody
+		};
+
+		transporter.sendMail(mailOptions, function(error, info){
+		    if(error){
+		        console.log(error);
+		    } else {
+		        console.log('Message sent: ' + info.response);
+		    };
+		});
+
+
+
+	}, 50*i);
+}
 
 
 

@@ -490,22 +490,18 @@ function main(){
         $("#terms-section").empty();
     });
 
-    $("body").on(triggerEvent, "#request-def-link", function(){
+    $("body").on(triggerEvent, "#request-def-link", function(event){
+
+        event.stopPropagation();
+        event.preventDefault();
         window.scrollTo(0, 0);
 
         // show new definition modal and empty text fields
 
-
-
-
         $("#request-definition-modal").show();
-       
-        if($("#category-summary").length){
-            $("#category-summary").before("<div class = 'definition-accent'><i class='fas fa-check confirmation-check'></i> We've logged your request for our contributors. Come back soon to see a definition here!</div>");
-        }
-        $(".definition-accent").html("<i class='fas fa-check confirmation-check'></i> We've logged your request for our contributors. Come back soon to see a definition here!");
-    
-        $("#request-def-link").remove();
+
+        $("#request-definition-form").show();
+        $("#request-definition-confirmation").hide();
 
         var requestedTerm = $("#search-bar").val();
 
@@ -597,6 +593,17 @@ function main(){
         }
     });
 
+    $("body").on(triggerEvent, "#close-request-definition-modal", function(){
+        $("#request-definition-modal").hide();  
+    });
+
+    $("body").on(triggerEvent, "#login-to-request", function(){
+        $("#request-login-modal").show();  
+        event.stopPropagation();
+        event.preventDefault();
+        window.scrollTo(0, 0);
+    });
+
     $("body").on(triggerEvent, "#password-reset-submit-action", function(){
 
         var password = $("#password-reset").val();
@@ -664,7 +671,7 @@ function main(){
     });
 
     $("body").on(triggerEvent, "#github-login", function(){
-    //ß    githubLogin();
+    //    githubLogin();
     });
 
 }
@@ -1276,13 +1283,16 @@ function requestDefinition(){
         data: termData,
         url: "/request-definition",
         success: function(result){
-            if(result.status == "success"){     
-                $("#popout").hide();           
-                $("#password-reset-email, #password-reset-action, #password-reset-modal .account-title, #password-reset-modal p, .email-error").hide();
-                $("#reset-request-confirm").show();
+            if(result.status == "success"){              
+
+                $("#request-definition-form").hide();
+                $("#request-definition-confirmation").css("display", "block");
+
+                $("#request-def-link").remove();
+
             } else {
                 $(".report-error").text("");
-                $("." + result.errorType + "-error").text(result.message).css("display", "block");
+                $(".request-definition-error").text(result.message).css("display", "block");
             }
         }
     })
@@ -1548,10 +1558,10 @@ function displayAddDefinitionButton(forUser, isLoggedIn){
     if(!forUser){
         if(isLoggedIn){
             $("#definitions-section").append("<button class = 'new-def-button' id = 'new-def-link'>Add a Definition<span></div>");
-        //    $("#definitions-section").append("<button class = 'request-def-button' id = 'request-def-link'>Request a Definition<span></div>");
+            $("#definitions-section").append("<button class = 'request-def-button' id = 'request-def-link'>Request a Definition<span></div>");
         } else {
             $("#definitions-section").append("<button class = 'new-def-button login-link'>Add a Definition</div>");
-        //    $("#definitions-section").append("<button class = 'request-def-button login-link'>Request a Definition<span></div>");
+            $("#definitions-section").append("<button class = 'request-def-button' id = 'login-to-request'>Request a Definition<span></div>");
         } 
     }   
 }

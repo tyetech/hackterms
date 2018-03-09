@@ -193,7 +193,7 @@
     </div>
 
     
-    <div class = "pop-out" id = "signup-modal">
+    <div class = "pop-out skinny" id = "signup-modal">
         <div class = "header">
             <i class="fa fa-times fa-2x link" aria-hidden="true" id = "close"></i>
         </div>
@@ -227,7 +227,7 @@
         </div>
     </div>
 
-    <div class = "pop-out" id = "login-modal">
+    <div class = "pop-out skinny" id = "login-modal">
         <div class = "header">
             <i class="fa fa-times fa-2x link" aria-hidden="true" id = "close"></i>
         </div>
@@ -270,7 +270,7 @@
         </div>
     </div>
 
-    <div class = "pop-out" id = "password-reset-modal">
+    <div class = "pop-out skinny" id = "password-reset-modal">
         <div class = "header">
             <i class="fa fa-times fa-2x link" aria-hidden="true" id = "close"></i>
         </div>
@@ -289,20 +289,49 @@
         </div>
     </div>
 
-    <div class = "pop-out" id = "request-definition-modal">
+    <div class = "pop-out skinny" id = "request-definition-modal">
+        
         <div class = "header">
             <i class="fa fa-times fa-2x link" aria-hidden="true" id = "close"></i>
         </div>
-        <div id = "request-definition-section">   
-            <div class = "account-title request-definition-title">
+        <div id = "request-definition-section">
+
+            <div id = "request-definition-form">
+                <div class = "account-title request-definition-title">
+                    <span class = "active-account-title">Request a Definition</span>
+                </div>
+
+                <p id = "request-definition-section-instructions">What term do you want to request a definition for? We'll email you once a new definition is added.</p>
+                <div class = "report-error request-definition-error"></div>
+                <input type = "text" id = "request-definition-term" placeholder = "term">
+
+                <button class = "account-submit-button" id = "request-definition-action">Request Definition</button>
+            </div>
+
+            <div id = "request-definition-confirmation">
+                <div class = "account-title request-definition-title">
+                    <span class = "active-account-title">Definition Requested</span>
+                </div>
+                <i class='fas fa-check fa-3x confirmation-check'></i>
+                <p class = "request-definition-confirm-text">We've logged your request for our contributors. You'll get an email when a definition is added!</p>
+                <button class = "account-submit-button" id = "close-request-definition-modal">Cool!</button>
+            </div>
+        </div>
+
+            
+    </div>
+
+    <div class = "pop-out skinny" id = "request-login-modal">
+        
+        <div class = "header">
+            <i class="fa fa-times fa-2x link" aria-hidden="true" id = "close"></i>
+        </div>
+        <div id = "request-definition-section">
+           <div class = "account-title request-definition-title">
                 <span class = "active-account-title">Request a Definition</span>
             </div>
 
-            <p>What term do you want to request a definition for? We'll email you once a new definition is added.</p>
-            <div class = "report-error request-definition-error"></div>
-            <input type = "text" id = "request-definition-term" placeholder = "term">
-
-            <button class = "account-submit-button" id = "request-definition-action">Request Definition</button>
+            <p id = "request-definition-section-instructions">Please <span class = "link bold login-link">log in</span> or <span class = "link bold sign-up-link">sign up</span> to request a definition. This will alert our contributors, and we'll email you once a definition is added!</p>
         </div>
     </div>
 
