@@ -225,11 +225,12 @@ function logSearch(db, req, callback){
 					console.log("Search recorded");
 				})
 
-			} 
+			} else if (existingTerms.length == 0){
+				logRequestedSearch(db, req.body.term);				// if this term doesn't exist, log as requested
+			}
 
 			// either way, a search is created
 			database.create(db, "searches", newSearchRecord, function logSearch(loggedSearch){
-				logRequestedSearch(db, req.body.term);
 				callback();
 			});
 
