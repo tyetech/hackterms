@@ -2440,6 +2440,11 @@ function emailAboutNewDefinition(db, thisTerm){
 				}
 			}
 
+			database.update(db, "requests", requestQuery, requestUpdateQuery, function updatedWeight(updatedRequest){
+				console.log("The new weight is " + updatedRequest.weight);
+			})
+
+
 		} else {
 			console.log("no requests for the term " + thisTerm + " (which is weird)");
 		}
