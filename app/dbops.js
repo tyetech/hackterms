@@ -2421,6 +2421,32 @@ function createTermFromDefinition(db, req, i, definition){
 
 function emailAboutNewDefinition(db, thisTerm){
 
+
+	// update definition: 
+
+	var requestQuery = {
+		term: thisTerm
+	}
+
+	database.read(db, "requests", requestQuery, function getRequests(requests){
+
+		if(requests.length > 0){
+
+			var newWeight = Math.floor(requests[0].weight/2)
+
+			var requestUpdateQuery = {
+				$set: {
+					weight: newWeight
+				}
+			}
+
+		} else {
+			console.log("no requests for the term " + thisTerm + " (which is weird)");
+		}
+
+
+	})
+
 	//console.log("EMAIL ABOUT NEW DEFINITION");
 
 	var emailRequestQuery = {
