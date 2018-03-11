@@ -24,12 +24,7 @@ const commonPasswords = ["123456", "password", "password1", "password123", "pass
 
 function search(db, req, callback){
 
-	// ??
-
-	req.body.term = req.body.term.replace(String.fromCharCode(40),String.fromCharCode(92, 40));
-	req.body.term = req.body.term.replace(String.fromCharCode(41),String.fromCharCode(92, 41));
-	req.body.term = req.body.term.replace(String.fromCharCode(91),String.fromCharCode(92, 91));
-	req.body.term = req.body.term.replace(String.fromCharCode(93),String.fromCharCode(92, 93));
+req.body.term = req.body.term.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 
 
 	searchQuery = {
@@ -39,8 +34,9 @@ function search(db, req, callback){
 		}
 	}
 
+	console.log("searchQuery");
+	console.log(searchQuery);
 
-	// var userIP = req.headers["X-Forwarded-For"] || req.headers["x-forwarded-for"] || req.client.remoteAddress;
     var thisUsername = null;
 
     if(req.session.user){
@@ -2362,6 +2358,24 @@ function getAllTerms(db, req, callback){
 }
 
 
+function getEmptyTerms(db, req, callback){
+
+	var definitionQuery = {
+		removed: false,
+		rejected: false,
+		approved: true
+	}
+
+	database.read(db, "definitions", definitionQuery, function fetchAllDefinitions(definitions){
+		console.log("Got " + definitions.length + " definitions");
+
+		for(var i = 0; i < definitions.length; i++){
+			var definition = definitions[i];
+			createTermFromDefinition(db, req, i, definition);
+		}
+	})
+}
+
 
 
 function fillInTerms(db, req, callback){
@@ -2381,8 +2395,6 @@ function fillInTerms(db, req, callback){
 		}
 	})
 }
-
-
 
 
 function createTermFromDefinition(db, req, i, definition){
@@ -2713,7 +2725,7 @@ module.exports.checkPasswordReset = checkPasswordReset;
 module.exports.passwordResetAction = passwordResetAction;
 module.exports.selectUsername = selectUsername;
 
-
 module.exports.requestDefinition = requestDefinition;
 
 module.exports.fillInTerms = fillInTerms;
+module.exports.getEmptyTerms = getEmptyTerms;

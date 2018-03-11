@@ -942,6 +942,20 @@ MongoClient.connect(dbAddress, function(err, db){
         }
     })
 
+    app.post("/get-empty-terms", function(req, res){
+
+        if(req.session.user && req.session.user.username == "max"){
+            dbops.getEmptyTerms(db, req, function getTerms(response){
+
+                if(response.status == "success"){
+                    res.redirect("/")
+                } else {
+                    res.render("inded", {error: response.message})
+                }
+            })
+        }
+    })
+
 
 
 
