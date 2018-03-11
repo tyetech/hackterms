@@ -276,12 +276,19 @@ button:hover {
   margin: 30px 0 0 0; }
 
 #new-definition-wrapper {
-  text-align: right; }
+  display: flex;
+  justify-content: space-between; }
 
 .char-limit-warning {
+  display: flex;
   font-weight: 600;
   color: #926513;
   background: #f3cc75; }
+
+#formatting-link {
+  font-family: "Zilla Slab", serif;
+  font-weight: 500;
+  margin-top: -3px; }
 
 .over-char-limit {
   font-weight: 600;
@@ -517,7 +524,7 @@ button:hover {
 .definition-term {
   color: #114B5F;
   font-family: "Zilla Slab", serif;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 400; }
 
 .definition-metadata {
@@ -539,6 +546,18 @@ button:hover {
   display: flex;
   flex-direction: column;
   justify-content: space-between; }
+  .definition-column p {
+    margin: 0; }
+  .definition-column code {
+    font-family: "Zilla Slab", serif;
+    background: rgba(171, 171, 171, 0.3);
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 0px 3px;
+    font-weight: 400; }
+  .definition-columnem {
+    font-size: 1em;
+    font-style: italic; }
 
 .definition-meta {
   font-size: 0.85em;

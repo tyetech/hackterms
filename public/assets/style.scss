@@ -381,13 +381,21 @@ button:hover {
 }
 
 #new-definition-wrapper{
-    text-align: right;
+    display: flex;
+    justify-content: space-between;
 }
 
 .char-limit-warning {
+    display: flex;
     font-weight: 600;
     color: #926513;
     background: #f3cc75;
+}
+
+#formatting-link {
+    font-family: $font-tech;
+    font-weight: 500;
+    margin-top: -3px;
 }
 
 .over-char-limit {
@@ -681,7 +689,7 @@ button:hover {
 .definition-term {
 	color: $blue-dark;
     font-family: $font-tech;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 400;
 }
 
@@ -707,6 +715,24 @@ button:hover {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    & p {
+        margin: 0;
+    }
+
+    & code {
+        font-family: "Zilla Slab", serif;
+        background: rgba(171, 171, 171, 0.3);
+        border: 1px solid gray;
+        border-radius: 5px;
+        padding: 0px 3px;
+        font-weight: 400;
+    }
+
+    &em {
+        font-size: 1em;
+        font-style: italic;
+    }
 }
 
 .definition-meta{

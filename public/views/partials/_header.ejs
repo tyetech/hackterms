@@ -133,6 +133,7 @@
 
                 <textarea id = "new-definition-textarea" maxlength="750" rows = "4" placeholder = "keep it simple, professor!"></textarea>
                 <div id = "new-definition-wrapper">
+                    <span id ="formatting-link" class = "link">Formatting</span>
                     <span id = "new-definition-counter" class = "over-char-limit"><span id = "new-definition-char-count">0</span>/750</span>
                 </div>
 
@@ -332,6 +333,22 @@
             </div>
 
             <p id = "request-definition-section-instructions">Please <span class = "link bold login-link">log in</span> or <span class = "link bold sign-up-link">sign up</span> to request a definition. This will alert our contributors, and we'll email you once a definition is added!</p>
+        </div>
+    </div>
+
+    <div class = "pop-out skinny" id = "formatting-modal">
+        
+        <div class = "header">
+            <i class="fa fa-times fa-2x link" aria-hidden="true" id = "close"></i>
+        </div>
+        <div id = "request-definition-section">
+           <div class = "account-title request-definition-title">
+                <span class = "active-account-title">Formatting</span>
+            </div>
+
+            <p id = "request-definition-section-instructions">
+                New lines are preserved automatically
+            </p>
         </div>
     </div>
 

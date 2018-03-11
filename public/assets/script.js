@@ -627,10 +627,6 @@ function main(){
         selectNewUsername();
     });
 
-
-
-
-
     $("body").on(triggerEvent, "#password-reset-link", function(){
         resetNavBar();
         $("#password-reset-email, #password-reset-action, #password-reset-modal .account-title, #password-reset-modal p").show();
@@ -672,6 +668,10 @@ function main(){
 
     $("body").on(triggerEvent, "#github-login", function(){
     //    githubLogin();
+    });
+
+    $("body").on(triggerEvent, "#formatting-link", function(){
+        $("#formatting-modal").show();  
     });
 
 }
@@ -1499,6 +1499,14 @@ function displayDefinitionsOnPage(definitions, isLoggedIn, forUser, isModerator)
                     // replace multiple line breaks with one
                     $("#" + thisDefinition.id).find(".definition-body").text($("#" + thisDefinition.id).find(".definition-body").text().replace(/\n\s*\n/g, '\n\n'));
 
+                    // replace text with HTML
+                    console.log("typeof(thisDefinition.markdown)");
+                    
+                    console.log(typeof(thisDefinition.markdown));
+                    if(typeof(thisDefinition.markdown) != "undefined" && thisDefinition.markdown.trim().length){
+                        $("#" + thisDefinition.id).find(".definition-body").html(thisDefinition.markdown);    
+                    }
+                    
 
                     if(typeof(thisDefinition.related) != "undefined" && thisDefinition.related != null){
                         thisDefinition.related.forEach(function(relatedTerm){ 

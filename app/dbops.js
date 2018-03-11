@@ -5,7 +5,11 @@ var request = require('request');                         // send HTTP requests
 var GoogleAuth = require('google-auth-library');		  // authenticate google user tokens to sign users in with a google Account
 var auth = new GoogleAuth;
 var client = new auth.OAuth2("285224215537-l5a1ol101rmutrvbcd2omt5r3rktmh6v.apps.googleusercontent.com", '', '');
-var sanitizeHtml = require('sanitize-html');			// sanitize HTML
+var sanitizeHtml = require('sanitize-html');			  // sanitize HTML
+var showdown  = require('showdown'),					  // convert Markdown to HTML
+    converter = new showdown.Converter()	
+
+
 
 var transporter = nodemailer.createTransport({
     host: 'smtp.zoho.com',
@@ -16,6 +20,37 @@ var transporter = nodemailer.createTransport({
         pass: process.env.ZOHO_PASSWORD 
     }
 });
+
+
+converter.setOption('noHeaderId', 'true');				// disable certain tags
+
+
+
+showdown.extension('myext', function () {
+  var store = '';
+  var lngExt = function (text, converter, options) {
+    var globals = {converter: converter};
+    options.strikethrough = true;
+    text = showdown.subParser('italicsAndBold')(text, options, globals);
+    text = showdown.subParser('code')(text, options, globals);
+    store = text;
+    return "";
+  };
+  var otpExt = function (text, converter, options) {
+    return store;
+  };
+  return [
+    {
+      type: 'lang',
+      filter: lngExt
+    },
+    {
+      type: 'output',
+      filter: otpExt
+    }
+  ];
+});
+
 
 
 
@@ -465,6 +500,9 @@ function addDefinition(db, req, callback){
 							})
 						}
 
+						var sanitizedBody = sanitizeInput(req.body.definition)
+						var markedUpBody = converter.makeHtml(sanitizedBody);
+
 						console.log("This user has submitted " + approvedDefinitions.length + " definitions");
 
 						var newDefinitionQuery = {
@@ -479,7 +517,8 @@ function addDefinition(db, req, callback){
 							rejected: false,
 							lastEdit: new Date(),
 							created: new Date(),
-							body: sanitizeInput(req.body.definition),
+							body: sanitizedBody,
+							markdown: markedUpBody,
 							category: req.body.category,
 							related: relatedTerms
 						}
@@ -606,6 +645,7 @@ function addDefinition(db, req, callback){
 										$set: {
 											lastEdit: new Date(),
 											body: req.body.definition,
+											markdown: markedUpBody,
 											category: req.body.category,
 											related: relatedTerms
 										}
