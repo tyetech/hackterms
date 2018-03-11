@@ -681,8 +681,14 @@ button:hover {
 .definition-term {
 	color: $blue-dark;
     font-family: $font-tech;
-    font-size: 1.5em;
+    font-size: 1.5rem;
     font-weight: 400;
+}
+
+.definition-metadata {
+    color: $gray-transparent;
+    font-size: 0.8rem;
+    font-weight: 600;
 }
 
 
@@ -697,6 +703,7 @@ button:hover {
     line-height: 1.4;
     padding-right: 10px;
     word-wrap: break-word;
+    white-space: pre-line;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -1802,6 +1809,7 @@ button:hover {
 
     .definition-history{
         width: 60%;
+        //font-size: 0.9em;
     }
 
     .definition-actions {
@@ -1898,9 +1906,6 @@ button:hover {
         width: calc(90% - 10px);
     }
 
-    .definition-history{
-        font-size: 0.9em;
-    }
 
     .voting-column {
         display: inline-block;

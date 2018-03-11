@@ -1484,7 +1484,7 @@ function displayDefinitionsOnPage(definitions, isLoggedIn, forUser, isModerator)
                     var context = {
                         definition: thisDefinition,
                         link: cleanUrl(thisDefinition.term),
-                        editDate: thisDefinition.lastEdit.substr(4, 11),
+                        editDate: thisDefinition.lastEdit.substr(0, 10),
                         score: thisScore,
                         id: thisDefinition.id,
                         commentCount: thisDefinition.comments.length,
@@ -1494,6 +1494,12 @@ function displayDefinitionsOnPage(definitions, isLoggedIn, forUser, isModerator)
                     var compiled = myTemplate(context);
 
                     $("#definitions-section").append(compiled);
+
+
+                    // replace multiple line breaks with one
+                    $("#" + thisDefinition.id).find(".definition-body").text($("#" + thisDefinition.id).find(".definition-body").text().replace(/\n\s*\n/g, '\n\n'));
+
+
                     if(typeof(thisDefinition.related) != "undefined" && thisDefinition.related != null){
                         thisDefinition.related.forEach(function(relatedTerm){ 
                             allRelatedTerms.push(relatedTerm);

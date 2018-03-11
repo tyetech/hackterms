@@ -517,8 +517,13 @@ button:hover {
 .definition-term {
   color: #114B5F;
   font-family: "Zilla Slab", serif;
-  font-size: 1.5em;
+  font-size: 1.5rem;
   font-weight: 400; }
+
+.definition-metadata {
+  color: rgba(44, 54, 63, 0.3);
+  font-size: 0.8rem;
+  font-weight: 600; }
 
 .definition-related-terms {
   padding-top: 10px; }
@@ -530,6 +535,7 @@ button:hover {
   line-height: 1.4;
   padding-right: 10px;
   word-wrap: break-word;
+  white-space: pre-line;
   display: flex;
   flex-direction: column;
   justify-content: space-between; }
@@ -1420,8 +1426,6 @@ button:hover {
     line-height: 1.5;
     font-size: 0.9em;
     width: calc(90% - 10px); }
-  .definition-history {
-    font-size: 0.9em; }
   .voting-column {
     display: inline-block;
     float: none;
