@@ -968,10 +968,12 @@ code {
 
 .profile-username {
   margin-top: 30px;
+  margin-bottom: 3px;
   background: #114B5F;
   color: white;
-  padding: 3px 8px;
-  display: inline-block; }
+  padding: 6px 11px;
+  display: inline-block;
+  border-radius: 5px; }
 
 .profile-links {
   margin-bottom: 35px; }

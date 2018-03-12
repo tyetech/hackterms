@@ -1244,10 +1244,12 @@ code {
 
 .profile-username {
     margin-top: 30px;
+    margin-bottom: 3px;
     background: $blue-dark;
     color: white;
-    padding: 3px 8px;
+    padding: 6px 11px;
     display: inline-block;
+    border-radius: $border-radius
 }
 
 .profile-links {
