@@ -42,6 +42,14 @@ button:hover {
   background: #E88D67;
   box-shadow: 0 1px 9px rgba(232, 140, 103, 0.75); }
 
+code {
+  font-family: "Zilla Slab", serif;
+  background: rgba(171, 171, 171, 0.3);
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 0px 3px;
+  font-weight: 400; }
+
 .bold {
   font-weight: 600; }
 
@@ -548,13 +556,6 @@ button:hover {
   justify-content: space-between; }
   .definition-column p {
     margin: 0; }
-  .definition-column code {
-    font-family: "Zilla Slab", serif;
-    background: rgba(171, 171, 171, 0.3);
-    border: 1px solid gray;
-    border-radius: 5px;
-    padding: 0px 3px;
-    font-weight: 400; }
   .definition-columnem {
     font-size: 1em;
     font-style: italic; }
