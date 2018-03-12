@@ -22,38 +22,6 @@ var transporter = nodemailer.createTransport({
 });
 
 
-converter.setOption('noHeaderId', 'true');				// disable certain tags
-
-
-
-showdown.extension('myext', function () {
-  var store = '';
-  var lngExt = function (text, converter, options) {
-    var globals = {converter: converter};
-    options.strikethrough = true;
-    text = showdown.subParser('italicsAndBold')(text, options, globals);
-    text = showdown.subParser('code')(text, options, globals);
-    store = text;
-    return "";
-  };
-  var otpExt = function (text, converter, options) {
-    return store;
-  };
-  return [
-    {
-      type: 'lang',
-      filter: lngExt
-    },
-    {
-      type: 'output',
-      filter: otpExt
-    }
-  ];
-});
-
-
-
-
 const commonPasswords = ["123456", "password", "password1", "password123", "password321", "123456", "654321", "12345678", "87654321", "football", "qwerty", "1234567890", "1234567", "princess", "aaaaaa", "111111"]
 
 
@@ -501,7 +469,12 @@ function addDefinition(db, req, callback){
 						}
 
 						var sanitizedBody = sanitizeInput(req.body.definition)
-						var markedUpBody = converter.makeHtml(sanitizedBody);
+						var preMarkUpBody = sanitizedBody.replace(/\#/g, "").replace(/\`\`/g, "").replace(/\~/g, "");
+						var markedUpBody = converter.makeHtml(preMarkUpBody);
+
+						console.log("markedUpBody");
+						console.log(markedUpBody);
+
 
 						console.log("This user has submitted " + approvedDefinitions.length + " definitions");
 
