@@ -1249,6 +1249,9 @@ code {
   display: block;
   margin-top: 20px; }
 
+.rule-body ul {
+  margin: 3px 0 6px 0; }
+
 .faq-control {
   color: #114B5F; }
 
