@@ -1716,7 +1716,7 @@ function addNotificationsToScreen(){
             } else if (notification.type == "comment"){
                 $("#notifications-section").append("<div class = 'notification-panel one-notification'><a href = '/profile/status'>Your comment has been <span class ='submission-update post-"+notification.status + "'>" + notification.status + "</a></span></div>");
             } else if (notification.type == "new-comment"){
-                $("#notifications-section").append("<div class = 'notification-panel one-notification'><a href = '/" + notification.term + "'>New comment on your definition: <span class ='submission-update post-"+ notification.status + "'>" + notification.term  + "</a></span></div>");
+                $("#notifications-section").append("<div class = 'notification-panel one-notification'><a href = '/profile'>New comment on your definition: <span class ='submission-update post-"+ notification.status + "'>" + notification.term  + "</a></span></div>");
             }            
         }  
     }
