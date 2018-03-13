@@ -6,8 +6,8 @@ var GoogleAuth = require('google-auth-library');		  // authenticate google user 
 var auth = new GoogleAuth;
 var client = new auth.OAuth2("285224215537-l5a1ol101rmutrvbcd2omt5r3rktmh6v.apps.googleusercontent.com", '', '');
 var sanitizeHtml = require('sanitize-html');			  // sanitize HTML
-var showdown  = require('showdown'),					  // convert Markdown to HTML
-    converter = new showdown.Converter()	
+var showdown  = require('showdown');					  // convert Markdown to HTML
+  
 
 
 
@@ -20,6 +20,36 @@ var transporter = nodemailer.createTransport({
         pass: process.env.ZOHO_PASSWORD 
     }
 });
+
+showdown.extension('myext', function () {
+  var store = '';
+  var lngExt = function (text, converter, options) {
+    var globals = {converter: converter};
+    options.strikethrough = true;
+    text = showdown.subParser('italicsAndBold')(text, options, globals);
+    text = showdown.subParser('strikethrough')(text, options, globals);
+    text = showdown.subParser('codeSpans')(text, options, globals);
+    text = text.trim();
+    store = text;
+    return "";
+  };
+  var otpExt = function (text, converter, options) {
+    return store;
+  };
+  return [
+    {
+      type: 'lang',
+      filter: lngExt
+    },
+    {
+      type: 'output',
+      filter: otpExt
+    }
+  ];
+});
+
+var converter = new showdown.Converter();
+
 
 
 const commonPasswords = ["123456", "password", "password1", "password123", "password321", "123456", "654321", "12345678", "87654321", "football", "qwerty", "1234567890", "1234567", "princess", "aaaaaa", "111111"]
@@ -469,7 +499,7 @@ function addDefinition(db, req, callback){
 						}
 
 						var sanitizedBody = sanitizeInput(req.body.definition)
-						var preMarkUpBody = sanitizedBody.replace(/\#/g, "").replace(/\`\`/g, "").replace(/\~/g, "");
+						var preMarkUpBody = sanitizedBody.replace(/\#/g, "").replace(/\`{2,}/g, "\`").replace(/\~\~/g, "").replace(/\<a href="/g, "");
 						var markedUpBody = converter.makeHtml(preMarkUpBody);
 
 						console.log("markedUpBody");
@@ -728,7 +758,7 @@ function addComment(db, req, callback){
 
 						database.read(db, "definitions", definitionQuery, function fetchDefinition(definitions){
 							if(definitions.length == 1){
-								newCommentQuery = {
+								var newCommentQuery = {
 									id: Math.floor(Date.now()/Math.random()),							// hopefully this should give us a random ID
 									term: definitions[0].term,
 									post_id: parseInt(req.body.post_id),
@@ -743,7 +773,15 @@ function addComment(db, req, callback){
 									body: sanitizedComment
 								}
 
+
+
 								database.create(db, "comments", newCommentQuery, function createComment(newComment){
+									var thisMessage = "Someone has commented on your definition: " + definitions[0].term;
+									
+									createNotification(db, req, definitions[0].author, thisMessage, definitions[0].term, "approved", "new-comment", function addNotification(){
+										console.log("Notification created");	
+									})
+
 									callback({
 										status: "success",
 										comment: newComment.ops[0]
@@ -1027,12 +1065,19 @@ function adminVote(db, req, callback){
 			}
 		}
 
-		var userQuery = {
-			username: req.body.author
-		}
+		
 
-		database.update(db, "definitions", definitionQuery, definitionUpdateQuery, function updateDefinition(response){
+		database.update(db, "definitions", definitionQuery, definitionUpdateQuery, function updateDefinition(updatedDefinition){
 			database.create(db, "notifications", newNotification, function createNotification(newNotification){
+				
+				console.log("updatedDefinition");
+				console.log(updatedDefinition);
+
+				var userQuery = {
+					username: updatedDefinition.author
+				}
+
+
 				database.update(db, "users", userQuery, newNotificationsUpdate, function addNewNotification(newNotification){
 					callback({status: "success", message: "definition updated"});
 				});
@@ -1076,7 +1121,7 @@ function adminVote(db, req, callback){
 						var thisType = updatedReport.type.substr(0, (updatedReport.type.length-1))
 
 						var newNotification = {
-							to: updatedReport.author,
+							to: updatedPost.author,
 							from: "admin",
 							date: new Date(),
 							body: "Your comment has been removed",
@@ -2545,6 +2590,41 @@ function sendRequestDefinitionEmail(db, email, i){
 	}, 50*i);
 }
 
+
+function createNotification(db, req, user, message, thisTerm, thisStatus, thisType, callback){
+	var newNotification = {
+		to: user,
+		from: "admin",
+		date: new Date(),
+		body: message,
+		type: thisType,
+		term: thisTerm,
+		status: thisStatus
+	}
+
+	var newNotificationsUpdate = {
+		$set: {
+			"data.newNotifications": true
+		}
+	}
+
+	var userQuery = {
+		username: user
+	}
+
+	
+	database.create(db, "notifications", newNotification, function createNotification(newNotification){
+		database.update(db, "users", userQuery, newNotificationsUpdate, function addNewNotification(updatedUser){
+
+			console.log("newNotification");
+			console.log(newNotification[0]);
+
+
+			console.log("Notification created for " + user);
+			callback();
+		});
+	})
+}
 
 
 

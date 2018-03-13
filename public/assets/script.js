@@ -269,6 +269,8 @@ function main(){
             $("#related-term-textarea").val(relatedTerms);
             $("#add-definition")[0].dataset.id = post.id;
 
+            $("#add-definition").text("Save");
+
             var charCount = $("#new-definition-textarea").val().length;
 
             $("#new-definition-char-count").text(charCount);
@@ -472,6 +474,8 @@ function main(){
     $("body").on(triggerEvent, "#new-def-link", function(){
         window.scrollTo(0, 0);
 
+        $("#add-definition").text("Add");
+
         // show new definition modal and empty text fields
         $("#new-definition").show();
         $("#new-definition-textarea, #definition-term-textarea, #related-term-textarea, #definition-category-selection").val("");
@@ -664,10 +668,6 @@ function main(){
             $("#trending-terms-label").removeClass("active-top-term-label");
             getTopTerms();
         }
-    });
-
-    $("body").on(triggerEvent, "#github-login", function(){
-    //    githubLogin();
     });
 
     $("body").on(triggerEvent, "#formatting-link", function(){
@@ -1713,8 +1713,10 @@ function addNotificationsToScreen(){
 
             if(notification.type == "definition"){
                 $("#notifications-section").append("<div class = 'notification-panel one-notification'><a href = '/profile/status'>Your submission <span class ='bold'>" + notification.term + "</span> has been <span class ='submission-update post-"+ notification.status + "'>" + notification.status + "</a></span></div>");
-            } else if (notification.type = "comment"){
-                $("#notifications-section").append("<div class = 'notification-panel one-notification'>Your comment has been <span class ='submission-update post-"+notification.status + "'>" + notification.status + "</span></div>");
+            } else if (notification.type == "comment"){
+                $("#notifications-section").append("<div class = 'notification-panel one-notification'><a href = '/profile/status'>Your comment has been <span class ='submission-update post-"+notification.status + "'>" + notification.status + "</a></span></div>");
+            } else if (notification.type == "new-comment"){
+                $("#notifications-section").append("<div class = 'notification-panel one-notification'><a href = '/" + notification.term + "'>New comment on your definition: <span class ='submission-update post-"+ notification.status + "'>" + notification.term  + "</a></span></div>");
             }            
         }  
     }
