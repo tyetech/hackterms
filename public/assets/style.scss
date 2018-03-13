@@ -828,9 +828,6 @@ code {
     border-left: 4px solid #114B5F;
 }
 
-.active-top-term-label {
-    color: #000000
-}
 
 .top-term-headings{
     display: flex;
@@ -839,16 +836,31 @@ code {
     cursor: pointer;
     padding-bottom: 10px;
     font-weight: 400;
-    font-family: $font-tech;
-    font-size: 1.3em;   
-    div {
-        display: flex;
+
+    // font-size: 1.3em;   
+    & div{
+
+        font-weight: 400;
+        width: 150px;
+        display: inline-block;
+        text-align: center;
+        border: 1px solid gray;
+        padding: 3px 0;
+        border-radius: 5px;
+        background: white;  
         margin: 0 10px;
+        text-align: center;
         &:hover:not(.active-top-term-label) {
             color: $orange;
         }
+        &.active-top-term-label {
+            color: $white;
+            background: $blue-light;
+        }
     }
 }
+
+
 
 #top-searches, #top-requests {
     flex-wrap: wrap;
@@ -1979,6 +1991,8 @@ code {
 
     .top-term-headings div {
         margin: 0;
+        width: 125px;
+        font-size: 1rem;
     }
 
 
