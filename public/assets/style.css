@@ -298,6 +298,12 @@ code {
   font-weight: 500;
   margin-top: -3px; }
 
+.one-format {
+  margin: 0 5px; }
+
+#formatting-instructions {
+  line-height: 2; }
+
 .over-char-limit {
   font-weight: 600;
   color: #b50000;

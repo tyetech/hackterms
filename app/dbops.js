@@ -1312,24 +1312,32 @@ function signup(db, req, callback){
 
 					if(commonPasswords.indexOf(req.body.password.trim()) == -1){
 						
-						var userQuery = {
-							username: req.body.username.trim().toLowerCase(),
-						}
+						// check if either this email or username exists
+
+						var userEmailQuery = { email: req.body.email.trim().toLowerCase() }
+						var userUsernameQuery = { username: req.body.username.trim().toLowerCase() }
 
 						if(validateCharset(req.body.username)){
-							database.read(db, "users", userQuery, function(existingUsers){
-								if(existingUsers.length == 0){	
+							database.read(db, "users", userEmailQuery, function(existingEmailUsers){
+								if(existingEmailUsers.length == 0){	
+									database.read(db, "users", userUsernameQuery, function(existingUsernameUsers){
+										
+										if(existingUsernameUsers.length == 0){	
+											bcrypt.genSalt(10, function(err, salt) {
+											    bcrypt.hash(req.body.password, salt, function(err, hash){
+											    	createNewUser(hash, null, null, req.body.email.trim().toLowerCase(), db, req, function(newUser){
+														callback({status: "success", message: "Account created. Go ahead and log in!", user: newUser});
+														// login(db, req, callback)
+													})  
+											    });
+											});
 
-									bcrypt.genSalt(10, function(err, salt) {
-									    bcrypt.hash(req.body.password, salt, function(err, hash){
-									    	createNewUser(hash, null, null, req.body.email.trim().toLowerCase(), db, req, function(newUser){
-												callback({status: "success", message: "Account created. Go ahead and log in!", user: newUser});
-											})  
-									    });
+										} else {	
+											callback({status: "fail", message: "That username is not available", errorType: "username"})
+										}	
 									});
-
 								} else {	
-									callback({status: "fail", message: "That username is not available", errorType: "username"})
+									callback({status: "fail", message: "That email is not available", errorType: "email"})
 								}
 							})
 						} else {

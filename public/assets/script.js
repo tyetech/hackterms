@@ -108,7 +108,7 @@ function main(){
         }
     }
 
-    resetNavBar();
+    $("#signup-modal, #login-modal").hide();
     populateRandomSearchTerm();
 
 
@@ -522,6 +522,7 @@ function main(){
         $(".pop-out").find("input").val("");
         $(".pop-out").find(".report-error").text("");
         $(".new-definition-error .new-request-error").text("");
+        $("#formatting-link").text("").append("<span id ='formatting-link' class = 'link'>Formatting</span>");
         $(".pop-out").hide();
     });
 
@@ -555,7 +556,7 @@ function main(){
     });
 
     $("body").on(triggerEvent, "#account-close", function(){
-        resetNavBar();
+        $("#signup-modal, #login-modal").hide();
     });
 
     $("body").on(triggerEvent, "#login-action", function(){
@@ -632,7 +633,7 @@ function main(){
     });
 
     $("body").on(triggerEvent, "#password-reset-link", function(){
-        resetNavBar();
+        $("#signup-modal, #login-modal").hide();
         $("#password-reset-email, #password-reset-action, #password-reset-modal .account-title, #password-reset-modal p").show();
         $("#reset-request-confirm").hide();
         $("#password-reset-modal").show();
@@ -647,7 +648,7 @@ function main(){
     });
 
     $("body").on(triggerEvent, "#password-reset-link", function(){
-        resetNavBar();
+        $("#signup-modal, #login-modal").hide();
         $("#password-reset-email, #password-reset-action, #password-reset-modal .account-title, #password-reset-modal p").show();
         $("#reset-request-confirm").hide();
         $("#password-reset-modal").show();
@@ -671,7 +672,12 @@ function main(){
     });
 
     $("body").on(triggerEvent, "#formatting-link", function(){
-        $("#formatting-modal").show();  
+        //$("#formatting-modal").show();  
+        $("#formatting-link").text("");
+        $("#formatting-link").append("<span class= 'one-format'><span class = 'bold'>* bold *</span></span>");
+        $("#formatting-link").append("<span class= 'one-format'><em>_ italic _</em></span>");
+        $("#formatting-link").append("<span class= 'one-format'><code>` underscore `</code></span>");
+        $("#formatting-link").removeClass("link");
     });
 
 }
@@ -699,19 +705,6 @@ function githubLogin() {
 
 /* FUNCTIONS */
 
-function resetNavBar(){
-    $("#login-username, #login-password, #signup-username, #signup-password").val("");
-    $("#login-section, #signup-section").hide();
-    $("#signup-modal").hide();
-    $("#login-modal").hide();
-    $("#login, #signup").show();
-    $(".account").show();
-
-    if(screenWidth < 980){
-        $("#home-link").css("float", "left")
-    }
-
-}
 
 function populateRandomSearchTerm(){
     var sampleSearches = ["javascript", "rails", "node.js", "session", "function", "mongodb", "sublime text", "mvc"];
@@ -1223,7 +1216,18 @@ function signup(){
             url: "/signup",
             success: function(result){
                 if(result.status == "success"){
-                    resetNavBar();
+                    
+/*                    if(window.location.pathname.indexOf("/profile") != -1 ){
+                        location.reload();
+                    } else if(window.location.pathname.indexOf("/password-reset") != -1){
+                        window.location.href = "http://hackterms.com";
+                    } else {            
+                        window.location.href = "/";
+                    } 
+*/
+
+
+                    $("#signup-modal, #login-modal").hide();
                     flash("message", result.message)
                 } else {
                     $(".report-error").text("");

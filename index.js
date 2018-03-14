@@ -474,7 +474,7 @@ MongoClient.connect(dbAddress, function(err, db){
     });
 
     app.post("/login", function(req, res){
-        dbops.login(db, req, function vote(response){
+        dbops.login(db, req, function login(response){
 
             if(response.status == "fail"){
                 res.send({
@@ -483,6 +483,7 @@ MongoClient.connect(dbAddress, function(err, db){
                     errorType: response.errorType
                 });
             } else {
+                //res.render("index")
                 res.send({ status: "success" });
             }
         });
