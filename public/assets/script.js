@@ -676,7 +676,7 @@ function main(){
         $("#formatting-link").text("");
         $("#formatting-link").append("<span class= 'one-format'><span class = 'bold'>* bold *</span></span>");
         $("#formatting-link").append("<span class= 'one-format'><em>_ italic _</em></span>");
-        $("#formatting-link").append("<span class= 'one-format'><code>` underscore `</code></span>");
+        $("#formatting-link").append("<span class= 'one-format'><code>` code `</code></span>");
         $("#formatting-link").removeClass("link");
     });
 
