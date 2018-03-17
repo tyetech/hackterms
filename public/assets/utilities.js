@@ -87,10 +87,11 @@ function insertTermLinks(terms, thisTerm){
                     var matchIndex = copy.toLowerCase().indexOf(term.toLowerCase());        // where is the term in the copy?  
                     if(matchIndex != -1 && term != thisTerm){
 
-
                         // let's check if this is a whole word
                         var startIndex = matchIndex;
                         var endIndex = matchIndex + term.length - 1;
+
+                        var originalTerm = copy.substring(startIndex, endIndex + 1);
 
                         if( (copy[startIndex-1] == " " || copy[startIndex-1] == "(" || startIndex == 0) && (copy[endIndex+1] == " " || copy[endIndex+1] == ")" || endIndex == (copy.length-1) )  ){
 
@@ -100,11 +101,11 @@ function insertTermLinks(terms, thisTerm){
                             //    console.log("GOT A SPACE");
                                 matchIndex++;
                                 copy = copy.slice(0, matchIndex) + Array(term.length +33).join("ಠ") + copy.slice( (matchIndex + term.length) , copy.length );    // 32 is the length of <a href = ''></a>
-                                htmlCopy = htmlCopy.slice(0, matchIndex) + "<a class='linked-term bold'>" + term + "</a>" + htmlCopy.slice( (matchIndex + term.length) , htmlCopy.length)
+                                htmlCopy = htmlCopy.slice(0, matchIndex) + "<a class='linked-term bold'>" + originalTerm + "</a>" + htmlCopy.slice( (matchIndex + term.length) , htmlCopy.length)
                                 
                             } else {
                                 copy = copy.slice(0, matchIndex) + Array(term.length + 32).join("ಠ") + copy.slice( (matchIndex + term.length) , copy.length );    // 32 is the length of <a href = ''></a>
-                                htmlCopy = htmlCopy.slice(0, matchIndex) + "<a class='linked-term bold'>" + term + "</a>" + htmlCopy.slice( (matchIndex + term.length) , htmlCopy.length)
+                                htmlCopy = htmlCopy.slice(0, matchIndex) + "<a class='linked-term bold'>" + originalTerm + "</a>" + htmlCopy.slice( (matchIndex + term.length) , htmlCopy.length)
                             }    
                                 /*  
                                 console.log("The new copy is: " + copy);
