@@ -80,16 +80,16 @@ function insertTermLinks(terms, thisTerm){
             var htmlCopy = text;
             
             terms.forEach(function(term){      // iterate through each term
-                if(term.length > 0 && term.toLowerCase() != thisTerm.toLowerCase()){          // if the term isn't blank and isn't the same as the term card
+                if(term.length > 3 && term.toLowerCase() != thisTerm.toLowerCase()){          // if the term isn't blank and isn't the same as the term card
                     var matchIndex = copy.toLowerCase().indexOf(term.toLowerCase());        // where is the term in the copy?  
                     if(matchIndex != -1 && term != thisTerm){
 
-                        console.log("Found a match for [" + term.toLowerCase() + "] at char " + copy.indexOf(term));
+                        //console.log("Found a match for [" + term.toLowerCase() + "] at char " + copy.indexOf(term));
 
                         
                         
                         if(htmlCopy[matchIndex] == " "){
-                            console.log("GOT A SPACE");
+                        //    console.log("GOT A SPACE");
                             matchIndex++;
                             copy = copy.slice(0, matchIndex) + Array(term.length +33).join("ಠ") + copy.slice( (matchIndex + term.length) , copy.length );    // 32 is the length of <a href = ''></a>
                             htmlCopy = htmlCopy.slice(0, matchIndex) + "<a class='linked-term bold'>" + term + "</a>" + htmlCopy.slice( (matchIndex + term.length) , htmlCopy.length)
@@ -98,17 +98,13 @@ function insertTermLinks(terms, thisTerm){
                             copy = copy.slice(0, matchIndex) + Array(term.length + 32).join("ಠ") + copy.slice( (matchIndex + term.length) , copy.length );    // 32 is the length of <a href = ''></a>
                             htmlCopy = htmlCopy.slice(0, matchIndex) + "<a class='linked-term bold'>" + term + "</a>" + htmlCopy.slice( (matchIndex + term.length) , htmlCopy.length)
                         }    
-
-                        
-                    
-                        
-                        
-
-                        console.log("The new copy is: " + copy);
-                        console.log("The new html is: " + htmlCopy);
+                            /*  
+                            console.log("The new copy is: " + copy);
+                            console.log("The new html is: " + htmlCopy);
+                            */
                     }
                 } else {
-                    console.log("NOT testing " + term);
+                    //console.log("NOT testing " + term);
                 }
             })
 
@@ -119,7 +115,7 @@ function insertTermLinks(terms, thisTerm){
             $(this).find("a").each(function(){
                 $(this).attr("href", $(this).text()); 
             })
-            console.log("========");
+            // console.log("========");
         });
     }
 }
