@@ -69,123 +69,61 @@ function sortRelatedTerms(terms){                // messy solution to sorting an
 
 }
 
-function insertTermLinks(terms, thisTerm){              // inserts links to other terms into definitions
-                                                        // this is ugly as all hell, but it works well
 
-    if($(".definition-body").length > 0){      
 
-        $(".definition-body").each(function(){                         // iterate through each definition
 
+function insertTermLinks(terms, thisTerm){
+    if($(".definition-body").length > 0){  
+        $(".definition-body").each(function(){                         // iterate through each definition on the page
             var text = $(this).text();
-            var preservedOriginalText = text;
-            var tempText = text.toLowerCase();                         //this is the copy we're editing;
-            var addedLinks = {};                                       // keep track of which links we've addedß
+            var copy = text;
+            var htmlCopy = text;
             
+            terms.forEach(function(term){      // iterate through each term
+                if(term.length > 0 && term.toLowerCase() != thisTerm.toLowerCase()){          // if the term isn't blank and isn't the same as the term card
+                    var matchIndex = copy.toLowerCase().indexOf(term.toLowerCase());        // where is the term in the copy?  
+                    if(matchIndex != -1 && term != thisTerm){
 
-            for(var i = 0; i < terms.length; i++){                     // go through each term...
-                
-                if(terms[i] != null && terms[i] != thisTerm){          // if this term exists and isn't the main searched term...
-                    
-                    var term = terms[i].toLowerCase().replace(/[.,\/#!$%\^&\*;\+:{}=\-_`~()]/g,""); // get rid of special chars
-                    var searchRegex = new RegExp("(^|\\W)" + term + "($|\\W)", "i");        // search for this term if it matches the whole word
-                    var termLength = term.length;
-
-                    // console.log(searchRegex);
-                    
-                    if(text.search(searchRegex) != -1){
-                        
-                        var startIndex = text.toLowerCase().indexOf(term);
-                        var endIndex = startIndex + term.length;
-                        var termOnPage = text.substring(startIndex, endIndex);              // this just tells us what word to replace with
-                        //console.log("term on page is: " + termOnPage);
-
-                        // we need to get the index of every instance of that word on the page
-
-                        var veryTempText = text;
-                        var matchingIndexes = [];
-                        var match = true;
-
-                        while(match){
-                            match = searchRegex.exec(veryTempText);         // is there a regex-ed term within our string?
-                            if(match != null){
-                                console.log(searchRegex); 
-                                var tempTermLength = termLength;
-                                console.log("tempText[match.index]: " + tempText[match.index]);
-
-                                if(text[match.index] == " "){
-                                    console.log("THIS IS A SPACE! Incrementing");
-                                    match.index++;                      // if there is, replace it with spaces
-                                    tempTermLength++;
-                                    //console.log(tempText[match.index]);
-                                }
-
-
-
-                                veryTempText = replaceWith(veryTempText, match.index, Array(tempTermLength + 1).join(" "), tempTermLength);   //replace this word with spaces
-                                matchingIndexes.push(match.index);
-                            } else {
-                                match = false;
-                            }
-                        }
-
-                        matchingIndexes.reverse();
-
-                        console.log("matchingIndexes for the term " + term);
-                        console.log(matchingIndexes);
+                        console.log("Found a match for [" + term.toLowerCase() + "] at char " + copy.indexOf(term));
 
                         
-                        if(matchingIndexes.length > 0){
-
-                            for(var j = 0; j < matchingIndexes.length; j++){
-
-                                console.log("on page HTML");
-                                console.log(text);
-                                console.log("current text: ");
-                                console.log(tempText);
-                                console.log("index: " + matchingIndexes[j]);
-                                console.log("letter at tempText: " + tempText[matchingIndexes[j]]);
-
-                                if(tempText[matchingIndexes[j]] != "ಠ"){        // if this hasn't already been replaced...
-                                    
-                                    var termWithLink = "<a class = 'linked-term bold'>" + termOnPage + "</a>";
-                                    tempText = replaceWith(tempText, matchingIndexes[j], Array(termWithLink.length).join("ಠ"), termLength);      // 33 is how much space the a tag takes up
-                                    text = replaceWith(text, matchingIndexes[j], termWithLink, termLength);
-
-                                    console.log("new tempText");
-                                    console.log(tempText);
-
-                                    console.log("new text");
-                                    console.log(text);
-
-                                    $(this).html(text);
-/*                                    if($(this).text() != preservedOriginalText){
-                                        console.log("reverting");
-                                        $(this).html(preservedOriginalText);        // if the text isn't equivalent to when we started, revert
-                                    }*/
-                                }
-                            }
-
+                        
+                        if(htmlCopy[matchIndex] == " "){
+                            console.log("GOT A SPACE");
+                            matchIndex++;
+                            copy = copy.slice(0, matchIndex) + Array(term.length +33).join("ಠ") + copy.slice( (matchIndex + term.length) , copy.length );    // 32 is the length of <a href = ''></a>
+                            htmlCopy = htmlCopy.slice(0, matchIndex) + "<a class='linked-term bold'>" + term + "</a>" + htmlCopy.slice( (matchIndex + term.length) , htmlCopy.length)
+                            
                         } else {
-                            console.log("No matches");
-                        }
+                            copy = copy.slice(0, matchIndex) + Array(term.length + 32).join("ಠ") + copy.slice( (matchIndex + term.length) , copy.length );    // 32 is the length of <a href = ''></a>
+                            htmlCopy = htmlCopy.slice(0, matchIndex) + "<a class='linked-term bold'>" + term + "</a>" + htmlCopy.slice( (matchIndex + term.length) , htmlCopy.length)
+                        }    
 
-                    } 
+                        
+                    
+                        
+                        
+
+                        console.log("The new copy is: " + copy);
+                        console.log("The new html is: " + htmlCopy);
+                    }
+                } else {
+                    console.log("NOT testing " + term);
                 }
-            }
+            })
+
+            $(this).html(htmlCopy);
+
+
             // after all the links are set up, cycle through each one and add the actual href attributes
             $(this).find("a").each(function(){
                 $(this).attr("href", $(this).text()); 
             })
-
-
-//            console.log("======== done with this definition ==============");
-
+            console.log("========");
         });
-
-    } else {
-        console.log("There are no definitions on the page");
     }
 }
+
 
 function replaceAt(text, index, replacement) {
     return text.substr(0, index) + replacement + text.substr(index + replacement.length);

@@ -1504,9 +1504,7 @@ function displayDefinitionsOnPage(definitions, isLoggedIn, forUser, isModerator)
                     $("#" + thisDefinition.id).find(".definition-body").text($("#" + thisDefinition.id).find(".definition-body").text().replace(/\n\s*\n/g, '\n\n'));
 
                     // replace text with HTML
-                    console.log("typeof(thisDefinition.markdown)");
-                    
-                    console.log(typeof(thisDefinition.markdown));
+
                     if(typeof(thisDefinition.markdown) != "undefined" && thisDefinition.markdown.trim().length){
                         $("#" + thisDefinition.id).find(".definition-body").html(thisDefinition.markdown);    
                     }
@@ -1846,8 +1844,8 @@ function getExistingDefinition(thisId, callback){
 
 function hilightLinks(thisTerm){
 
-console.log("This feature is off for now");
-/*
+// console.log("This feature is off for now");
+
     if($(".definition-body").length >0){
         $.ajax({
             type: "get",
@@ -1862,7 +1860,8 @@ console.log("This feature is off for now");
                 }
             }
         })
-    }*/
+    }
+
 }
 
 
