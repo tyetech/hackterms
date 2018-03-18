@@ -93,9 +93,9 @@ function insertTermLinks(terms, thisTerm){
 
                         var originalTerm = copy.substring(startIndex, endIndex + 1);
 
-                        if( (copy[startIndex-1] == " " || copy[startIndex-1] == "(" || startIndex == 0) && (copy[endIndex+1] == " " || copy[endIndex+1] == ")" || endIndex == (copy.length-1) )  ){
+                        if( (copy[startIndex-1] == " " || copy[startIndex-1] == "(" || copy[startIndex-1] == "." || copy[startIndex-1] == "," || startIndex == 0) && (copy[endIndex+1] == " " || copy[endIndex+1] == ")" || copy[endIndex + 1] == "." || copy[endIndex + 1] == "," || endIndex == (copy.length-1) )  ){
 
-                            //console.log("Found a match for [" + term.toLowerCase() + "] at char " + copy.indexOf(term));                        
+                            console.log("Found a match for [" + term.toLowerCase());                        
                         
                             if(htmlCopy[matchIndex] == " "){
                             //    console.log("GOT A SPACE");
@@ -127,7 +127,7 @@ function insertTermLinks(terms, thisTerm){
             $(this).find("a").each(function(){
                 $(this).attr("href", $(this).text()); 
             })
-            // console.log("========");
+             console.log("========");
         });
     }
 }
