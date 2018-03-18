@@ -101,8 +101,8 @@ function insertTermLinks(terms, thisTerm){
                         var originalTerm = copy.substring(startIndex, endIndex + 1);
                         var alphabet = "abcdefghijklmonpqrstuvwxyz1234567890"; 
 
-                        console.log("Found a match for [" + term.toLowerCase() + "]");                        
-                        console.log("The letter at match index " + matchIndex + " is: " + htmlCopy[matchIndex]);
+                        // console.log("Found a match for [" + term.toLowerCase() + "]");                        
+                        // console.log("The letter at match index " + matchIndex + " is: " + htmlCopy[matchIndex]);
 
                         // let's ensure this is a whole word
                         if( (alphabet.indexOf(htmlCopy[startIndex-1].toLowerCase()) == -1 || startIndex == 0) && (alphabet.indexOf(htmlCopy[endIndex+1].toLowerCase()) == -1 || endIndex == (htmlCopy.length-1) )  ){
@@ -110,22 +110,14 @@ function insertTermLinks(terms, thisTerm){
                             //only replace word if the first letters match
                             if(htmlCopy[matchIndex].toLowerCase() == term[0].toLowerCase()){
 
-                                if(htmlCopy[matchIndex] == " "){
-                                    console.log("GOT A SPACE");
-                                    matchIndex++;
-                                    copy = copy.slice(0, matchIndex) + Array(term.length + 33).join("ಠ") + copy.slice( (matchIndex + term.length) , copy.length );    // 32 is the length of <a href = ''></a>
-                                    htmlCopy = htmlCopy.slice(0, matchIndex) + "<a class=\'linked-term bold\'>" + originalTerm + "</a>" + htmlCopy.slice( (matchIndex + term.length) , htmlCopy.length)
-                                    
-                                } else {
-                                    copy = copy.slice(0, matchIndex) + Array(term.length + 33).join("ಠ") + copy.slice( (matchIndex + term.length) , copy.length );    // 32 is the length of <a href = ''></a>
-                                    htmlCopy = htmlCopy.slice(0, matchIndex) + "<a class=\'linked-term bold\'>" + originalTerm + "</a>" + htmlCopy.slice( (matchIndex + term.length) , htmlCopy.length)
-                                } 
+                                copy = copy.slice(0, matchIndex) + Array(term.length + 33).join("ಠ") + copy.slice( (matchIndex + term.length) , copy.length );    // 32 is the length of <a href = ''></a>
+                                htmlCopy = htmlCopy.slice(0, matchIndex) + "<a class=\'linked-term bold\'>" + originalTerm + "</a>" + htmlCopy.slice( (matchIndex + term.length) , htmlCopy.length)
                             
-                                console.log("New HTML: ");
+                               /* console.log("New HTML: ");
                                 console.log(htmlCopy);
 
                                 console.log("New copy: ");
-                                console.log(copy);
+                                console.log(copy);*/
 
 
                                 thisDefinitionBody.html(htmlCopy);

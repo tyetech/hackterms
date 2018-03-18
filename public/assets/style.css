@@ -526,11 +526,15 @@ code {
   font-size: 1.5em; }
 
 #new-definition textarea {
+  font-family: "Muli", sans-serif;
   resize: none;
   padding: 6px;
   font-size: 1em;
   line-height: 1.4;
   width: calc(100% - 14px); }
+
+#related-term-textarea {
+  font-size: 1.2em; }
 
 #add-definition {
   float: right; }
