@@ -105,7 +105,7 @@ function insertTermLinks(terms, thisTerm){
                         // console.log("The letter at match index " + matchIndex + " is: " + htmlCopy[matchIndex]);
 
                         // let's ensure this is a whole word
-                        if( (alphabet.indexOf(htmlCopy[startIndex-1].toLowerCase()) == -1 || startIndex == 0) && (alphabet.indexOf(htmlCopy[endIndex+1].toLowerCase()) == -1 || endIndex == (htmlCopy.length-1) )  ){
+                        if( (startIndex == 0 || alphabet.indexOf(htmlCopy[startIndex-1].toLowerCase()) == -1 ) && (endIndex == (htmlCopy.length-1) || alphabet.indexOf(htmlCopy[endIndex+1].toLowerCase()) == -1)  ){
 
                             //only replace word if the first letters match
                             if(htmlCopy[matchIndex].toLowerCase() == term[0].toLowerCase()){

@@ -1714,9 +1714,9 @@ function addNotificationsToScreen(){
         if(!(typeof(notification) == "undefined")){
 
             if(notification.type == "definition"){
-                $("#notifications-section").append("<div class = 'notification-panel one-notification'><a href = '/profile/status'>Your submission <span class ='bold'>" + notification.term + "</span> has been <span class ='submission-update post-"+ notification.status + "'>" + notification.status + "</a></span></div>");
+                $("#notifications-section").append("<div class = 'notification-panel one-notification'><a href = '/" + notification.term + "'>Your submission <span class ='bold'>" + notification.term + "</span> has been <span class ='submission-update post-"+ notification.status + "'>" + notification.status + "</a></span></div>");
             } else if (notification.type == "comment"){
-                $("#notifications-section").append("<div class = 'notification-panel one-notification'><a href = '/profile/status'>Your comment has been <span class ='submission-update post-"+notification.status + "'>" + notification.status + "</a></span></div>");
+                $("#notifications-section").append("<div class = 'notification-panel one-notification'><a href = '/" + notification.term + "'>Your comment has been <span class ='submission-update post-"+notification.status + "'>" + notification.status + "</a></span></div>");
             } else if (notification.type == "new-comment"){
                 $("#notifications-section").append("<div class = 'notification-panel one-notification'><a href = '/" + notification.term + "'>New comment on your definition: <span class ='submission-update post-"+ notification.status + "'>" + notification.term  + "</a></span></div>");
             }            

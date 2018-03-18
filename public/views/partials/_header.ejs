@@ -103,15 +103,8 @@
         <% if(session.user){ %>
             <div id = "new-definition-modal">
                 <h3>Add a definition</h3>
-                
-                &#8226; Avoid industry jargon and follow the <a href = "/darules" target = "_blank">rules</a><br>
-                &#8226; Answer these questions:
-                <ol>
-                    <li>What does <span class = "new-definition-term"></span> do? When would you use it?</li>
-                    <li>What are the high level pros and cons of using <span class = "new-definition-term"></span>? What are some alternatives to <span class = "new-definition-term"></span>?</li>
-                </ol>
-                
-
+                Keep it simple, and follow <a class = "bold" href = "/darules" target = "_blank"> da rules</a>
+                <br>
                 <p class = "textarea-label">Term</p>
                 <textarea id = "definition-term-textarea" maxlength="40" rows = "1" placeholder = "term"></textarea>
                 <div id = "term-suggestions-section"></div>
@@ -129,7 +122,7 @@
                 </div>
 
 
-                <p class = "textarea-label">What does <span class = "new-definition-term"></span> do? When would you use it?</p>
+                <p class = "textarea-label">What does <span class = "new-definition-term"></span> do? When would you use it? What are the pros/cons and alternatives?</p>
 
                 <textarea id = "new-definition-textarea" maxlength="750" rows = "4" placeholder = "keep it simple, professor!"></textarea>
                 <div id = "new-definition-wrapper">
