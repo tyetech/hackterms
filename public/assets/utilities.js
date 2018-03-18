@@ -88,7 +88,7 @@ function insertTermLinks(terms, thisTerm){
             var ignoredTerms = ["if", "when", "else", "then"]
             
             terms.forEach(function(term){      // iterate through each term
-                if(term.length > 3 && term.toLowerCase() != thisTerm.toLowerCase() && ignoredTerms.indexOf(term.toLowerCase()) == -1){          // if the term isn't blank and isn't the same as the term card
+                if(term.length >= 2 && term.toLowerCase() != thisTerm.toLowerCase() && ignoredTerms.indexOf(term.toLowerCase()) == -1){          // if the term isn't blank and isn't the same as the term card
                     
                     var matchIndex = copy.toLowerCase().indexOf(term.toLowerCase());        // where is the term in the copy?  
                     
@@ -133,9 +133,7 @@ function insertTermLinks(terms, thisTerm){
                             console.log(term + " is not a whole word because the preceding letter is [" + copy[startIndex-1].toLowerCase() + "] and the following letter is [" + copy[endIndex+1].toLowerCase() + "]");
                         }
                     }
-                } else {
-                    console.log(term + " is the definition term, not testing");
-                }
+                } 
 
             })
   
