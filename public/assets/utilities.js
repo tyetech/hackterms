@@ -74,17 +74,24 @@ function sortRelatedTerms(terms){                // messy solution to sorting an
 
 function insertTermLinks(terms, thisTerm){
     if($(".definition-body").length > 0){  
-        $(".definition-body").each(function(){                         // iterate through each definition on the page
-            var text = $(this).text();
+        // $(".definition-body").each(function(){                         // iterate through each definition on the page
+            
+        for(var i = 0; i < $(".definition-body").length; i++){
+
+            var thisDefinitionBody = $(".definition-body").eq(i);
+
+          //var text = $(this).html();
+            var text = thisDefinitionBody.html();
+
             var copy = text;
             var htmlCopy = text;
             var ignoredTerms = ["if", "when", "else", "then"]
-
-
             
             terms.forEach(function(term){      // iterate through each term
                 if(term.length > 3 && term.toLowerCase() != thisTerm.toLowerCase() && ignoredTerms.indexOf(term.toLowerCase()) == -1){          // if the term isn't blank and isn't the same as the term card
+                    
                     var matchIndex = copy.toLowerCase().indexOf(term.toLowerCase());        // where is the term in the copy?  
+                    
                     if(matchIndex != -1 && term != thisTerm){
 
                         // let's check if this is a whole word
@@ -92,43 +99,55 @@ function insertTermLinks(terms, thisTerm){
                         var endIndex = matchIndex + term.length - 1;
 
                         var originalTerm = copy.substring(startIndex, endIndex + 1);
+                        var alphabet = "abcdefghijklmonpqrstuvwxyz1234567890"; 
 
-                        if( (copy[startIndex-1] == " " || copy[startIndex-1] == "(" || copy[startIndex-1] == "." || copy[startIndex-1] == "," || startIndex == 0) && (copy[endIndex+1] == " " || copy[endIndex+1] == ")" || copy[endIndex + 1] == "." || copy[endIndex + 1] == "," || endIndex == (copy.length-1) )  ){
+                        console.log("Found a match for [" + term.toLowerCase() + "]");                        
+                        console.log("The letter at match index " + matchIndex + " is: " + htmlCopy[matchIndex]);
 
-                            console.log("Found a match for [" + term.toLowerCase());                        
-                        
-                            if(htmlCopy[matchIndex] == " "){
-                            //    console.log("GOT A SPACE");
-                                matchIndex++;
-                                copy = copy.slice(0, matchIndex) + Array(term.length +33).join("ಠ") + copy.slice( (matchIndex + term.length) , copy.length );    // 32 is the length of <a href = ''></a>
-                                htmlCopy = htmlCopy.slice(0, matchIndex) + "<a class='linked-term bold'>" + originalTerm + "</a>" + htmlCopy.slice( (matchIndex + term.length) , htmlCopy.length)
-                                
-                            } else {
-                                copy = copy.slice(0, matchIndex) + Array(term.length + 32).join("ಠ") + copy.slice( (matchIndex + term.length) , copy.length );    // 32 is the length of <a href = ''></a>
-                                htmlCopy = htmlCopy.slice(0, matchIndex) + "<a class='linked-term bold'>" + originalTerm + "</a>" + htmlCopy.slice( (matchIndex + term.length) , htmlCopy.length)
-                            }    
-                                /*  
-                                console.log("The new copy is: " + copy);
-                                console.log("The new html is: " + htmlCopy);
-                                */
+                        // let's ensure this is a whole word
+                        if( (alphabet.indexOf(htmlCopy[startIndex-1].toLowerCase()) == -1 || startIndex == 0) && (alphabet.indexOf(htmlCopy[endIndex+1].toLowerCase()) == -1 || endIndex == (htmlCopy.length-1) )  ){
+
+                            //only replace word if the first letters match
+                            if(htmlCopy[matchIndex].toLowerCase() == term[0].toLowerCase()){
+
+                                if(htmlCopy[matchIndex] == " "){
+                                    console.log("GOT A SPACE");
+                                    matchIndex++;
+                                    copy = copy.slice(0, matchIndex) + Array(term.length + 33).join("ಠ") + copy.slice( (matchIndex + term.length) , copy.length );    // 32 is the length of <a href = ''></a>
+                                    htmlCopy = htmlCopy.slice(0, matchIndex) + "<a class=\'linked-term bold\'>" + originalTerm + "</a>" + htmlCopy.slice( (matchIndex + term.length) , htmlCopy.length)
+                                    
+                                } else {
+                                    copy = copy.slice(0, matchIndex) + Array(term.length + 33).join("ಠ") + copy.slice( (matchIndex + term.length) , copy.length );    // 32 is the length of <a href = ''></a>
+                                    htmlCopy = htmlCopy.slice(0, matchIndex) + "<a class=\'linked-term bold\'>" + originalTerm + "</a>" + htmlCopy.slice( (matchIndex + term.length) , htmlCopy.length)
+                                } 
+                            
+                                console.log("New HTML: ");
+                                console.log(htmlCopy);
+
+                                console.log("New copy: ");
+                                console.log(copy);
+
+
+                                thisDefinitionBody.html(htmlCopy);
+
+                                thisDefinitionBody.find("a").each(function(){
+                                    $(this).attr("href", $(this).text()); 
+                                });
+
+
+                            }
+
                         } else {
-                            console.log(term + " is not a whole word");
+                            console.log(term + " is not a whole word because the preceding letter is [" + copy[startIndex-1].toLowerCase() + "] and the following letter is [" + copy[endIndex+1].toLowerCase() + "]");
                         }
                     }
                 } else {
-                    //console.log("NOT testing " + term);
+                    console.log(term + " is the definition term, not testing");
                 }
+
             })
-
-            $(this).html(htmlCopy);
-
-
-            // after all the links are set up, cycle through each one and add the actual href attributes
-            $(this).find("a").each(function(){
-                $(this).attr("href", $(this).text()); 
-            })
-             console.log("========");
-        });
+  
+        }
     }
 }
 

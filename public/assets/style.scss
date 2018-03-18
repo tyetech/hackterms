@@ -629,9 +629,9 @@ code {
 .category-box {
     height: 1em;
     width: 1em;
-    border: 3px solid $gray;
+    border: 1px solid #6d7073;
     display: inline-block;
-    border-radius: $border-radius; 
+    border-radius: 50%;
     vertical-align: text-bottom;
     margin-right: 5px;
 }
