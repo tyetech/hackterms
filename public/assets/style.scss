@@ -896,12 +896,15 @@ code {
         background: white;  
         margin: 0 10px;
         text-align: center;
-        &:hover:not(.active-top-term-label) {
+        &:hover {
             color: $orange;
         }
         &.active-top-term-label {
             color: $white;
             background: $blue-light;
+            &:hover {
+                background: $orange;
+            }
         }
     }
 }
@@ -1703,8 +1706,9 @@ code {
 
 .page-title {
     text-align: center;
-    padding: 10px 0px;
+    padding-bottom: 10px;
     font-size: 2.5em;
+    margin-top: -0.5em;
 }
 
 .rule-title {
@@ -1815,7 +1819,7 @@ code {
         justify-content: space-evenly;
         border: 1px solid rgba(126, 198, 208, 0.68);
         padding: 3px;
-        margin-bottom: 5px;
+        margin-bottom: 8px;
     }
 
 
@@ -2474,11 +2478,9 @@ code {
     }
 
 
-
     .page-title {
-        margin-bottom: 15px;
         font-size: 2em;
-        margin-top: 0;
+        margin-top: -0.5em;
         padding-top: 0;
     }
 
