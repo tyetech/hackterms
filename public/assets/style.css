@@ -732,8 +732,6 @@ code {
   width: 150px;
   display: none;
   justify-content: space-between; }
-  .hamburger-menu-options .welcome {
-    display: none; }
 
 .welcome {
   padding-right: 10px; }
@@ -905,8 +903,6 @@ code {
 .account-options {
   display: block;
   text-align: right; }
-  .account-options .welcome {
-    display: none; }
 
 .active-account-title {
   color: #2C363F; }

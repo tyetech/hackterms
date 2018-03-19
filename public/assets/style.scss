@@ -962,9 +962,6 @@ code {
     width: 150px;
     display: none;
     justify-content: space-between;
-    & .welcome {
-        display: none;
-    }
 }
 
 .welcome {
@@ -1181,9 +1178,6 @@ code {
 .account-options {
     display: block;
     text-align: right;
-    & .welcome {
-        display: none;
-    }
 }
 
 .active-account-title {

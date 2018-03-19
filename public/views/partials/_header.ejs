@@ -85,7 +85,9 @@
 
     <div class = "hamburger-menu-options">
         <% if (typeof(session.user) != "undefined" || session.user != null){ %>
+            
             <span class = "welcome">Hello, <a href = "/profile"><%= session.user.username %></a></span>
+            
             <% if(session.user.newNotifications){ %>
                 <span class = "notifications-button"><i class="far fa-envelope notification-bell link" aria-hidden="true" id = "new-alert"></i></span>
             <% } else {%>
