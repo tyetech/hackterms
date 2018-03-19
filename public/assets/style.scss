@@ -130,7 +130,7 @@ code {
     max-width: 100%;
     box-sizing: border-box;
     background: $blue-dark;
-    color: #dee8ec;
+
 
     & #signup:hover {
         background: $orange;
@@ -166,6 +166,7 @@ code {
 #logo-subheading {
     font-size: 1.2em;
     margin-top: -12px;
+    color: #dee8ec;;
 }
 
 #main-section {
@@ -247,6 +248,7 @@ code {
 #search-bar-label {
 	font-weight: 300;
     margin: 0 0 5px 0;
+    color: #dee8ec;
 }
 
 #search-bar {
@@ -1860,6 +1862,7 @@ code {
         padding-top: 0;
         min-height: 10vh;
         min-width: 100px;
+        color: black;
     }
 
     .pop-out h3 {

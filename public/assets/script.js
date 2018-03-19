@@ -653,8 +653,7 @@ function main(){
             $(".hamburger-menu-options").hide();
         } else {
             $(".hamburger-menu-options").css("display", "flex");
-        }
-            
+        }            
     });
 
 
