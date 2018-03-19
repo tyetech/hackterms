@@ -959,8 +959,9 @@ code {
     position: absolute;
     right: 10vw;
     top: 8vh;
-    width: 150px;
+    width: 250px;
     display: none;
+    color: #dee8ec;
     justify-content: space-between;
 }
 
@@ -1178,6 +1179,9 @@ code {
 .account-options {
     display: block;
     text-align: right;
+    & .welcome {
+        // display: none;
+    }
 }
 
 .active-account-title {
