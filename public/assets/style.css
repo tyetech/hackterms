@@ -187,7 +187,6 @@ code {
     transition-duration: 0.25s; }
 
 #terms-section {
-  width: 80vw;
   margin: 0px auto;
   max-width: 1600px;
   display: block;
@@ -1408,8 +1407,7 @@ code {
     padding: 3px 10px 8px 10px;
     font-size: 2em; }
   #terms-section {
-    margin: 0;
-    width: calc(90vw - 15px); }
+    margin: 0; }
   #term-suggestions-section {
     width: calc(100% - 32px); }
   #related-term-suggestions-section {
