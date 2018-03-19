@@ -97,7 +97,8 @@ code {
   align-self: center; }
 
 #logo-subheading {
-  font-size: 1.4em; }
+  font-size: 1.2em;
+  margin-top: -12px; }
 
 #main-section {
   flex: 1 0 auto;
@@ -158,7 +159,7 @@ code {
 
 /* SEARCH BAR */
 #search-bar-div {
-  padding: 3vh 0 2vh 0; }
+  padding: 2vh 0 1vh 0; }
 
 #search-bar-label {
   font-weight: 300;
@@ -1391,7 +1392,8 @@ code {
     text-align: center;
     justify-content: space-evenly;
     border: 1px solid rgba(126, 198, 208, 0.68);
-    padding: 3px; }
+    padding: 3px;
+    margin-bottom: 5px; }
   /* SEARCH BAR */
   #search-bar-div {
     padding: 2vh 0 0.5vh 0; }

@@ -164,7 +164,8 @@ code {
 }
 
 #logo-subheading {
-    font-size: 1.4em;
+    font-size: 1.2em;
+    margin-top: -12px;
 }
 
 #main-section {
@@ -240,7 +241,7 @@ code {
 /* SEARCH BAR */
 
 #search-bar-div {
-	padding: 3vh 0 2vh 0;
+	padding: 2vh 0 1vh 0;
 }
 
 #search-bar-label {
@@ -1807,6 +1808,7 @@ code {
         justify-content: space-evenly;
         border: 1px solid rgba(126, 198, 208, 0.68);
         padding: 3px;
+        margin-bottom: 5px;
     }
 
 
