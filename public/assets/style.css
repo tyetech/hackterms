@@ -90,14 +90,14 @@ code {
 
 #home-link {
   font-family: "Zilla Slab", serif;
-  font-size: 4em;
+  font-size: 3.5em;
   font-weight: 400;
   display: flex;
   align-self: center; }
 
 #logo-subheading {
   font-size: 1.2em;
-  margin-top: -12px;
+  margin-top: -8px;
   color: #dee8ec; }
 
 #main-section {
@@ -715,8 +715,7 @@ code {
 
 .links {
   display: flex;
-  justify-content: space-between;
-  margin-top: -0.7em; }
+  justify-content: space-between; }
 
 .links .link {
   margin: 3px 5px 3px 15px; }
@@ -1373,7 +1372,7 @@ code {
     margin-bottom: -1px; }
   #logo-subheading {
     font-size: 0.9em;
-    margin-top: -6px; }
+    margin-top: -8px; }
   #main-section {
     padding: 5vh 0;
     /*min-height: 80vh;*/ }
@@ -1403,7 +1402,7 @@ code {
     margin-bottom: 8px; }
   /* SEARCH BAR */
   #search-bar-div {
-    padding: 2vh 0 0.5vh 0; }
+    padding: 3vh 0 0.5vh 0; }
   #search-bar-label {
     margin: 0 0 0.5vh 0;
     font-size: 0.85em; }
@@ -1585,6 +1584,8 @@ code {
     color: #1F3F6F;
     background: #A1D2FC;
     padding: 5px; }
+  .links {
+    margin-top: -0.7em; }
   .links .link {
     margin: 3px 5px; }
   .account {
