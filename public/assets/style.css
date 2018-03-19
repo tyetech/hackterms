@@ -1360,6 +1360,9 @@ code {
     #header-section #signup {
       background: none;
       color: #7fc5d0; }
+    #header-section #signup:hover {
+      color: #E88D67;
+      background: #114B5F; }
   #home-link {
     display: block;
     font-size: 3em;

@@ -1757,6 +1757,11 @@ code {
             background: none;
             color: $blue-light-header;
         }
+
+        & #signup:hover {
+            color: $orange;
+            background: $blue-dark;
+        }
     }
 
     #home-link {

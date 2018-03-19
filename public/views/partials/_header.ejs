@@ -70,14 +70,14 @@
             <% if (typeof(session.user) == "undefined" || session.user == null){ %>
                 <span class = "signup-space-section">
                     <span id = "signup-label"><button class = "link bold" id = "signup">Sign Up</button></span>
-                    <span id = "signup-icon"><i class="fas fa-bars link fa-2x" id = "signup"></i></span>
+                    <span id = "signup-icon"><i class="fas fa-bars fa-2x" id = "signup"></i></span>
                 </span>
                 <span class = "link" id = "login">Log In</span>
             <% } else if (typeof(session.user) != "undefined" && session.user != null){ %>
 
                 <div class = "account-options">
                     <span class = "welcome">Hello, <a href = "/profile"><%= session.user.username %></a></span>
-                    <i class="fas fa-bars link fa-2x" id = "logged-in-options-toggle"></i>
+                    <i class="fas fa-user-circle link fa-2x" id = "logged-in-options-toggle"></i>
                 </div>                
             <% } %>
         </div>
