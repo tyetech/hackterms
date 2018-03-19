@@ -60,12 +60,6 @@
 </div>
 
 <div id = "header-section">
-
-    <div id = "feedback-button">
-        <i class="far fa-times-circle fa-lg link" id = "feedback-close"></i>
-        <a href = "https://goo.gl/kU4AS5" target= "_blank" id = "feedback-label">Feedback</a>
-    </div>
-
     <div class = "links">
         
         <div cass = "logo-wrapper">
@@ -74,26 +68,38 @@
         
         <div class = "account">
             <% if (typeof(session.user) == "undefined" || session.user == null){ %>
-                <button class = "link bold" id = "signup">Sign Up</button>
+                <span class = "signup-space-section">
+                    <span id = "signup-label"><button class = "link bold" id = "signup">Sign Up</button></span>
+                    <span id = "signup-icon"><i class="fas fa-bars link fa-2x" id = "signup"></i></span>
+                </span>
                 <span class = "link" id = "login">Log In</span>
             <% } else if (typeof(session.user) != "undefined" && session.user != null){ %>
 
-                <span class = "welcome">Hello, <a href = "/profile"><%= session.user.username %></a></span>
-                
-                <% if(session.user.newNotifications){ %>
-                    <span class = "notifications-button"><i class="far fa-envelope notification-bell link" aria-hidden="true" id = "new-alert"></i></span>
-                <% } else {%>
-                    <span class = "notifications-button"><i class="far fa-envelope notification-bell link" aria-hidden="true" ></i></span>
-                <% } %>
-
-                <% if(session.user.admin == "true" || session.user.admin == true || session.user.moderator == "true"|| session.user.moderator ==  true ){ %>
-                    <a href = "/admin"><i class="far fa-id-card" aria-hidden="true" href = "/admin"></i></a>
-                <% } %>
-
-                <a href = "/logout" id = "logout">Log out</a>
+                <div class = "account-options">
+                    <span class = "welcome">Hello, <a href = "/profile"><%= session.user.username %></a></span>
+                    <i class="fas fa-bars link fa-2x" id = "logged-in-options-toggle"></i>
+                </div>                
             <% } %>
         </div>
     </div>
+
+    <div class = "hamburger-menu-options">
+        <% if (typeof(session.user) != "undefined" || session.user != null){ %>
+            <span class = "welcome">Hello, <a href = "/profile"><%= session.user.username %></a></span>
+            <% if(session.user.newNotifications){ %>
+                <span class = "notifications-button"><i class="far fa-envelope notification-bell link" aria-hidden="true" id = "new-alert"></i></span>
+            <% } else {%>
+                <span class = "notifications-button"><i class="far fa-envelope notification-bell link" aria-hidden="true" ></i></span>
+            <% } %>
+
+            <% if(session.user.admin == "true" || session.user.admin == true || session.user.moderator == "true"|| session.user.moderator ==  true ){ %>
+                <a href = "/admin"><i class="far fa-id-card" aria-hidden="true" href = "/admin"></i></a>
+            <% } %>
+
+            <a href = "/logout" id = "logout">Log out</a>
+        <% } %>
+    </div>
+
     <div id = "logo-subheading">A crowdsourced dictionary of coding terms</div>
 
     <div class = "pop-out" id = "new-definition">
@@ -329,10 +335,26 @@
         </div>
     </div>
 
+
+    <% if (typeof(searchTerm) != "undefined") { %>
+        <div id = "search-bar-div">
+            <p id = "search-bar-label">learn about a coding term - <a class = "bold" href = "/all">see all</a> or  <a  class = "bold"  href = "/random-term">random</a> </p>
+            <input type = "text" data-lpignore="true" maxlength = "40" id = "search-bar" value = "<%= searchTerm %>" placeholder = "ex: javascript" autofocus>
+            <div id = "terms-section"></div>
+        </div>
+    <% } %>
+
 </div>
 
+<div id = "feedback-button">
+    <i class="far fa-times-circle fa-lg link" id = "feedback-close"></i>
+    <a href = "https://goo.gl/kU4AS5" target= "_blank" id = "feedback-label">Feedback</a>
+</div>
 
 <div class = "container">
+
+
+
     
 <!--  the closing div tag is in the _footer.ejs file in this folder -->
     

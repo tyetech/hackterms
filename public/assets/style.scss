@@ -6,6 +6,7 @@ $beige: #f3eae0;        // this is the original color
 $beige-dark: #e2d4c4;
 $beige-darkish: #eae1d7;
 $blue-light: #58A4B0;
+$blue-light-header: #7fc5d0;
 $blue-dark: #114B5F;
 $gray: #2C363F;
 $gray-transparent: rgba(44, 54, 63, 0.3);
@@ -125,28 +126,52 @@ code {
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
-    background: white;
-    // position: fixed;
+    background: $blue-dark;
+    color: #dee8ec;
+
+    & #signup:hover {
+        background: $orange;
+        font-weight: 600;
+        color: white;
+    }
+
+    & #signup {
+        color: white;
+        background: $blue-light-header;
+        font-weight: 600;
+    }
+}
+
+#header-section, #footer-section {
+    & a, .link {
+        color: $blue-light-header;
+    }
+    a:hover, .link:hover {
+        color: $orange;
+        cursor: pointer;
+    }
 }
 
 #home-link {
     font-family: $font-tech;
-    font-size: 2.5em;
+    font-size: 4em;
     font-weight: 400;
     display: flex;
     align-self: center;
 }
 
 #logo-subheading {
-    color: gray;
+    font-size: 1.4em;
 }
 
 #main-section {
 	flex: 1 0 auto;
+    padding: 5vh 0;
 }
 
 #footer-section	 {
-    color: gray;
+    background: $blue-dark;
+    color: #dee8ec;
     font-weight: 500;
     text-align: center;
     min-height: calc(5vh - 20px);
@@ -154,7 +179,8 @@ code {
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    &a{
+
+    & a, .link {
         padding: 0px 5px;
     }
 }
@@ -211,17 +237,16 @@ code {
 /* SEARCH BAR */
 
 #search-bar-div {
-	padding: 3vh 0 45px 0;
+	padding: 3vh 0 2vh 0;
 }
 
 #search-bar-label {
 	font-weight: 300;
-    margin-bottom: 5px;
+    margin: 0 0 5px 0;
 }
 
 #search-bar {
-	font-size: 2.5em;
-    height: 47px;
+	font-size: 1.8em;
 	padding: 5px 10px 10px 20px;
 	display: inline-block;
 	border: 1px solid #c5c5c5;
@@ -249,14 +274,15 @@ code {
 }
 
 #terms-section {
-	width: calc(100% - 3px);
+	width: calc(80vw - 15px);
     margin: 0px auto;
-	max-width: 1600px;
-	display: block;
+    max-width: 1600px;
+    display: block;
     border-top: none;
     border-bottom: none;
-    box-shadow: 0px 0px 10px #101010;
+    box-shadow: 0px 5px 10px #101010;
     border-radius: 5px;
+    //position: absolute;
 }
 
 #term-suggestions-section {
@@ -836,6 +862,7 @@ code {
 
 .top-terms {
     flex-wrap: wrap;
+    margin-top: 0;
     padding: 12px 20px 15px 20px;
     border: 1px solid rgba(44, 54, 63, 0.3);
     border-left: 4px solid #114B5F;
@@ -905,15 +932,35 @@ code {
 .links {
     display: flex;
     justify-content: space-between;
+    margin-top: -0.7em;
 }
 
 .links .link {
-	margin: 3px 5px;
+	margin: 3px 5px 3px 15px;
 }
 
 .account {
-	display: inline;
-    align-self: center;
+    padding-top: 1.1em;
+    display: flex;
+
+}
+
+
+.hamburger-menu-options {
+    text-align: right;
+    position: absolute;
+    right: 10vw;
+    top: 8vh;
+    width: 150px;
+    display: none;
+    justify-content: space-between;
+    & .welcome {
+        display: none;
+    }
+}
+
+.welcome {
+    padding-right: 10px;
 }
 
 #new-alert {
@@ -998,6 +1045,7 @@ code {
     background: white;
     display: flex;
     justify-self: flex-start;
+    color: black;
 }
 
 .github-logo-label {
@@ -1036,6 +1084,14 @@ code {
     margin: 0;
 }
 
+#signup-icon {
+    display: none;
+}
+
+#signup-label {
+    display: block;
+}
+
 .standalone-password-reset-page, #select-username-section {
     max-width: 400px;
     margin: 10vh auto;
@@ -1051,6 +1107,11 @@ code {
 
 #signup-modal, #login-modal, #password-reset-modal{
     padding-top: 0;
+    color: black;
+
+    & a, .link {
+        color: $blue-light
+    }
 }
 
 #select-username-section {
@@ -1107,6 +1168,14 @@ code {
 .account-title span:hover{
     color: $orange;
     cursor: pointer;
+}
+
+.account-options {
+    display: block;
+    text-align: right;
+    & .welcome {
+        display: none;
+    }
 }
 
 .active-account-title {
@@ -1680,20 +1749,26 @@ code {
     #header-section {
         padding: 10px 5vw;
         min-height: calc(5vh - 20px);
+
+        & #signup {
+            background: none;
+            color: $blue-light-header;
+        }
     }
 
     #home-link {
         display: block;
-        font-size: 2em;
+        font-size: 3em;
         margin-bottom: -1px;
     }
 
     #logo-subheading {
-        display: none;
+        font-size: 0.9em;
+        margin-top: -6px;
     }
 
     #main-section {
-        padding: 0;
+        padding: 5vh 0;
         /*min-height: 80vh;*/
     }
 
@@ -1722,11 +1797,21 @@ code {
         padding: 10px 5px
     }
 
+    .hamburger-menu-options {
+        position: relative;
+        right: 0;
+        top: 0;
+        text-align: center;
+        justify-content: space-evenly;
+        border: 1px solid rgba(126, 198, 208, 0.68);
+        padding: 3px;
+    }
+
 
     /* SEARCH BAR */
 
     #search-bar-div {
-        padding: 20px 0 20px 0;
+        padding: 2vh 0 0.5vh 0;
     }
 
     #search-bar-label {
@@ -1742,6 +1827,7 @@ code {
 
     #terms-section {
         margin: 0;
+        width: calc(90vw - 15px);
     }
 
     #term-suggestions-section {
@@ -1813,9 +1899,13 @@ code {
         min-width: 100px;
     }
 
+    .top-terms {
+        margin-top: 0;
+    }
+
     .definition-accent {
         min-width: 100px;
-        margin: 20px 0px;
+        margin: 0 0 20px 0;
         font-size: 0.85em;
         border-width: 2px;
         padding: 15px 10px;
@@ -2038,7 +2128,7 @@ code {
     }
 
     .account {
-        display: inline;
+        padding-top: 0.9em;
     }
 
     #new-alert {
@@ -2066,6 +2156,19 @@ code {
 
     #signup-modal, #login-modal, #password-reset-modal {
         width: calc(94vw - 34px);
+    }
+
+    #signup-icon {
+        display: block;
+        background: none;
+    }
+
+    #signup-label {
+        display: none;
+    }
+
+    #login {
+        display: none;
     }
 
     #signup-options {
@@ -2363,16 +2466,11 @@ code {
     .page-title {
         margin-bottom: 15px;
         font-size: 2em;
+        margin-top: 0;
+        padding-top: 0;
     }
 
 
 }
 
-
-@media screen and (max-width: 768px){
-    #home-link {
-        font-size: 1.3em;
-    }
-
-}
 

@@ -647,6 +647,17 @@ function main(){
 
     });
 
+    $("body").on(triggerEvent, "#logged-in-options-toggle", function(){
+
+        if($(".hamburger-menu-options").is(":visible")){
+            $(".hamburger-menu-options").hide();
+        } else {
+            $(".hamburger-menu-options").css("display", "flex");
+        }
+            
+    });
+
+
     $("body").on(triggerEvent, "#password-reset-link", function(){
         $("#signup-modal, #login-modal").hide();
         $("#password-reset-email, #password-reset-action, #password-reset-modal .account-title, #password-reset-modal p").show();
@@ -1683,12 +1694,12 @@ function displayNotification(){
                 $("#report").hide();
                 $("#new-definition").hide();
                 $("#notifications").show();
-                $("#notifications").css("left", ($(".notification-bell")[0].offsetLeft-140) + "px");
-                $("#notifications").css("top", ($(".notification-bell")[0].offsetTop+30) + "px");
+                
+                $("#notifications").css("top", "20vh");
 
-                if(screenWidth < 980){
-                    $("#notifications").css("left", ($(".notification-bell")[0].offsetLeft-45) + "px");
-                }
+                /*$("#notifications").css("left", ($(".notification-bell")[0].offsetLeft-140) + "px");
+                $("#notifications").css("top", ($(".notification-bell")[0].offsetTop+30) + "px");*/
+
 
                 $("#notifications-section").empty();
 
