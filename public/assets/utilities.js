@@ -85,7 +85,7 @@ function insertTermLinks(terms, thisTerm){
 
             var copy = text;
             var htmlCopy = text;
-            var ignoredTerms = ["if", "when", "else", "then"]
+            var ignoredTerms = ["if", "when", "else", "then", "all", "metrics", "faq"];
             
             terms.forEach(function(term){      // iterate through each term
                 if(term.length >= 2 && term.toLowerCase() != thisTerm.toLowerCase() && ignoredTerms.indexOf(term.toLowerCase()) == -1){          // if the term isn't blank and isn't the same as the term card
