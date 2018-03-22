@@ -61,7 +61,7 @@ function sortRelatedTerms(terms){                // messy solution to sorting an
         if(j == objectLength - 1){
             for(var k = 0; k < termsInOrder.length; k++){
                 $("#related-terms-section").append("<a class= 'related-term'>" + termsInOrder[k] + "</a>");
-                $(".related-term").last().attr("href", termsInOrder[k])
+                $(".related-term").last().attr("href", cleanUrl(termsInOrder[k]));
             }
         }
 
@@ -123,7 +123,7 @@ function insertTermLinks(terms, thisTerm){
                                 thisDefinitionBody.html(htmlCopy);
 
                                 thisDefinitionBody.find("a").each(function(){
-                                    $(this).attr("href", $(this).text()); 
+                                    $(this).attr("href", cleanUrl($(this).text())); 
                                 });
 
 
