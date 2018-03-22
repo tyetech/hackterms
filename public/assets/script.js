@@ -1570,7 +1570,7 @@ function displayDefinitionsOnPage(definitions, isLoggedIn, forUser, isModerator)
             $("#definitions-section").append("<div class = 'definition-accent'>There are no definitions for <span class = 'bold'>" + term + "</span> yet. You should add one!</div>");
             document.title = "Hackterms: " + term.toLowerCase();
 
-            window.history.pushState("object or string", "Title", "/" + cleanUrl(term.toLowerCase());
+            window.history.pushState("object or string", "Title", "/" + cleanUrl(term.toLowerCase()));
             displayAddDefinitionButton(forUser, isLoggedIn);
         } else {
             $("#definitions-section").append("<div class = 'definition-accent'>This user hasn't added any definitions yet</div>");
