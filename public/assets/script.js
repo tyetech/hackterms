@@ -979,7 +979,7 @@ function getDefinition(query, forUser){
         	if(result.status == "success"){
 
                 if(!forUser){
-                    window.history.pushState("object or string", "Title", "/" + query.toLowerCase());      // update url
+                    window.history.pushState("object or string", "Title", "/" + cleanUrl(query.toLowerCase()));      // update url
                     document.title = "Hackterms: " + query.toLowerCase();
                     var searchTerm = $("#search-bar").val().trim();
                 }
