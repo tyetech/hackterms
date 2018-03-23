@@ -69,7 +69,7 @@ MongoClient.connect(dbAddress, function(err, db){
         var timeNow = new Date();
         console.log("-----> " + req.method.toUpperCase() + " " + req.url + " on " + timeNow); 
 
-        dbops.logVisit(db, req, function(){
+            // dbops.logVisit(db, req, function(){
             // console.log("visit logged");            
         }) 
 
