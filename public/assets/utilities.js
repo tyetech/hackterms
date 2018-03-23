@@ -129,9 +129,9 @@ function insertTermLinks(terms, thisTerm){
 
                             }
 
-                        } else {
-                            console.log(term + " is not a whole word because the preceding letter is [" + copy[startIndex-1].toLowerCase() + "] and the following letter is [" + copy[endIndex+1].toLowerCase() + "]");
-                        }
+                        }/* else {
+                            //console.log(term + " is not a whole word because the preceding letter is [" + copy[startIndex-1].toLowerCase() + "] and the following letter is [" + copy[endIndex+1].toLowerCase() + "]");
+                        }*/
                     }
                 } 
 

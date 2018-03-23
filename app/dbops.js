@@ -495,11 +495,12 @@ function addDefinition(db, req, callback){
 								if(sanitizedTerm.trim().length && validateInput(term)){
 									relatedTerms.push(sanitizedTerm.toLowerCase())
 								}
-							})
+							});
 						}
 
-						var sanitizedBody = sanitizeInput(req.body.definition)
-						var preMarkUpBody = sanitizedBody.replace(/\#/g, "").replace(/\`{2,}/g, "\`").replace(/\~\~/g, "").replace(/\<a href="/g, "");
+						var sanitizedBody = sanitizeInput(req.body.definition);
+
+						var preMarkUpBody = sanitizedBody.replace(/^\#/mg, "").replace(/\`{2,}/g, "\`").replace(/\~\~/g, "").replace(/<a href="/g, "");
 						var markedUpBody = converter.makeHtml(preMarkUpBody);
 
 						console.log("markedUpBody");
