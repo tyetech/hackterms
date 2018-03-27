@@ -759,7 +759,6 @@ function search(){
         var searchTerm = $("#search-bar").val().trim();
         var currentText = null;
 
-
     	var searchQuery = {
     		term: searchTerm.toLowerCase()
     	}

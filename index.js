@@ -142,25 +142,25 @@ MongoClient.connect(dbAddress, function(err, db){
         res.render("index", {searchTerm: ""});
     });
 
-    app.get("/faq", function(req, res){
+    app.get("/about/faq", function(req, res){
         res.render("faq");
     });
 
-    app.get("/darules", function(req, res){
+    app.get("/about/darules", function(req, res){
         res.render("rules");
     });
 
-    app.get("/all", function(req, res){
+    app.get("/about/all", function(req, res){
         dbops.getAllTerms(db, req, function renderTerms(allTerms){
             res.render("all", {terms: allTerms.terms});
         })
     });
 
-    app.get("/changelog", function(req, res){
+    app.get("/about/changelog", function(req, res){
         res.render("changelog");
     });
 
-    app.get("/press", function(req, res){
+    app.get("/about/press", function(req, res){
         res.render("press");
     });
 
