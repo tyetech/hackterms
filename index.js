@@ -213,6 +213,32 @@ MongoClient.connect(dbAddress, function(err, db){
         }
         
     });
+/*
+    app.get("/about/status", function(req, res){
+
+        if(req.session.user && req.session.user.username == "max"){
+            dbops.getMetrics(db, req, function retrieveData(response){
+
+                res.render("metrics", {
+                    visitCount: response.visitCount,
+                    userCount: response.userCount, 
+                    users: response.users,
+                    approvedDefinitions: response.approvedDefinitions,
+                    unapprovedDefinitions: response.unapprovedDefinitions,
+                    approvedDefinitionCount: response.approvedDefinitions.length,
+                    unapprovedDefinitionCount: response.unapprovedDefinitions.length,
+                    termCount: response.termCount,
+                    searchCount:[],
+                    newDefinitionCount: []
+                });
+
+            });
+
+        } else {
+            res.redirect("/");
+        }
+        
+    });*/
 
     app.post("/analytics", function(req, res){
         if(req.session.user && req.session.user.username == "max"){
