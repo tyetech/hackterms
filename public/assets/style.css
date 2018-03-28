@@ -58,10 +58,12 @@ code {
 
 .container {
   padding: 0 10vw;
+  width: 80%;
   min-width: 300px;
   max-width: 1600px;
   display: flex;
   flex-direction: column;
+  align-self: center;
   flex: 1 0 auto; }
 
 /* HEADER AND FOOTER */
@@ -71,6 +73,7 @@ code {
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
+  margin: 0 auto;
   background: #114B5F; }
   #header-section #signup:hover {
     background: #E88D67;
@@ -80,6 +83,10 @@ code {
     color: white;
     background: #7fc5d0;
     font-weight: 600; }
+
+#header-wrapper {
+  max-width: 1600px;
+  margin: 0px auto; }
 
 #header-section a, #header-section .link, #footer-section a, #footer-section .link {
   color: #7fc5d0; }
@@ -1366,7 +1373,8 @@ code {
 @media screen and (max-width: 980px) {
   /* GLOBAL STYLING */
   .container {
-    padding: 0 5vw; }
+    padding: 0 5vw;
+    width: 90%; }
   /* HEADER AND FOOTER */
   #header-section {
     padding: 10px 5vw;

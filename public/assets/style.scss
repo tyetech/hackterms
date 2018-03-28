@@ -113,10 +113,12 @@ code {
 
 .container {
 	padding: 0 10vw;
+    width: 80%;
 	min-width: 300px;
 	max-width: 1600px;
     display: flex;
     flex-direction: column;
+    align-self: center;
     flex: 1 0 auto;
 }
 
@@ -129,6 +131,7 @@ code {
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
+    margin: 0 auto;
     background: $blue-dark;
 
 
@@ -143,6 +146,11 @@ code {
         background: $blue-light-header;
         font-weight: 600;
     }
+}
+
+#header-wrapper {
+    max-width: 1600px;
+    margin: 0px auto;
 }
 
 #header-section, #footer-section {
@@ -1768,6 +1776,7 @@ code {
 
     .container {
         padding: 0 5vw;
+        width: 90%;
     }
 
     /* HEADER AND FOOTER */
