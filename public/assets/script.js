@@ -471,7 +471,7 @@ function main(){
     
     })
 
-    $("body").on(triggerEvent, "#new-def-link", function(){
+    $("body").on(triggerEvent, ".new-def-link", function(){
         window.scrollTo(0, 0);
 
         $("#add-definition").text("Add");
@@ -494,7 +494,7 @@ function main(){
         $("#terms-section").empty();
     });
 
-    $("body").on(triggerEvent, "#request-def-link", function(event){
+    $("body").on(triggerEvent, ".request-def-link", function(event){
 
         event.stopPropagation();
         event.preventDefault();
@@ -602,7 +602,7 @@ function main(){
         $("#request-definition-modal").hide();  
     });
 
-    $("body").on(triggerEvent, "#login-to-request", function(){
+    $("body").on(triggerEvent, ".login-to-request", function(){
         $("#request-login-modal").show();  
         event.stopPropagation();
         event.preventDefault();
@@ -684,8 +684,8 @@ function main(){
     $("body").on(triggerEvent, "#formatting-link", function(){
         //$("#formatting-modal").show();  
         $("#formatting-link").text("");
-        $("#formatting-link").append("<span class= 'one-format'><span class = 'bold'>* bold *</span></span>");
-        $("#formatting-link").append("<span class= 'one-format'><em>_ italic _</em></span>");
+        $("#formatting-link").append("<span class= 'one-format'><span class = 'bold'>** bold **</span></span>");
+        $("#formatting-link").append("<span class= 'one-format'><em>* italic *</em></span>");
         $("#formatting-link").append("<span class= 'one-format'><code>` code `</code></span>");
         $("#formatting-link").removeClass("link");
     });
@@ -1301,7 +1301,7 @@ function requestDefinition(){
                 $("#request-definition-form").hide();
                 $("#request-definition-confirmation").css("display", "block");
 
-                $("#request-def-link").remove();
+                $(".request-def-link").remove();
 
             } else {
                 $(".report-error").text("");
@@ -1583,11 +1583,11 @@ function displayAddDefinitionButton(forUser, isLoggedIn){
 
     if(!forUser){
         if(isLoggedIn){
-            $("#definitions-section").append("<button class = 'new-def-button' id = 'new-def-link'>Add a Definition<span></div>");
-            $("#definitions-section").append("<button class = 'request-def-button' id = 'request-def-link'>Request a Definition<span></div>");
+            $("#definitions-section").append("<button class = 'new-def-button new-def-link'>Add a Definition<span></div>");
+            $("#definitions-section").append("<button class = 'request-def-button request-def-link'>Request a Definition<span></div>");
         } else {
             $("#definitions-section").append("<button class = 'new-def-button login-link'>Add a Definition</div>");
-            $("#definitions-section").append("<button class = 'request-def-button' id = 'login-to-request'>Request a Definition<span></div>");
+            $("#definitions-section").append("<button class = 'request-def-button login-to-request'>Request a Definition<span></div>");
         } 
     }   
 }

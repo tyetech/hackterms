@@ -340,8 +340,18 @@
 
     <% if (typeof(searchTerm) != "undefined") { %>
         <div id = "search-bar-div">
-            <p id = "search-bar-label">learn about a coding term - <a class = "bold" href = "/all">see all</a> or  <a  class = "bold"  href = "/random-term">random</a> </p>
-            <input type = "text" data-lpignore="true" maxlength = "40" id = "search-bar" value = "<%= searchTerm %>" placeholder = "ex: javascript" autofocus>
+            <p id = "search-bar-label">learn about a coding term - <a class = "bold" href = "/about/all">see all</a> or  <a  class = "bold"  href = "/random-term">random</a> </p>
+            
+
+            <% if (typeof(session.user) != "undefined" || session.user != null){ %>
+                <input type = "text" data-lpignore="true" maxlength = "40" id = "search-bar" value = "<%= searchTerm %>" placeholder = "ex: javascript" autofocus><!-- 
+                --><button class = "search-add-button new-def-link"><i class="fas fa-lg fa-plus"></i></button>
+            <% } else { %>
+                <input type = "text" data-lpignore="true" maxlength = "40" id = "search-bar" value = "<%= searchTerm %>" placeholder = "ex: javascript" autofocus><!-- 
+                --><button class = "search-add-button login-link"><i class="fas fa-lg fa-plus"></i></button>
+            <% } %>
+
+
             <div id = "terms-section"></div>
         </div>
     <% } %>
