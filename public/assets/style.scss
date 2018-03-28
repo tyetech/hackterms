@@ -305,6 +305,10 @@ code {
         background: $orange;
         box-shadow: 2px -4px 12px rgba(232, 140, 103, 0.75), 2px 4px 12px rgba(232, 140, 103, 0.75);
     }
+
+    & .fas {
+        margin-top: 0.3em;
+    }
 }
 
 #terms-section {
@@ -1864,6 +1868,10 @@ code {
         width: calc(100% - 2em - 8px);
         padding: 3px 10px 8px 10px;
         font-size: 2em;
+    }
+
+    .search-add-button .fas {
+        margin-top: 0.4em;
     }
 
     #terms-section {

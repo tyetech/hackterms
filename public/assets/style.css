@@ -207,6 +207,8 @@ code {
   .search-add-button :hover {
     background: #E88D67;
     box-shadow: 2px -4px 12px rgba(232, 140, 103, 0.75), 2px 4px 12px rgba(232, 140, 103, 0.75); }
+  .search-add-button .fas {
+    margin-top: 0.3em; }
 
 #terms-section {
   margin: 0px auto;
@@ -1429,6 +1431,8 @@ code {
     width: calc(100% - 2em - 8px);
     padding: 3px 10px 8px 10px;
     font-size: 2em; }
+  .search-add-button .fas {
+    margin-top: 0.4em; }
   #terms-section {
     margin: 0; }
   #term-suggestions-section {
