@@ -407,6 +407,7 @@ code {
     display: none;
 }
 
+
 .pop-out {
 	width: calc(64vw - 44px);
     border: 1px solid rgba(10,10,10, 0.4);
@@ -423,7 +424,6 @@ code {
     min-width: 300px;
     border-radius: $border-radius;
     display: none;
-
     &.skinny {
         max-width: 400px;
     }

@@ -128,6 +128,7 @@ function main(){
             var searchBarFontSize = (2.5 - (textLength - 18)*0.095);
             if(searchBarFontSize < 1.3) { searchBarFontSize = 1.3 };
             $("#search-bar").css("font-size", searchBarFontSize + "em");
+           // $(".search-add-button").css("width", "calc(" +  searchBarFontSize + "em + 19px)").css("height", "calc(" +  searchBarFontSize + "em + 19px)");
         }
 
         pageSearch();

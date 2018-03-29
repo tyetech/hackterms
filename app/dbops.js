@@ -993,7 +993,7 @@ function createNewVote(db, req, newVote, callback){
 
 	database.create(db, "votes", newVote, function createVote(newVote){
 
-		var voteChange
+		var voteChange;
 
 		if(newVote.ops[0].direction == "up"){
 			voteChange = "upvotes";
