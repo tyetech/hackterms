@@ -64,6 +64,19 @@ function main(){
 
 
     if($("#search-bar").length == 1 && $("#search-bar").val().length == 0){
+
+        /*REMOVE THIS */
+
+        var searchHeight = $("#search-bar").height() + 17 + "px";
+
+
+        if(screenWidth < 980){
+            var searchHeight = $("#search-bar").height() + 13 + "px";
+        } 
+
+        $(".search-add-button").css("width", searchHeight).css("height", searchHeight);
+
+
         getTopTerms();
     } else {
         logSearch($("#search-bar").val());

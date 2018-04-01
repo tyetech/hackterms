@@ -289,7 +289,7 @@ code {
     border-right: 0;
 	box-shadow: 0px 0px 5px rgba(203, 218, 210, 0.50);
     //width: calc(100% - 32px);
-    width: calc(100% - 25px - 2em);
+    width: calc(100% - 35px - 2em);         // FIX THIS!
 	min-width: 200px;
 	max-width: calc(1600px - 32px);
     z-index: 1;
@@ -1899,7 +1899,7 @@ code {
     }
 
     #search-bar {
-        width: calc(100% - 2em - 8px);
+        width: calc(100% - 2em - 20px);
         padding: 3px 10px 8px 10px;
         font-size: 2em;
     }
