@@ -1592,11 +1592,11 @@ function displayAddDefinitionButton(forUser, isLoggedIn){
 
     if(!forUser){
         if(isLoggedIn){
-            $("#definitions-section").append("<button class = 'new-def-button new-def-link'>Add a Definition<span></div>");
-            $("#definitions-section").append("<button class = 'request-def-button request-def-link'>Request a Definition<span></div>");
+            $("#definitions-section").append("<button class = 'new-def-button new-def-link'>Teach a Word<span></div>");
+            $("#definitions-section").append("<button class = 'request-def-button request-def-link'>Inquire About A Word<span></div>");
         } else {
-            $("#definitions-section").append("<button class = 'new-def-button login-link'>Add a Definition</div>");
-            $("#definitions-section").append("<button class = 'request-def-button login-to-request'>Request a Definition<span></div>");
+            $("#definitions-section").append("<button class = 'new-def-button login-link'>Teach a Word</div>");
+            $("#definitions-section").append("<button class = 'request-def-button login-to-request'>Inquire About A Word<span></div>");
         } 
     }   
 }
