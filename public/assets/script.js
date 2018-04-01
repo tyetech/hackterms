@@ -685,7 +685,7 @@ function githubLogin() {
 
 
 function populateRandomSearchTerm(){
-    var sampleSearches = ["javascript", "rails", "node.js", "session", "function", "mongodb", "sublime text", "mvc"];
+    var sampleSearches = ["stable", "jo lynne cooper", "dude ranch", "farm", "republican"];
     var randomTermToSearch = "ex: " + sampleSearches[Math.floor(Math.random() * sampleSearches.length)];
     $("#search-bar").attr("placeholder", randomTermToSearch);    
 }
