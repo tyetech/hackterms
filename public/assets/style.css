@@ -20,7 +20,7 @@ $search-opacity: 0.8; */
 body {
   margin: 0;
   background: #E2E8C0;
-  font-family: "Muli", sans-serif;
+  font-family: "Happy Monkey", cursive;
   font-weight: 300;
   min-height: 100vh;
   color: #2C363F;
@@ -38,7 +38,7 @@ a:hover, .link:hover {
   cursor: pointer; }
 
 input {
-  font-family: "Zilla Slab", serif;
+  font-family: "Schoolbell", cursive;
   font-weight: 400;
   font-size: 1em; }
 
@@ -113,7 +113,7 @@ code {
   cursor: pointer; }
 
 #home-link {
-  font-family: "Zilla Slab", serif;
+  font-family: "Schoolbell", cursive;
   font-size: 3.5em;
   font-weight: 400;
   display: flex;
@@ -265,7 +265,7 @@ code {
   border: 1px solid rgba(44, 54, 63, 0.3);
   border-radius: 5px;
   color: #846C5B;
-  font-family: "Zilla Slab", serif;
+  font-family: "Schoolbell", cursive;
   font-weight: 400;
   margin: 0 8px 8px 0; }
   .related-term:hover, .top-searched-term:hover {
@@ -283,12 +283,12 @@ code {
   padding: 5px 20px;
   background: #ffffff;
   color: #846C5B;
-  font-family: "Zilla Slab", serif;
+  font-family: "Schoolbell", cursive;
   font-weight: 400;
   border-radius: 5px; }
 
 .term-suggestion-link {
-  font-family: "Zilla Slab", serif;
+  font-family: "Schoolbell", cursive;
   font-weight: 400;
   text-decoration: none;
   font-size: 0.7em;
@@ -354,7 +354,7 @@ code {
   background: #f3cc75; }
 
 #formatting-link {
-  font-family: "Zilla Slab", serif;
+  font-family: "Schoolbell", cursive;
   font-weight: 500;
   margin-top: -3px; }
 
@@ -503,11 +503,11 @@ code {
   #category-summary h3, #related-terms h3 {
     color: #49333E;
     margin: 0 0 5px 0;
-    font-family: "Zilla Slab", serif; }
+    font-family: "Schoolbell", cursive; }
 
 .category-title {
   color: #5a6061;
-  font-family: "Zilla Slab", serif;
+  font-family: "Schoolbell", cursive;
   font-size: 1.4em;
   font-weight: 400; }
 
@@ -530,7 +530,7 @@ code {
   display: inline-block;
   font-weight: 400;
   margin-right: 10px;
-  font-family: "Zilla Slab", serif;
+  font-family: "Schoolbell", cursive;
   font-size: 1.1em; }
 
 .category-legend {
@@ -573,7 +573,7 @@ code {
 /* NEW DEFINITION */
 .new-definition-term {
   font-size: 1.2em;
-  font-family: "Zilla Slab", serif;
+  font-family: "Schoolbell", cursive;
   font-weight: 500; }
 
 .term .title {
@@ -586,7 +586,7 @@ code {
   font-size: 1.5em; }
 
 #new-definition textarea {
-  font-family: "Muli", sans-serif;
+  font-family: "Happy Monkey", cursive;
   resize: none;
   padding: 6px;
   font-size: 1em;
@@ -601,7 +601,7 @@ code {
 
 .definition-term {
   color: #49333E;
-  font-family: "Zilla Slab", serif;
+  font-family: "Schoolbell", cursive;
   font-size: 1.3rem;
   font-weight: 400; }
 
@@ -1008,7 +1008,7 @@ code {
   padding: 5px;
   border-radius: 5px;
   border: 1px solid #2C363F;
-  font-family: "Zilla Slab", serif;
+  font-family: "Schoolbell", cursive;
   font-weight: 400; }
 
 .profile-section-tab {
@@ -1127,7 +1127,7 @@ code {
   background: #c7e2f9; }
 
 .submission-update {
-  font-family: "Zilla Slab", serif;
+  font-family: "Schoolbell", cursive;
   font-weight: 400;
   padding: 0px 5px;
   border-radius: 5px;
@@ -1238,7 +1238,7 @@ code {
   float: right; }
 
 .metric {
-  font-family: "Zilla Slab", serif;
+  font-family: "Schoolbell", cursive;
   font-weight: 400;
   font-size: 1.5em; }
 
@@ -1337,7 +1337,7 @@ code {
   clear: both; }
 
 .faq-question {
-  font-family: "Zilla Slab", serif;
+  font-family: "Schoolbell", cursive;
   font-weight: 400;
   font-size: 1.5em;
   margin-bottom: 10px;
@@ -1736,7 +1736,7 @@ code {
     text-align: center;
     background: #c7e2f9; }
   .submission-update {
-    font-family: "Zilla Slab", serif;
+    font-family: "Schoolbell", cursive;
     font-weight: 400;
     padding: 0px 5px;
     border-radius: 5px;
