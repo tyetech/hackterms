@@ -1715,7 +1715,7 @@ function getEmptyTerms(db, req, callback){
 function getRandomTerm(db, req, callback){
 
 
-	var allTerms = ["republican", "jo lynne cooper", "farm", "pig", "elijah", "chicken", "dude farm", "idaho"];
+	var allTerms = ["republican", "jo lynne cooper", "farm", "pig", "elijah", "chicken", "dude farm", "idaho", "republican"];
 	var randomNumber = Math.floor(Math.random()*allTerms.length);
 	var randomTerm = allTerms[randomNumber];
 	callback(randomTerm);
