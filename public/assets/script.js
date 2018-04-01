@@ -128,7 +128,7 @@ function main(){
         setTimeout(function(){ logSearch(term); }, 50);                    // wait for the search bar to populate
 		currentTerm = term;
         window.history.pushState("object or string", "Title", "/" + term);      // update url
-		document.title = "Hackterms: " + term;
+		document.title = "Cluckterms:" + term;
         getDefinition(term, false);
 	});
 
@@ -381,7 +381,7 @@ function main(){
 
         if(e.which == 8){                                         // 8 = backspace
             singleTermDefinition = false;
-            document.title = "Hackterms: " + thisSearch.toLowerCase();
+            document.title = "Cluckterms:" + thisSearch.toLowerCase();
             window.history.pushState("object or string", "Title", "/" + thisSearch.toLowerCase());
             $("#new-definition").hide();
             $("#definitions-section").empty();
@@ -936,7 +936,7 @@ function getDefinition(query, forUser){
 
                 if(!forUser){
                     window.history.pushState("object or string", "Title", "/" + cleanUrl(query.toLowerCase()));      // update url
-                    document.title = "Hackterms: " + query.toLowerCase();
+                    document.title = "Cluckterms:" + query.toLowerCase();
                     var searchTerm = $("#search-bar").val().trim();
                 }
                 
@@ -1576,7 +1576,7 @@ function displayDefinitionsOnPage(definitions, isLoggedIn, forUser, isModerator)
         if(location.pathname.indexOf("/profile") == -1){
             var term = $("#search-bar").val();
             $("#definitions-section").append("<div class = 'definition-accent'>There are no definitions for <span class = 'bold'>" + term + "</span> yet. You should add one!</div>");
-            document.title = "Hackterms: " + term.toLowerCase();
+            document.title = "Cluckterms: " + term.toLowerCase();
 
             window.history.pushState("object or string", "Title", "/" + cleanUrl(term.toLowerCase()));
             displayAddDefinitionButton(forUser, isLoggedIn);

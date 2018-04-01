@@ -91,14 +91,14 @@ code {
   max-width: 100%;
   box-sizing: border-box;
   margin: 0 auto;
-  background: #443742; }
+  background: #49333E; }
   #header-section #signup:hover {
     background: #CEA07E;
     font-weight: 600;
     color: white; }
   #header-section #signup {
     color: white;
-    background: #7fc5d0;
+    background: #EDD9A3;
     font-weight: 600; }
 
 #header-wrapper {
@@ -106,7 +106,7 @@ code {
   margin: 0px auto; }
 
 #header-section a, #header-section .link, #footer-section a, #footer-section .link {
-  color: #7fc5d0; }
+  color: #EDD9A3; }
 
 #header-section a:hover, #header-section .link:hover, #footer-section a:hover, #footer-section .link:hover {
   color: #CEA07E;
@@ -129,7 +129,7 @@ code {
   padding: 5vh 0; }
 
 #footer-section {
-  background: #443742;
+  background: #49333E;
   color: #dee8ec;
   font-weight: 500;
   text-align: center;
@@ -155,7 +155,7 @@ code {
   right: 0;
   border-radius: 5px 0 0 5px;
   box-shadow: 0px 0px 10px #2C363F;
-  background: #443742;
+  background: #49333E;
   color: white;
   z-index: 1; }
 
@@ -409,7 +409,7 @@ code {
   font-weight: 200; }
 
 .request-def-button {
-  background: #443742; }
+  background: #49333E; }
 
 /* COMMENTS */
 .comments-section {
@@ -431,7 +431,7 @@ code {
   border-left: 4px solid #114B5F; }
 
 .connector {
-  border: 1px solid #443742;
+  border: 1px solid #49333E;
   width: 0;
   height: 100%;
   margin: 0 auto; }
@@ -495,13 +495,13 @@ code {
 #category-summary, #related-terms {
   padding: 12px 20px 15px 20px;
   display: block;
-  border-left: 4px solid #443742;
+  border-left: 4px solid #49333E;
   min-width: 400px;
   font-size: 0.85em;
   font-weight: 600;
   margin: 0; }
   #category-summary h3, #related-terms h3 {
-    color: #443742;
+    color: #49333E;
     margin: 0 0 5px 0;
     font-family: "Zilla Slab", serif; }
 
@@ -600,7 +600,7 @@ code {
   float: right; }
 
 .definition-term {
-  color: #443742;
+  color: #49333E;
   font-family: "Zilla Slab", serif;
   font-size: 1.3rem;
   font-weight: 400; }
@@ -668,7 +668,7 @@ code {
 .voting-column {
   display: inline-block;
   width: calc(5% - 2px);
-  border-left: 2px solid #443742; }
+  border-left: 2px solid #49333E; }
 
 .voting-section {
   margin: 0;
@@ -687,7 +687,7 @@ code {
   font-weight: 300;
   margin: 15px 0 5px 0;
   padding: 2px 8px;
-  background: #443742;
+  background: #49333E;
   color: white;
   display: inline-block; }
 
@@ -1082,7 +1082,7 @@ code {
 .profile-username {
   margin-top: 30px;
   margin-bottom: 3px;
-  background: #443742;
+  background: #49333E;
   color: white;
   padding: 6px 11px;
   display: inline-block;
@@ -1302,7 +1302,7 @@ code {
 
 .analytics-section {
   text-align: center;
-  border: 1px solid #443742;
+  border: 1px solid #49333E;
   padding: 15px;
   border-radius: 5px; }
 
@@ -1360,7 +1360,7 @@ code {
   margin: 3px 0 6px 0; }
 
 .faq-control {
-  color: #443742; }
+  color: #49333E; }
 
 .faq-control:hover {
   color: #CEA07E; }
@@ -1382,7 +1382,7 @@ code {
 .rule-blurb {
   background: transparent;
   font-family: "Zilla Slab", serif;
-  border: 1px solid #443742;
+  border: 1px solid #49333E;
   margin-top: 0; }
 
 /*  TEST CSS - REMOVE IN PROD! */
@@ -1407,10 +1407,10 @@ code {
     min-height: calc(5vh - 20px); }
     #header-section #signup {
       background: none;
-      color: #7fc5d0; }
+      color: #EDD9A3; }
     #header-section #signup:hover {
       color: #CEA07E;
-      background: #443742; }
+      background: #49333E; }
   #home-link {
     display: block;
     font-size: 3em;
@@ -1551,7 +1551,7 @@ code {
   /* CATEGORY CHART*/
   #category-summary {
     padding: 12px 10px 15px 10px;
-    border-left: 2px solid #443742;
+    border-left: 2px solid #49333E;
     font-weight: 600;
     margin: 0;
     min-width: auto; }
