@@ -555,7 +555,7 @@ code {
 
 /* NEW DEFINITION */
 .new-definition-term {
-  font-size: 1.1em;
+  font-size: 1.2em;
   font-family: "Zilla Slab", serif;
   font-weight: 500; }
 
@@ -585,7 +585,7 @@ code {
 .definition-term {
   color: #114B5F;
   font-family: "Zilla Slab", serif;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-weight: 400; }
 
 .definition-metadata {
@@ -631,7 +631,14 @@ code {
   font-weight: 700;
   vertical-align: middle;
   display: inline-block;
-  width: 70%; }
+  width: 70%;
+  font-family: "Zilla Slab", serif;
+  color: rgba(44, 54, 63, 0.3); }
+  .definition-history a:not(.definition-term) {
+    font-size: 0.9rem;
+    font-weight: 400; }
+    .definition-history a:not(.definition-term):hover {
+      color: #E88D67; }
 
 .definition-actions {
   text-align: right;

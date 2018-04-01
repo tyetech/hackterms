@@ -738,7 +738,7 @@ code {
 /* NEW DEFINITION */
 
 .new-definition-term {
-    font-size: 1.1em;
+    font-size: 1.2em;
     font-family: $font-tech;
     font-weight: 500;
 }
@@ -775,7 +775,7 @@ code {
 .definition-term {
 	color: $blue-dark;
     font-family: $font-tech;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: 400;
 }
 
@@ -833,6 +833,18 @@ code {
     vertical-align: middle;
     display: inline-block;
     width: 70%;
+    font-family: "Zilla Slab", serif;
+    color: $gray-transparent;
+
+    & a:not(.definition-term) {
+        
+        font-size: 0.9rem;
+        font-weight: 400;
+
+        &:hover {
+            color: $orange;
+        }
+    }
 }
 
 .definition-actions {

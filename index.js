@@ -181,10 +181,19 @@ MongoClient.connect(dbAddress, function(err, db){
             termNames.sort(function(a,b){return b.length - a.length})
             console.log(termNames);
 
-            res.send({status: "success", terms: termNames});
-        })
+            var loginStatus = false;
+            var moderatorStatus = false;
 
+            if(req.session.user){ loginStatus = true }      
 
+            if(req.session.user){
+                if(req.session.user.admin == "true" || req.session.user.moderator == "true" || req.session.user.admin == true || req.session.user.moderator == true){
+                    moderatorStatus = true;
+                }
+            }
+
+            res.send({status: "success", terms: termNames, isLoggedIn: loginStatus, isModerator: moderatorStatus});
+        });
     })
     
     

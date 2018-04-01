@@ -142,6 +142,18 @@ function insertTermLinks(terms, thisTerm){
 }
 
 
+function findRegexTermInArray(array, term){
+
+    var regexTerm = new RegExp(term.toLowerCase().replace(/\W/g, ''), 'i');      // clear all non-alphanumeric characters
+
+    var termsFound = array.filter(function(term){
+        return term.toLowerCase().replace(/\W/g, '').match(regexTerm);
+    });
+
+    return termsFound;
+}
+
+
 function replaceAt(text, index, replacement) {
     return text.substr(0, index) + replacement + text.substr(index + replacement.length);
 }

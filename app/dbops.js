@@ -1656,6 +1656,8 @@ function createNewUser(hash, thisGoogleId, thisGithubId, thisEmail, db, req, cal
 }
 
 
+/* TERM FUNCTIONS */
+
 function getTopTerms(db, req, callback){
 
 //	 var requestQuery = { termExists: false } 
@@ -1667,14 +1669,8 @@ function getTopTerms(db, req, callback){
 	database.sortRead(db, "terms", {}, orderQuery, function getSearches(allSearches){
 		var topSearches = allSearches.splice(0, 10);
 
-		console.log("topSearches");
-		console.log(topSearches);
-
 		database.sortRead(db, "requests", requestQuery, weightQuery, function getSearches(allRequests){
 			var topRequests = allRequests.splice(0, 10);
-
-			console.log("topRequests");
-			console.log(topRequests);
 
 
 			var response = {
@@ -1684,6 +1680,35 @@ function getTopTerms(db, req, callback){
 
 			callback(response);
 		})
+	})
+}
+
+function getAllTerms(db, req, callback){	
+
+	console.log("getting all terms");
+	var sortQuery = {name: 1}
+
+	database.sortRead(db, "terms", {}, sortQuery, function getTerms(result){
+        callback({terms: result});
+    });
+}
+
+
+function getEmptyTerms(db, req, callback){
+
+	var definitionQuery = {
+		removed: false,
+		rejected: false,
+		approved: true
+	}
+
+	database.read(db, "definitions", definitionQuery, function fetchAllDefinitions(definitions){
+		console.log("Got " + definitions.length + " definitions");
+
+		for(var i = 0; i < definitions.length; i++){
+			var definition = definitions[i];
+			createTermFromDefinition(db, req, i, definition);
+		}
 	})
 }
 
@@ -2413,36 +2438,6 @@ function getFAQ(db, req, callback){
 		callback({faq: thisFAQ})
 	})
 }
-
-function getAllTerms(db, req, callback){	
-
-	console.log("getting all terms");
-	var sortQuery = {name: 1}
-
-	database.sortRead(db, "terms", {}, sortQuery, function getTerms(result){
-        callback({terms: result});
-    });
-}
-
-
-function getEmptyTerms(db, req, callback){
-
-	var definitionQuery = {
-		removed: false,
-		rejected: false,
-		approved: true
-	}
-
-	database.read(db, "definitions", definitionQuery, function fetchAllDefinitions(definitions){
-		console.log("Got " + definitions.length + " definitions");
-
-		for(var i = 0; i < definitions.length; i++){
-			var definition = definitions[i];
-			createTermFromDefinition(db, req, i, definition);
-		}
-	})
-}
-
 
 
 function fillInTerms(db, req, callback){

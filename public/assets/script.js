@@ -13,58 +13,9 @@ var triggerEvent = "click";
 
 var singleTermDefinition = false;
 
-
-
-function init(){
-    gapi.load("auth2", function(){
-            gapi.auth2.init();
-        })
-}
-/**/
-
-
-function onSignIn(googleUser) {     // this'll only run if a user is signed in
-                                    // googleUser IS THE SAME THING AS  gapi.auth2.getAuthInstance().currentUser.get();
-
-    var id_token = googleUser.getAuthResponse().id_token;
-    var profile = googleUser.getBasicProfile();
-
-    console.log("a user is signed in");
-
-    var loginToken = {
-        idtoken: id_token
-    }
-
-    if($("#new-username").length == 0 && gapi.auth2.getAuthInstance().isSignedIn.get()){
-
-        $.ajax({
-            type: "post",
-            data: loginToken,
-            url: "/google-login",
-            success: function(result){
-
-                if(result.status == "fail"){
-                    console.log("failing");
-                     gapi.auth2.getAuthInstance().signOut();
-                    $("." + result.errorType + "-error").text(result.message).css("display", "block");
-                } else if(result.status == "logged in"){
-                    console.log("already logged in");
-                } else {
-                    window.location.href = "/";
-                }
-            }
-        });
-
-    }
-}
-
-
-$("body").on(triggerEvent, "#google-sign-out", function(){
-    gapi.auth2.getAuthInstance().signOut().then(function () {
-        console.log('User signed out.');
-    });
-})
-
+var allTerms = [];
+var loggedIn = false;           // will need to replace this with a copy of the user's session data
+var moderator = false; 
 
 function main(){
 
@@ -132,6 +83,23 @@ function main(){
         }
 
         pageSearch();
+
+        $.ajax({
+            type: "get",
+            url: "/all-terms",
+            success: function(result){
+                if(result.status == "success"){
+                    allTerms = result.terms;
+                    loggedIn = result.isLoggedIn;
+                    moderator = result.isModerator;
+                    console.log("Fetched " + result.terms.length + " terms");
+                } else {
+                    console.log("ERROR!");
+                    console.log(result.error);
+                    flash("error", result.error);
+                }
+            }
+        })
 
     }
 
@@ -309,7 +277,6 @@ function main(){
 
     
 /* LISTENERS */
-
 
 	$("body").on("keydown", function(e){        
 
@@ -753,6 +720,7 @@ function showSignup(){
     }
 }
 
+
 function search(){
 
     if($("#search-bar").val() && location.pathname.indexOf("profile") == -1){
@@ -760,67 +728,55 @@ function search(){
         var searchTerm = $("#search-bar").val().trim();
         var currentText = null;
 
-    	var searchQuery = {
-    		term: searchTerm.toLowerCase()
-    	}
+        var matchingTerms = findRegexTermInArray(allTerms, searchTerm);
 
-    	$.ajax({
-            type: "post",
-            data: searchQuery,
-            url: "/search",
-            success: function(result){
+    	
+		$("#terms-section").empty();
 
-            	if(result.status == "success"){
-            		$("#terms-section").empty();
+        if(matchingTerms.length == 0){                                  // IF THIS TERM DOESN'T EXIST
+            
+            console.log("NO RESULTS");
+            $("#definitions-section").empty();
+            displayDefinitionsOnPage([], loggedIn, false, moderator);
+            currentText = $("#search-bar").val().trim().toLowerCase();
+            
+            //if after 2 seconds the search bar contents have not changed, log the search
+            setTimeout(function checkIfSearchBarValueChanged(){
+                var newText = $("#search-bar").val().trim().toLowerCase();
+                var done = (currentText == newText);            // if currentText == newText, we're done
 
-                    if(result.count == 0){                                  // IF THIS TERM DOESN'T EXIST
-                        
-                        console.log("NO RESULTS");
-                        $("#definitions-section").empty();
-                        displayDefinitionsOnPage([], result.loggedIn, false, result.isModerator);
-                        currentText = $("#search-bar").val().trim().toLowerCase();
-                        
-                        //if after 2 seconds the search bar contents have not changed, log the search
-                        setTimeout(function checkIfSearchBarValueChanged(){
-                            var newText = $("#search-bar").val().trim().toLowerCase();
-                            var done = (currentText == newText);            // if currentText == newText, we're done
+                var searchQuery = {
+                    term: newText
+                }
 
-                            var searchQuery = {
-                                term: newText
-                            }
+                if(done){
+                    currentText = "";
+                    logSearch(searchQuery.term)
+                }
 
-                            if(done){
-                                currentText = "";
-                                logSearch(searchQuery.term)
-                            }
+            }, 2000)
 
-                        }, 2000)
-
-                    } else if (result.count == 1){                      // if there's only one term, display the definition     
-                        
-                        if(!singleTermDefinition){                          
-                            logSearch(result.body[0].name);                           
-                            getDefinition(result.body[0].name, false);
-                            currentTerm = result.body[0].name;
-                        }
-
-                        singleTermDefinition = true;
-
-                    } else if (result.count > 1){                       // if there's more than one term, display the terms
-                        result.body.forEach(function(term){
-                            displaySearchTerm(term);
-                        });
-
-                        $("#definitions-section").empty();
-                        displayAddDefinitionButton(false, result.loggedIn);
-        
-                    }
-                        		
-            	} else {
-            		console.log(result.error);
-            	}
+        } else if (matchingTerms.length == 1){                      // if there's only one term, display the definition     
+            
+            if(!singleTermDefinition){                          
+                logSearch(matchingTerms[0]);                           
+                getDefinition(matchingTerms[0], false);
+                currentTerm = matchingTerms[0];
             }
-        })
+
+            singleTermDefinition = true;
+
+        } else if (matchingTerms.length > 1){                       // if there's more than one term, display the terms
+            matchingTerms.forEach(function(term){
+                displaySearchTerm(term);
+            });
+
+            $("#definitions-section").empty();
+            displayAddDefinitionButton(false, loggedIn);
+
+        }
+                    		
+
     } else {
     	console.log("you're not searching for anything!");
     }
@@ -1171,6 +1127,58 @@ function voteOnPost(voteDirection, elementId, voteTerm, voteType){
     })
 }
 
+
+
+function init(){
+    gapi.load("auth2", function(){
+            gapi.auth2.init();
+        })
+}
+
+/**/
+
+
+function onSignIn(googleUser) {     // this'll only run if a user is signed in
+                                    // googleUser IS THE SAME THING AS  gapi.auth2.getAuthInstance().currentUser.get();
+
+    var id_token = googleUser.getAuthResponse().id_token;
+    var profile = googleUser.getBasicProfile();
+
+    console.log("a user is signed in");
+
+    var loginToken = {
+        idtoken: id_token
+    }
+
+    if($("#new-username").length == 0 && gapi.auth2.getAuthInstance().isSignedIn.get()){
+
+        $.ajax({
+            type: "post",
+            data: loginToken,
+            url: "/google-login",
+            success: function(result){
+
+                if(result.status == "fail"){
+                    console.log("failing");
+                     gapi.auth2.getAuthInstance().signOut();
+                    $("." + result.errorType + "-error").text(result.message).css("display", "block");
+                } else if(result.status == "logged in"){
+                    console.log("already logged in");
+                } else {
+                    window.location.href = "/";
+                }
+            }
+        });
+
+    }
+}
+
+
+$("body").on(triggerEvent, "#google-sign-out", function(){
+    gapi.auth2.getAuthInstance().signOut().then(function () {
+        console.log('User signed out.');
+    });
+})
 
 function login(){
 
@@ -1560,7 +1568,7 @@ function displayDefinitionsOnPage(definitions, isLoggedIn, forUser, isModerator)
 
                 displayAddDefinitionButton(forUser, isLoggedIn);
 
-                hilightLinks(mainTerm);
+                highlightLinks(mainTerm);
 
             }, 'html');
         }, 'html');
@@ -1666,8 +1674,8 @@ function sortPosts(posts){
 }
 
 function displaySearchTerm(term){
-	$("#terms-section").append("<div class = 'term'><span class = 'title'><span class ='term-link'>" + term.name + "</span></span></div>");
-    $(".term-link").last().attr("id", term.name)
+	$("#terms-section").append("<div class = 'term'><span class = 'title'><span class ='term-link'>" + term + "</span></span></div>");
+    $(".term-link").last().attr("id", term)
 } 
 
 function displayDefinitionSuggestion(term){
@@ -1853,24 +1861,28 @@ function getExistingDefinition(thisId, callback){
     })
 }
 
-function hilightLinks(thisTerm){
+function highlightLinks(thisTerm){
 
 // console.log("This feature is off for now");
 
-    if($(".definition-body").length >0){
-        $.ajax({
-            type: "get",
-            url: "/all-terms",
-            success: function(result){
-                if(result.status == "success"){
-                    insertTermLinks(result.terms, thisTerm);
-                } else {
-                    console.log("ERROR!");
-                    console.log(result.error);
-                    flash("error", result.error);
+    if(allTerms.length > 0){
+        insertTermLinks(allTerms, thisTerm);
+    } else {
+        if($(".definition-body").length >0){
+            $.ajax({
+                type: "get",
+                url: "/all-terms",
+                success: function(result){
+                    if(result.status == "success"){
+                        insertTermLinks(result.terms, thisTerm);
+                    } else {
+                        console.log("ERROR!");
+                        console.log(result.error);
+                        flash("error", result.error);
+                    }
                 }
-            }
-        })
+            })
+        }
     }
 
 }
