@@ -50,7 +50,7 @@ button {
   cursor: pointer;
   background: #846C5B;
   color: white;
-  font-family: 'Muli', sans-serif;
+  font-family: "Happy Monkey", cursive;
   font-weight: 300;
   font-size: 0.9em;
   vertical-align: top;
@@ -63,7 +63,7 @@ button:hover {
   box-shadow: 0 1px 9px rgba(232, 140, 103, 0.75); }
 
 code {
-  font-family: "Zilla Slab", serif;
+  font-family: "Schoolbell", cursive;
   background: rgba(171, 171, 171, 0.3);
   border: 1px solid gray;
   border-radius: 5px;
@@ -649,7 +649,7 @@ code {
   vertical-align: middle;
   display: inline-block;
   width: 70%;
-  font-family: "Zilla Slab", serif;
+  font-family: "Schoolbell", cursive;
   color: rgba(44, 54, 63, 0.3); }
   .definition-history a:not(.definition-term) {
     font-size: 0.9rem;
@@ -1295,7 +1295,7 @@ code {
     font-size: 1.5rem;
     text-transform: capitalize;
     font-weight: 400;
-    font-family: "Zilla Slab", serif; }
+    font-family: "Schoolbell", cursive; }
 
 #jesus {
   margin: 40px auto 10px auto; }
@@ -1315,7 +1315,7 @@ code {
   font-weight: 600;
   text-align: center;
   margin: 10px 0;
-  font-family: "Zilla Slab", serif;
+  font-family: "Schoolbell", cursive;
   font-size: 1.3em;
   vertical-align: top; }
   .analytics-headings div {
@@ -1344,7 +1344,7 @@ code {
   display: inline; }
 
 .faq-answer, .one-rule {
-  font-family: 'Muli', serif;
+  font-family: "Happy Monkey", cursive;
   font-weight: 300;
   line-height: 1.5;
   background: #d4ccc2;
@@ -1375,13 +1375,13 @@ code {
   margin-top: -0.5em; }
 
 .rule-title {
-  font-family: "Zilla Slab", serif;
+  font-family: "Schoolbell", cursive;
   font-weight: 500;
   font-size: 1.4em; }
 
 .rule-blurb {
   background: transparent;
-  font-family: "Zilla Slab", serif;
+  font-family: "Schoolbell", cursive;
   border: 1px solid #49333E;
   margin-top: 0; }
 

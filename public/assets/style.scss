@@ -105,7 +105,7 @@ button {
     cursor: pointer;
     background: $blue-light;
     color: white;
-    font-family: 'Muli', sans-serif;
+    font-family: $font-normal;
     font-weight: 300;
     font-size: 0.9em;
     vertical-align: top;
@@ -120,7 +120,7 @@ button:hover {
 }
 
 code {
-    font-family: "Zilla Slab", serif;
+    font-family: $font-tech;
     background: rgba(171, 171, 171, 0.3);
     border: 1px solid gray;
     border-radius: 5px;
@@ -855,7 +855,7 @@ code {
     vertical-align: middle;
     display: inline-block;
     width: 70%;
-    font-family: "Zilla Slab", serif;
+    font-family: $font-tech;
     color: $gray-transparent;
 
     & a:not(.definition-term) {
@@ -1676,7 +1676,7 @@ code {
         font-size: 1.5rem;
         text-transform: capitalize;
         font-weight: 400;
-        font-family: "Zilla Slab", serif;
+        font-family: $font-tech;
     }
 }
 
@@ -1701,7 +1701,7 @@ code {
     font-weight: 600;
     text-align: center;
     margin: 10px 0;
-    font-family: "Zilla Slab", serif;
+    font-family: $font-tech;
     font-size: 1.3em;
     vertical-align: top;
     & div {
@@ -1737,7 +1737,7 @@ code {
     display: inline;
 }
 .faq-answer, .one-rule {
-    font-family: 'Muli', serif;
+    font-family: $font-normal;
     font-weight: 300;
     line-height: 1.5;
     background: #d4ccc2;
@@ -1775,14 +1775,14 @@ code {
 }
 
 .rule-title {
-    font-family: "Zilla Slab", serif;
+    font-family: $font-tech;
     font-weight: 500;
     font-size: 1.4em;
 }
 
 .rule-blurb {
     background: transparent;
-    font-family: "Zilla Slab", serif;
+    font-family: $font-tech;
     border: 1px solid $blue-dark;
     margin-top: 0;
 }
