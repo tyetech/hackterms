@@ -1590,15 +1590,24 @@ function displayDefinitionsOnPage(definitions, isLoggedIn, forUser, isModerator)
 
 function displayAddDefinitionButton(forUser, isLoggedIn){
 
+    
+
     if(!forUser){
+
+        $("#definitions-section").append("<div id = 'definition-section-button-wrapper'></div>");
+        $("#definition-section-button-wrapper").css("display", "flex").css("flex-direction", "rowsl");
+
         if(isLoggedIn){
-            $("#definitions-section").append("<button class = 'new-def-button new-def-link'>Add a Definition<span></div>");
-            $("#definitions-section").append("<button class = 'request-def-button request-def-link'>Request a Definition<span></div>");
+            $("#definition-section-button-wrapper").append("<button class = 'new-def-button new-def-link'>Add a Definition<span></div>");
+            $("#definition-section-button-wrapper").append("<button class = 'request-def-button request-def-link'>Request a Definition<span></div>");
         } else {
-            $("#definitions-section").append("<button class = 'new-def-button login-link'>Add a Definition</div>");
-            $("#definitions-section").append("<button class = 'request-def-button login-to-request'>Request a Definition<span></div>");
+            $("#definition-section-button-wrapper").append("<button class = 'new-def-button login-link'>Add a Definition</div>");
+            $("#definition-section-button-wrapper").append("<button class = 'request-def-button login-to-request'>Request a Definition<span></div>");
         } 
+
     }   
+
+
 }
 
 

@@ -60,7 +60,7 @@ code {
   padding: 0 10vw;
   width: 80%;
   min-width: 300px;
-  max-width: 1600px;
+  max-width: 980px;
   display: flex;
   flex-direction: column;
   align-self: center;
@@ -85,7 +85,7 @@ code {
     font-weight: 600; }
 
 #header-wrapper {
-  max-width: 1600px;
+  max-width: 980px;
   margin: 0px auto; }
 
 #header-section a, #header-section .link, #footer-section a, #footer-section .link {
@@ -182,7 +182,7 @@ code {
   box-shadow: 0px 0px 5px rgba(203, 218, 210, 0.5);
   width: calc(100% - 25px - 2em);
   min-width: 200px;
-  max-width: calc(1600px - 32px);
+  max-width: calc(980px - 32px);
   z-index: 1;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px; }
@@ -212,7 +212,7 @@ code {
 
 #terms-section {
   margin: 0px auto;
-  max-width: 1600px;
+  max-width: 980px;
   display: block;
   border-top: none;
   border-bottom: none;
@@ -456,7 +456,6 @@ code {
   margin-left: 4px;
   color: #58A4B0;
   padding: 0px 5px 3px 5px;
-  border: 1px solid rgba(44, 54, 63, 0.3);
   border-radius: 5px;
   display: inline-block; }
   .action-icon:hover {
@@ -538,20 +537,20 @@ code {
   font-weight: 700; }
 
 #tool-percentage, .tool {
-  background: #55d4ff;
+  background: #86daf7;
   text-align: center; }
 
 #concept-percentage, .concept {
-  background: #d43eff; }
+  background: #8bca8b; }
 
 #language-percentage, .language {
-  background: #37e037; }
+  background: #aed6ae; }
 
 #process-percentage, .process {
-  background: #ff7f3a; }
+  background: #fbbd70; }
 
 #other-percentage, .other {
-  background: #cacaca; }
+  background: #cde8f3; }
 
 /* NEW DEFINITION */
 .new-definition-term {
@@ -600,7 +599,7 @@ code {
   width: calc(95% - 10px);
   display: inline-block;
   vertical-align: top;
-  line-height: 1.4;
+  line-height: 1.7;
   padding-right: 10px;
   word-wrap: break-word;
   white-space: pre-line;
@@ -635,7 +634,7 @@ code {
   font-family: "Zilla Slab", serif;
   color: rgba(44, 54, 63, 0.3); }
   .definition-history a:not(.definition-term) {
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     font-weight: 400; }
     .definition-history a:not(.definition-term):hover {
       color: #E88D67; }
@@ -1379,7 +1378,7 @@ code {
 
 /*  ----------------  */
 /* MOBILE STYLING */
-@media screen and (max-width: 980px) {
+@media screen and (max-width: 768px) {
   /* GLOBAL STYLING */
   .container {
     padding: 0 5vw;
@@ -1568,7 +1567,6 @@ code {
   .definition-related-terms {
     padding-top: 5px; }
   .definition-column {
-    line-height: 1.5;
     font-size: 0.9em;
     width: calc(90% - 10px); }
   .voting-column {
