@@ -599,7 +599,7 @@ code {
   width: calc(95% - 10px);
   display: inline-block;
   vertical-align: top;
-  line-height: 1.7;
+  line-height: 1.6;
   padding-right: 10px;
   word-wrap: break-word;
   white-space: pre-line;
