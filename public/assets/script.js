@@ -1595,7 +1595,11 @@ function displayAddDefinitionButton(forUser, isLoggedIn){
     if(!forUser){
 
         $("#definitions-section").append("<div id = 'definition-section-button-wrapper'></div>");
-        $("#definition-section-button-wrapper").css("display", "flex").css("flex-direction", "rowsl");
+        $("#definition-section-button-wrapper").css("display", "flex").css("flex-direction", "row");
+
+        if(screenWidth < 980) {
+            $("#definition-section-button-wrapper").css("flex-direction", "column");
+        }
 
         if(isLoggedIn){
             $("#definition-section-button-wrapper").append("<button class = 'new-def-button new-def-link'>Add a Definition<span></div>");

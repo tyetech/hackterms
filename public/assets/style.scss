@@ -717,16 +717,16 @@ code {
 }
 
 #concept-percentage, .concept {
-    background: #8bca8b;
+    background: #e0baea;
 }
 
 
 #language-percentage, .language {
-    background: #aed6ae;
+    background: #ace8ac;
 }
 
 #process-percentage, .process {
-    background: #fbbd70;
+    background: #f9b765;
 }
 
 
@@ -1048,6 +1048,10 @@ code {
     font-weight: 600;
     margin: 10px 0 0 0;
     flex-direction: column;
+}
+
+#definition-section-button-wrapper{
+    flex-direction: row;
 }
 
 #remember-account {
@@ -2217,6 +2221,10 @@ code {
         & p {
             font-size: 0.9em;
         }
+    }
+
+    #definition-section-button-wrapper{
+        flex-direction: column;
     }
 
 
