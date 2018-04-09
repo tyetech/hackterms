@@ -206,6 +206,10 @@ function main(){
         $(".comments-section[data-id=" + this.dataset.id + "]").toggle();
         $(".fa-comment[data-id=" + this.dataset.id + "]").toggle();
 
+        if($(".fa-chevron-circle-down[data-id=" + this.dataset.id + "]").is(":visible")){
+            $(".fa-chevron-circle-down[data-id=" + this.dataset.id + "]").css("display","inline");
+        }
+
     });
 
     $("body").on(triggerEvent, ".delete-post", function(){
