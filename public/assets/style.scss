@@ -194,9 +194,14 @@ code {
     justify-content: center;
 
     & a, .link {
-        padding: 0px 5px;
+        padding: 0px 15px;
+    }
+
+    & p {
+        line-height: 1.7;
     }
 }
+
 
 #footer-section .fa-heart{
     color: red;
@@ -353,7 +358,8 @@ code {
 
 .related-term, .top-searched-term {
     padding: 0px 10px;
-    border: 1px solid $gray-transparent;
+    //border: 1px solid $gray-transparent;
+    background: #e8e7e6;
     border-radius: $border-radius;
     color: $blue-light;
     font-family: $font-tech;
@@ -665,7 +671,7 @@ code {
 }
 
 .category-bar {
-    border: 1px solid $gray;
+    border: 1px solid #b9b9b9;
     border-radius: $border-radius;
 }
 
@@ -850,7 +856,7 @@ code {
 
 .definition-actions {
     text-align: right;
-    vertical-align: top;
+    vertical-align: middle;
     display: inline-block;
     width: 30%;
     & div {
@@ -1835,6 +1841,10 @@ code {
 
     #footer-section  {
       text-align: center;
+
+      & a {
+        margin: 0px 5px;
+      }
     }
 
     #footer-section p {
@@ -1867,6 +1877,12 @@ code {
         border: 1px solid rgba(126, 198, 208, 0.68);
         padding: 3px;
         margin-bottom: 8px;
+    }
+
+    #footer-section  {
+      & a {
+        padding: 0;
+      }
     }
 
 

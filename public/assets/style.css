@@ -122,7 +122,9 @@ code {
   align-items: flex-end;
   justify-content: center; }
   #footer-section a, #footer-section .link {
-    padding: 0px 5px; }
+    padding: 0px 15px; }
+  #footer-section p {
+    line-height: 1.7; }
 
 #footer-section .fa-heart {
   color: red; }
@@ -245,7 +247,7 @@ code {
 
 .related-term, .top-searched-term {
   padding: 0px 10px;
-  border: 1px solid rgba(44, 54, 63, 0.3);
+  background: #e8e7e6;
   border-radius: 5px;
   color: #58A4B0;
   font-family: "Zilla Slab", serif;
@@ -497,7 +499,7 @@ code {
   font-weight: 700; }
 
 .category-bar {
-  border: 1px solid #2C363F;
+  border: 1px solid #b9b9b9;
   border-radius: 5px; }
 
 .category-stat {
@@ -641,7 +643,7 @@ code {
 
 .definition-actions {
   text-align: right;
-  vertical-align: top;
+  vertical-align: middle;
   display: inline-block;
   width: 30%; }
   .definition-actions div {
@@ -790,6 +792,9 @@ code {
   font-weight: 600;
   margin: 10px 0 0 0;
   flex-direction: column; }
+
+#definition-section-button-wrapper {
+  flex-direction: row; }
 
 #remember-account {
   transform: scale(1.2);
@@ -1405,6 +1410,8 @@ code {
     /*min-height: 80vh;*/ }
   #footer-section {
     text-align: center; }
+    #footer-section a {
+      margin: 0px 5px; }
   #footer-section p {
     margin: 7px 0;
     color: gray; }
@@ -1427,6 +1434,8 @@ code {
     border: 1px solid rgba(126, 198, 208, 0.68);
     padding: 3px;
     margin-bottom: 8px; }
+  #footer-section a {
+    padding: 0; }
   /* SEARCH BAR */
   #search-bar-div {
     padding: 3vh 0 0.5vh 0; }
@@ -1627,6 +1636,8 @@ code {
     text-align: right; }
   #request-definition-section p {
     font-size: 0.9em; }
+  #definition-section-button-wrapper {
+    flex-direction: column; }
   #signup-modal, #login-modal, #password-reset-modal {
     width: calc(94vw - 34px); }
   #signup-icon {
