@@ -591,7 +591,7 @@ code {
 
 .definition-metadata {
   color: rgba(44, 54, 63, 0.3);
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 600; }
 
 .definition-related-terms {
@@ -636,7 +636,7 @@ code {
   font-family: "Zilla Slab", serif;
   color: rgba(44, 54, 63, 0.3); }
   .definition-history a:not(.definition-term) {
-    font-weight: 400; }
+    font-weight: 500; }
     .definition-history a:not(.definition-term):hover {
       color: #E88D67; }
 
