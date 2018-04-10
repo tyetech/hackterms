@@ -1498,6 +1498,15 @@ function displayDefinitionsOnPage(definitions, isLoggedIn, forUser, isModerator)
                 // a bit of handlebars magic
 
                 definitions.forEach(function(thisDefinition){
+
+
+                    var date = thisDefinition.lastEdit.substr(0, 10);
+                    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                    var monthIndex = parseInt(thisDefinition.lastEdit.substr(5, 6)) - 1;
+                    var fullDate = months[monthIndex] + " " + parseInt(thisDefinition.lastEdit.substring(8, 10)) + ", " + thisDefinition.lastEdit.substring(0, 4);
+
+
+
                     var thisScore = thisDefinition.upvotes - thisDefinition.downvotes;
 
                     var myTemplate =  Handlebars.compile(definitionTemplate);
@@ -1510,7 +1519,7 @@ function displayDefinitionsOnPage(definitions, isLoggedIn, forUser, isModerator)
                     var context = {
                         definition: thisDefinition,
                         link: cleanUrl(thisDefinition.term),
-                        editDate: thisDefinition.lastEdit.substr(0, 10),
+                        editDate: fullDate,
                         score: thisScore,
                         id: thisDefinition.id,
                         commentCount: thisDefinition.comments.length,

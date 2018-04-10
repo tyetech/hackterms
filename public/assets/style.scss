@@ -788,7 +788,7 @@ code {
 
 .definition-metadata {
     color: $gray-transparent;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: 600;
 }
 
@@ -844,8 +844,7 @@ code {
     color: $gray-transparent;
 
     & a:not(.definition-term) {
-        
-        font-size: 1.1rem;
+
         font-weight: 400;
 
         &:hover {
@@ -856,7 +855,7 @@ code {
 
 .definition-actions {
     text-align: right;
-    vertical-align: middle;
+    vertical-align: top;
     display: inline-block;
     width: 30%;
     & div {
