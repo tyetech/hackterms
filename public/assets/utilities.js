@@ -144,10 +144,16 @@ function insertTermLinks(terms, thisTerm){
 
 function findRegexTermInArray(array, term){
 
-    var regexTerm = new RegExp(term.toLowerCase().replace(/\W/g, ''), 'i');      // clear all non-alphanumeric characters
+    //var regexTerm = new RegExp(term.toLowerCase().replace(/\W/g, ''), 'i');      // clear all non-alphanumeric characters
+      var regexTerm = new RegExp(term.toLowerCase().replace(/\s.\(\)\-/g, '').replace(/[-[\]{}*+?,\\^$|#\s]/g, '\\$&'), 'i');      // remove all spaces, parantheses, and periods
+
+    // .replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')             // escape weird chars
+
+
+    // console.log(regexTerm);
 
     var termsFound = array.filter(function(term){
-        return term.toLowerCase().replace(/\W/g, '').match(regexTerm);
+        return term.toLowerCase().replace(/\s.\(\)\-/g, '').replace(/[-[\]{}*+?,\\^$|#\s]/g, '\\$&').match(regexTerm);
     });
 
     return termsFound;

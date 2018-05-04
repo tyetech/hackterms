@@ -1523,13 +1523,20 @@ function githubLogin(db, req, thisCode, callback){
 
 					    		var thisEmail = emailBody[0]["email"];
 
+					    		console.log("thisEmail: " + thisEmail);
+
 					    		var userQuery = {
 						            email: thisEmail
 						        }	
 
+						        console.log(userQuery);
+
 						        var userid = userBody.id;
 
 						        database.read(db, "users", userQuery, function checkIfUserExists(existingUsers){
+									
+						        	console.log("existingUsers.length: " + existingUsers.length);
+
 									if(existingUsers.length == 1){
 
 										// if this user exists, let's try to log the user in
@@ -1667,10 +1674,10 @@ function getTopTerms(db, req, callback){
 	var weightQuery = { weight: -1 }
 
 	database.sortRead(db, "terms", {}, orderQuery, function getSearches(allSearches){
-		var topSearches = allSearches.splice(0, 10);
+		var topSearches = allSearches.splice(0, 5);
 
 		database.sortRead(db, "requests", requestQuery, weightQuery, function getSearches(allRequests){
-			var topRequests = allRequests.splice(0, 10);
+			var topRequests = allRequests.splice(0, 5);
 
 
 			var response = {

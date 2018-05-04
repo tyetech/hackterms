@@ -69,7 +69,6 @@ code {
 /* HEADER AND FOOTER */
 #header-section {
   padding: 5px 10vw 10px 10vw;
-  border-bottom: 1px solid #eee;
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
@@ -168,7 +167,7 @@ code {
 
 /* SEARCH BAR */
 #search-bar-div {
-  padding: 2vh 0 1vh 0; }
+  padding-top: 2vh; }
 
 #search-bar-label {
   font-weight: 300;
@@ -247,7 +246,7 @@ code {
 
 .related-term, .top-searched-term {
   padding: 0px 10px;
-  background: #f1efed89;
+  background: rgba(222, 222, 222, 0.2);
   border-radius: 5px;
   color: #58A4B0;
   font-family: "Zilla Slab", serif;
@@ -591,7 +590,7 @@ code {
 
 .definition-metadata {
   color: rgba(44, 54, 63, 0.3);
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 600; }
 
 .definition-related-terms {
@@ -724,6 +723,17 @@ code {
 
 #top-searches, #top-requests {
   flex-wrap: wrap; }
+
+#new-top-searches, #new-top-requests {
+  color: #dee8ec;
+  padding-top: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: center;
+  display: none;
+  /* !! unhide !! */ }
+  #new-top-searches a:hover, #new-top-requests a:hover {
+    color: white; }
 
 /* HEADER */
 .alert {

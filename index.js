@@ -545,7 +545,7 @@ MongoClient.connect(dbAddress, function(err, db){
 
     app.get("/github-oauth", function(req, res){
 
-        if(req.session.loggedIn){
+        if(req.session && req.session.user && req.session.loggedIn){
             console.log("Already logged in");
             res.send({status: "logged in" });
         } else {

@@ -373,7 +373,7 @@ function main(){
             singleTermDefinition = false;
             $("#terms-section").empty();
         }
-
+/* HIDE THIS */
         if($("#search-bar").val().length > 0){
             $(".top-terms").hide();
         } else {
@@ -383,6 +383,9 @@ function main(){
             $(".top-terms").show();
         }
 
+/* --- */
+
+
         if(e.which == 8){                                         // 8 = backspace
             singleTermDefinition = false;
             document.title = "Hackterms: " + thisSearch.toLowerCase();
@@ -391,6 +394,8 @@ function main(){
             $("#definitions-section").empty();
         }
     });
+
+/* HIDE THIS */
 
     $("body").on("keyup", "#related-term-textarea", function(e){
         if($("#related-term-textarea").val().length > 1){
@@ -407,6 +412,8 @@ function main(){
             $("#related-term-suggestions-section").empty();
         }
     });
+
+/* --- */
 
 
 	$("body").on("keyup", "#new-definition-textarea", function(){
@@ -839,14 +846,14 @@ function getTopTerms(){
 
             for(var i = 0; i < topTerms.topSearches.length; i++){
                 var term = topTerms.topSearches[i];
-                
                 $("#top-searches").append(" <a class = 'top-searched-term' href = '/" + term.name +  "'> " + term.name +"</div>")
+                // $("#new-top-searches").append(" <a class = 'top-searched-term' href = '/" + term.name +  "'> " + term.name +"</div>")
             }
 
             for(var i = 0; i < topTerms.topRequests.length; i++){
                 var request = topTerms.topRequests[i];
-                
-                $("#top-requests").append(" <a class = 'top-searched-term' href = '/" + request.term +  "'> " + request.term +"</div>")
+                $("#top-requests").append(" <a class = 'top-searched-term' href = '/" + term.name +  "'> " + term.name +"</div>")
+                // $("#new-top-requests").append(" <a class = 'top-searched-term' href = '/" + request.term +  "'> " + request.term +"</div>")
             }
 
             $("#top-requests").hide();

@@ -126,8 +126,6 @@ code {
 
 #header-section {
     padding: 5px 10vw 10px 10vw;
-    //min-height: calc(5vh - 20px);
-    border-bottom: 1px solid #eee;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
@@ -255,7 +253,7 @@ code {
 /* SEARCH BAR */
 
 #search-bar-div {
-    padding: 2vh 0 1vh 0;
+    padding-top: 2vh;
 }
 
 #search-bar-label {
@@ -359,7 +357,8 @@ code {
 .related-term, .top-searched-term {
     padding: 0px 10px;
     //border: 1px solid $gray-transparent;
-    background: #f1efed89   ;
+    //background: #f1efed89;
+    background: rgba(222, 222, 222, 0.2);
     border-radius: $border-radius;
     color: $blue-light;
     font-family: $font-tech;
@@ -788,7 +787,7 @@ code {
 
 .definition-metadata {
     color: $gray-transparent;
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 600;
 }
 
@@ -963,6 +962,19 @@ code {
 
 #top-searches, #top-requests {
     flex-wrap: wrap;
+}
+
+#new-top-searches, #new-top-requests {
+    color: #dee8ec;
+    padding-top: 8px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-align: center;
+    display: none;      /* !! unhide !! */
+
+    & a:hover {
+        color: white;
+    }
 }
 
 
