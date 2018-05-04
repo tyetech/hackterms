@@ -561,7 +561,8 @@ MongoClient.connect(dbAddress, function(err, db){
                 console.log(response);
 
                 if(response.status == "fail"){
-                    res.render("index", { searchTerm: "", error: response.message});
+                    console.log("failing - rendering index");
+                    res.render("index", { searchTerm: ""});
                 } else {
                     if(response.status == "account created"){
                         res.render("index", { searchTerm: "", message: "Account created. Log in with Github!"});

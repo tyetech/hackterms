@@ -1481,6 +1481,8 @@ function githubLogin(db, req, thisCode, callback){
 	request.get({url: u, json: true}, function (error, apiRes, body){
 		
 		console.log("got a response");
+		console.log("body");
+		console.log(body);
 		var access_token = body.access_token;
 
 		if (error) {
