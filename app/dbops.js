@@ -1500,87 +1500,94 @@ function githubLogin(db, req, thisCode, callback){
 
 	    	// get token from github and request user profile info
 
-	    	request.get({url: profileUrl, headers: profileHeaders, json: true}, function (error, apiRes, userBody){
-	    		if (error) {
-					console.log("error");
-			        console.log(error)
-			        callback({status: "fail", message: "Github error", errorType: "username"})
-			    } else {
-		    		console.log("here's the user:");
-		    		console.log(userBody);
-		    		// callback({status: "success", message: "Account created. Go ahead and log in!"});
+	    	if(typeof(access_token) != "undefined"){
 
-		    		/* from here on, we try to log the user in */
 
-		    		if(typeof(userBody.id) != "undefined" && userBody.message != 'Bad credentials'){ 
 
-				    	request.get({url: emailUrl, headers: profileHeaders, json: true}, function (error, apiRes, emailBody){
+		    	request.get({url: profileUrl, headers: profileHeaders, json: true}, function (error, apiRes, userBody){
+		    		if (error) {
+						console.log("error");
+				        console.log(error)
+				        callback({status: "fail", message: "Github error", errorType: "username"})
+				    } else {
+			    		console.log("here's the user:");
+			    		console.log(userBody);
+			    		// callback({status: "success", message: "Account created. Go ahead and log in!"});
 
-				    		if(emailBody.message != "Not Found"){
+			    		/* from here on, we try to log the user in */
 
-				    			console.log("email body:");
-					    		console.log(emailBody);
+			    		if(typeof(userBody.id) != "undefined" && userBody.message != 'Bad credentials'){ 
 
-					    		var thisEmail = emailBody[0]["email"];
+					    	request.get({url: emailUrl, headers: profileHeaders, json: true}, function (error, apiRes, emailBody){
 
-					    		console.log("thisEmail: " + thisEmail);
+					    		if(emailBody.message != "Not Found"){
 
-					    		var userQuery = {
-						            email: thisEmail
-						        }	
+					    			console.log("email body:");
+						    		console.log(emailBody);
 
-						        console.log(userQuery);
+						    		var thisEmail = emailBody[0]["email"];
 
-						        var userid = userBody.id;
+						    		console.log("thisEmail: " + thisEmail);
 
-						        database.read(db, "users", userQuery, function checkIfUserExists(existingUsers){
-									
-						        	console.log("existingUsers.length: " + existingUsers.length);
+						    		var userQuery = {
+							            email: thisEmail
+							        }	
 
-									if(existingUsers.length == 1){
+							        console.log(userQuery);
 
-										// if this user exists, let's try to log the user in
+							        var userid = userBody.id;
 
-										var thisUser = existingUsers[0];
-
-										if(typeof(thisUser.githubId) != "undefined" && thisUser.githubId != null){
-											console.log("this IS a Github user");
-											if(thisUser.githubId == userid){
-												logUserIn(thisUser, db, req, function(response){
-													callback({status: "logged in"});
-												})
-											} else {
-												req.session.user = null;
-												callback({status: "fail", message: "You are not who you appear to be", errorType: "username"})
-											}
-										} else {
-											console.log("this isn't a Github user");
-											req.session.user = null;
-											callback({status: "fail", message: "Please log in with your username and password or Google account", errorType: "username"})
-										}
-									} else if (existingUsers.length == 0) {
+							        database.read(db, "users", userQuery, function checkIfUserExists(existingUsers){
 										
-										// if this user doesn't exist, let's try to create an account
+							        	console.log("existingUsers.length: " + existingUsers.length);
 
-										createNewUser(null, null, userid, thisEmail, db, req, function(newUser){
-											callback({status: "account created", message: "Account created. Go ahead and log in!", user: newUser});
-										})
-									} else {
-										callback({status: "fail", message: "Something really weird happened", errorType: "username"})
-									}
+										if(existingUsers.length == 1){
 
-								}) 
+											// if this user exists, let's try to log the user in
 
-				    		} else {
-				    			callback({status: "fail", message: "Github email error. Sorry!"})
-				    		}
+											var thisUser = existingUsers[0];
 
-					    });
-					} else {
-		    			callback({status: "fail", message: "Invalid Github credentials. Try creating a regular email account."})
+											if(typeof(thisUser.githubId) != "undefined" && thisUser.githubId != null){
+												console.log("this IS a Github user");
+												if(thisUser.githubId == userid){
+													logUserIn(thisUser, db, req, function(response){
+														callback({status: "logged in"});
+													})
+												} else {
+													req.session.user = null;
+													callback({status: "fail", message: "You are not who you appear to be", errorType: "username"})
+												}
+											} else {
+												console.log("this isn't a Github user");
+												req.session.user = null;
+												callback({status: "fail", message: "Please log in with your username and password or Google account", errorType: "username"})
+											}
+										} else if (existingUsers.length == 0) {
+											
+											// if this user doesn't exist, let's try to create an account
+
+											createNewUser(null, null, userid, thisEmail, db, req, function(newUser){
+												callback({status: "account created", message: "Account created. Go ahead and log in!", user: newUser});
+											})
+										} else {
+											callback({status: "fail", message: "Something really weird happened", errorType: "username"})
+										}
+
+									}) 
+
+					    		} else {
+					    			callback({status: "fail", message: "Github email error. Sorry!"})
+					    		}
+
+						    });
+						} else {
+			    			callback({status: "fail", message: "Invalid Github credentials. Try creating or logging in with a regular email account."})
+			    		}
 		    		}
-	    		}
-	    	});
+		    	});
+		    } else {
+		    	callback({status: "fail", message: "Bummer - invalid access token. Refresh and try again."});
+		    }
 	    }
 	});
 
