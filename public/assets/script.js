@@ -852,7 +852,7 @@ function getTopTerms(){
 
             for(var i = 0; i < topTerms.topRequests.length; i++){
                 var request = topTerms.topRequests[i];
-                $("#top-requests").append(" <a class = 'top-searched-term' href = '/" + term.name +  "'> " + term.name +"</div>")
+                $("#top-requests").append(" <a class = 'top-searched-term' href = '/" + request.term +  "'> " + request.term +"</div>")
                 // $("#new-top-requests").append(" <a class = 'top-searched-term' href = '/" + request.term +  "'> " + request.term +"</div>")
             }
 
