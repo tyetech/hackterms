@@ -1683,10 +1683,10 @@ function getTopTerms(db, req, callback){
 	var weightQuery = { weight: -1 }
 
 	database.sortRead(db, "terms", {}, orderQuery, function getSearches(allSearches){
-		var topSearches = allSearches.splice(0, 5);
+		var topSearches = allSearches.splice(0, 10);
 
 		database.sortRead(db, "requests", requestQuery, weightQuery, function getSearches(allRequests){
-			var topRequests = allRequests.splice(0, 5);
+			var topRequests = allRequests.splice(0, 10);
 
 
 			var response = {
