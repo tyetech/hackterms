@@ -564,6 +564,8 @@ MongoClient.connect(dbAddress, function(err, db){
                     console.log("failing - rendering index");
                     req.session.error = response.message;
                     res.redirect("/");
+
+                    res.render("index", { searchTerm: "", message: response.message}
                     //res.render("index", { searchTerm: ""});
                 } else {
                     if(response.status == "account created"){
