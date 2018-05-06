@@ -674,6 +674,8 @@ function main(){
 
 function githubLogin() {
 
+    console.log("logging in with github");
+
     var data = {}
 
     $.ajax({
