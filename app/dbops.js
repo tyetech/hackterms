@@ -2274,7 +2274,7 @@ function passwordResetRequest(db, req, callback){
 				database.create(db, "passwordResets", passwordResetRequest, function confirmRequest(request){
 
  
-					var emailBody = "<p>Hey " +  users[0].username + "!<br><br>Here is the password reset link you requested: <br><br>www.hackterms.com/password-reset/" + passwordResetRequest.id + "<br><br>If you did not request this password request, please ignore this email.<br><br>Thanks!<br>-Max from Hackterm";
+					var emailBody = "<p>Hey " +  users[0].username + "!<br><br>Here is the password reset link you requested: <br><br>www.hackterms.com/password-reset/" + passwordResetRequest.id + "<br><br>If you did not request this password request, please ignore this email.<br><br>Thanks!<br>-Max from Hackterms";
 
 
 					var mailOptions = {
