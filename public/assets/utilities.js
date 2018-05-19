@@ -153,11 +153,11 @@ function findRegexTermInArray(array, term){
     // .replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')             // escape weird chars
     //  .replace(/\W/g, ''), 'i');                              // clear all non-alphanumeric characters
 
-    var regexTerm = new RegExp(term.toLowerCase().replace(/\s/g, '').replace(/[+*^$]/g, '\\$&').replace(/[-(){}.,?]\)\(/, ''), "");      
+    var regexTerm = new RegExp(term.toLowerCase().replace(/\s/g, '').replace(/[+*^$]/g, '\\$&').replace(/[-(){}.,?]/, ''), "");      
                                                   // get rid of spaces       escape +, *, ^       remove all other characters
 
     var termsFound = array.filter(function(termFromArray){
-        var termWeAreSearching = termFromArray.toLowerCase().replace(/\s/g, '').replace(/[-(){}.,?]\)\(/, '');      
+        var termWeAreSearching = termFromArray.toLowerCase().replace(/\s/g, '').replace(/[-(){}.,?]/, '');      
         return  termWeAreSearching.match(regexTerm);
     });
 

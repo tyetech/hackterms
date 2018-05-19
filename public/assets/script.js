@@ -795,10 +795,7 @@ function search(){
 
                 if(termCount <= 10){ column = "#term-column-1" }
 
-                    console.log(column);
-
                 var term = matchingTerms[i];
-
                 displaySearchTerm(term, column)
 
             }
