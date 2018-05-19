@@ -397,6 +397,7 @@ function main(){
             window.history.pushState("object or string", "Title", "/" + thisSearch.toLowerCase());
             $("#new-definition").hide();
             $("#definitions-section").empty();
+            displayAddDefinitionButton(false, loggedIn);
         }
     });
 
