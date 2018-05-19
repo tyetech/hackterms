@@ -139,6 +139,11 @@ MongoClient.connect(dbAddress, function(err, db){
 
 /* ROUTES */
 
+    
+    app.head("/", function(req, res){
+        res.render("index", {searchTerm: ""});
+    });
+
     app.get("/", function(req, res){
         console.log("getting /");
         res.render("index", {searchTerm: ""});
