@@ -64,6 +64,8 @@ function main(){
 
 
     if($("#search-bar").length == 1 && $("#search-bar").val().length == 0){
+
+        console.log("getting top terms");
         getTopTerms();
     } else {
         logSearch($("#search-bar").val());
@@ -72,6 +74,8 @@ function main(){
 
     if($("#definitions-section").height() < 5 && $("#search-bar").length == 1){
         
+        console.log("getting all the terms");
+
         var term = $("#search-bar").val().trim();
         var textLength = term.length;
 
@@ -94,7 +98,6 @@ function main(){
                     allTerms = result.terms;
                     loggedIn = result.isLoggedIn;
                     moderator = result.isModerator;
-                    console.log("Fetched " + result.terms.length + " terms");
                 } else {
                     console.log("ERROR!");
                     console.log(result.error);
@@ -682,7 +685,9 @@ function githubLogin() {
 
     console.log("logging in with github");
 
-    var data = {}
+    var data = {
+
+    }
 
     $.ajax({
         type: "post",
@@ -1201,6 +1206,11 @@ function onSignIn(googleUser) {     // this'll only run if a user is signed in
     }
 }
 
+/*$("body").on(triggerEvent, "#github-login", function(){
+    githubLogin();
+}) 
+
+*/
 
 $("body").on(triggerEvent, "#google-sign-out", function(){
     gapi.auth2.getAuthInstance().signOut().then(function () {

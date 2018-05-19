@@ -120,7 +120,8 @@ MongoClient.connect(dbAddress, function(err, db){
             console.log("User is not logged in - no need to fetch updated data");
             next();
         }
-    })
+    });
+
 
 /*    
 
@@ -543,6 +544,21 @@ MongoClient.connect(dbAddress, function(err, db){
             })
         }
     })
+
+
+
+    app.post("/github-login", function(req, res){
+
+        "https://github.com/login/oauth/authorize?scope=user:email&client_id=029b90872503557c3d0e"
+
+
+
+
+
+
+    });
+
+
 
     app.get("/github-oauth", function(req, res){
 
