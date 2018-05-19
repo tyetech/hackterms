@@ -141,7 +141,8 @@ MongoClient.connect(dbAddress, function(err, db){
 
     
     app.head("/", function(req, res){
-        res.render("index", {searchTerm: ""});
+        console.log("responding to a HEAD request, redirecting to /");
+        res.redirect("/");
     });
 
     app.get("/", function(req, res){
