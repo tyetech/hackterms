@@ -551,13 +551,10 @@ MongoClient.connect(dbAddress, function(err, db){
         if(req.session && req.session.user && req.session.loggedIn){
             console.log("Already logged in");
             res.render("index", { searchTerm: "", message: "You're already logged in!"});
-            // res.send({status: "logged in" });
         } else {
-
             console.log(req.query);
             var code = req.query.code;
             console.log("got github code:" + code);
-            //res.send({status: "not logged in" });
 
             dbops.githubLogin(db, req, code, function talkToGithub(response){
 
@@ -566,10 +563,7 @@ MongoClient.connect(dbAddress, function(err, db){
 
                 if(response.status == "fail"){
                     console.log("failing - rendering index");
-                    req.session.error = response.message;
-                    res.render("index", { searchTerm: "", message: "Account created. Log in with Github!"});
-                    // res.redirect("/");
-
+                    res.render("index", { searchTerm: "", message: "Something went wrong."});
                 } else {
                     if(response.status == "account created"){
                         res.render("index", { searchTerm: "", message: "Account created. Log in with Github!"});
