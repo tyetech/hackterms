@@ -546,25 +546,12 @@ MongoClient.connect(dbAddress, function(err, db){
     })
 
 
-
-    app.post("/github-login", function(req, res){
-
-        "https://github.com/login/oauth/authorize?scope=user:email&client_id=029b90872503557c3d0e"
-
-
-
-
-
-
-    });
-
-
-
     app.get("/github-oauth", function(req, res){
 
         if(req.session && req.session.user && req.session.loggedIn){
             console.log("Already logged in");
-            res.send({status: "logged in" });
+            res.render("index", { searchTerm: "", message: "You're already logged in!"});
+            // res.send({status: "logged in" });
         } else {
 
             console.log(req.query);
