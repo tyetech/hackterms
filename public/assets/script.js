@@ -75,11 +75,13 @@ function main(){
         var term = $("#search-bar").val().trim();
         var textLength = term.length;
 
-        if(screenWidth < 980 && textLength > 18){
-            var searchBarFontSize = (2.5 - (textLength - 18)*0.095);
+
+        // change search bar font size to make the term more readible
+
+        if(screenWidth < 768 && textLength > 18){
+            var searchBarFontSize = (2.5 - (textLength - 18)*0.15);
             if(searchBarFontSize < 1.3) { searchBarFontSize = 1.3 };
-            $("#search-bar").css("font-size", searchBarFontSize + "em");
-           // $(".search-add-button").css("width", "calc(" +  searchBarFontSize + "em + 19px)").css("height", "calc(" +  searchBarFontSize + "em + 19px)");
+            $("#search-bar").css("font-size", searchBarFontSize + "rem");
         }
 
         pageSearch();
@@ -124,12 +126,12 @@ function main(){
 
 	$("body").on(triggerEvent, ".term-link", function(){
 
-        console.log(this);
-
 		var term = this.getAttribute("id");
         $("#search-bar").val(term);
-        setTimeout(function(){ logSearch(term); }, 50);                    // wait for the search bar to populate
-		currentTerm = term;
+        setTimeout(function(){ logSearch(term); }, 50);                         // wait for the search bar to populate
+		$("#experimental-section div").empty();
+
+        currentTerm = term;
         window.history.pushState("object or string", "Title", "/" + term);      // update url
 		document.title = "Hackterms: " + term;
         getDefinition(term, false);
@@ -716,7 +718,7 @@ function showLogin(){
     $("#login-modal").show();
     $("#login-section").show();
 
-    if(screenWidth > 980) {
+    if(screenWidth > 768) {
         $("#login-username").focus();
     }
     
@@ -731,7 +733,7 @@ function showSignup(){
     $("#signup-modal").show();
     $("#signup-section").show();
     
-    if(screenWidth > 980) {
+    if(screenWidth > 768) {
         $("#signup-email").focus();
     }
 }
@@ -1571,11 +1573,12 @@ function displayDefinitionsOnPage(definitions, isLoggedIn, forUser, isModerator)
                         });
                     }
 
+
                     var commentSection = $(".comments-section[data-id=" + thisDefinition.id + "]");
 
                     if(isLoggedIn){
                         commentSection.append("<div class = 'comment-connector'><div class = 'connector'></div></div>");
-                        commentSection.append("<div class = 'comment'><div class = 'new-comment-error'></div><textarea class = 'new-comment-textarea' data-id = " + thisDefinition.id + " rows = '2' maxlength = '500' placeholder = 'A penny for your thoughts?'></textarea><div class = 'button-wrapper'><button class = 'add-comment' data-id = " + thisDefinition.id + " data-term = ''>Add</button></div></div>");
+                        commentSection.append("<div class = 'comment'><div class = 'new-comment-error'></div><textarea class = 'new-comment-textarea' data-id = " + thisDefinition.id + " rows = '2' maxlength = '500' placeholder = 'A penny for your thoughts?'></textarea><div class = 'button-wrapper'><button class = 'add-comment' data-id = " + thisDefinition.id + " data-term = '' title = 'add comment' >Add</button></div></div>");
                     } else {
                         commentSection.append("<div class = 'comment-connector'><div class = 'connector'></div></div>");
                         commentSection.append("<div class = 'comment add-one' data-id = " + thisDefinition.id + "><span class = 'link bold login-link'>Log in</span> to leave a comment!</div>");
@@ -1634,16 +1637,16 @@ function displayAddDefinitionButton(forUser, isLoggedIn){
         $("#definitions-section").append("<div id = 'definition-section-button-wrapper'></div>");
         $("#definition-section-button-wrapper").css("display", "flex").css("flex-direction", "row");
 
-        if(screenWidth < 980) {
+        if(screenWidth < 768) {
             $("#definition-section-button-wrapper").css("flex-direction", "column");
         }
 
         if(isLoggedIn){
-            $("#definition-section-button-wrapper").append("<button class = 'new-def-button new-def-link'>Add a Definition<span></div>");
-            $("#definition-section-button-wrapper").append("<button class = 'request-def-button request-def-link'>Request a Definition<span></div>");
+            $("#definition-section-button-wrapper").append("<button class = 'new-def-button new-def-link' title = 'add a definition'>Add a Definition<span></div>");
+            $("#definition-section-button-wrapper").append("<button class = 'request-def-button request-def-link' title = 'request a definition'>Request a Definition<span></div>");
         } else {
-            $("#definition-section-button-wrapper").append("<button class = 'new-def-button login-link'>Add a Definition</div>");
-            $("#definition-section-button-wrapper").append("<button class = 'request-def-button login-to-request'>Request a Definition<span></div>");
+            $("#definition-section-button-wrapper").append("<button class = 'new-def-button login-link' title = 'add a definition'>Add a Definition</div>");
+            $("#definition-section-button-wrapper").append("<button class = 'request-def-button login-to-request' title = 'request a definition'>Request a Definition<span></div>");
         } 
 
     }   

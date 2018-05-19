@@ -1457,9 +1457,10 @@ code {
     margin: 0 0 0.5vh 0;
     font-size: 0.85em; }
   #search-bar {
-    width: calc(100% - 2em - 8px);
+    width: calc(100% - 2rem - 40px);
     padding: 3px 10px 8px 10px;
-    font-size: 2em; }
+    font-size: 2rem;
+    height: calc(2rem + 6px); }
   .search-add-button .fas {
     margin-top: 0.4em; }
   #terms-section {

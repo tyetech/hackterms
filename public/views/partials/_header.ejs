@@ -71,8 +71,8 @@
             <div class = "account">
                 <% if (typeof(session.user) == "undefined" || session.user == null){ %>
                     <span class = "signup-space-section">
-                        <span id = "signup-label"><button class = "link bold" id = "signup">Sign Up</button></span>
-                        <span id = "signup-icon"><i class="fas fa-bars fa-2x" id = "signup"></i></span>
+                        <span id = "signup-label"><button class = "link bold" id = "signup" title = "sign up">Sign Up</button></span>
+                        <span id = "signup-icon"><i class="fas fa-bars fa-2x" id = "signup" title = "sign up"></i></span>
                     </span>
                     <span class = "link" id = "login">Log In</span>
                 <% } else if (typeof(session.user) != "undefined" && session.user != null){ %>
@@ -91,7 +91,7 @@
                 <span class = "welcome">Hello, <a href = "/profile"><%= session.user.username %></a></span>
                 
                 <% if(session.user.newNotifications){ %>
-                    <span class = "notifications-button"><i class="far fa-envelope notification-bell link" aria-hidden="true" id = "new-alert"></i></span>
+                    <span class = "notifications-button"><i class="far fa-envelope notification-bell link " aria-hidden="true" id = "new-alert"></i></span>
                 <% } else {%>
                     <span class = "notifications-button"><i class="far fa-envelope notification-bell link" aria-hidden="true" ></i></span>
                 <% } %>
@@ -146,7 +146,7 @@
                     <textarea id = "related-term-textarea" maxlength="500" rows = "2" placeholder = "related terms"></textarea>
                     <div id = "related-term-suggestions-section"></div>
                     <div class = "new-definition-error"></div>
-                    <button id = "add-definition" data-id = "0">Add</button>
+                    <button id = "add-definition" data-id = "0" title = "add a definition">Add</button>
                     <div id = "add-click-light"></div>          <!-- testing whether the button is getting clicked -->
                     <div id = "add-click-message"></div>          <!-- testing whether the button is getting clicked -->
                 </div>
@@ -179,7 +179,7 @@
                 
                 <div class ="report-error"></div>
                 
-                <button id = "submit-report">Submit</button>
+                <button id = "submit-report" title = "submit a report">Submit</button>
 
             </div>
         </div>
@@ -217,7 +217,7 @@
                     <input type = "password" name = "password" id = "signup-password" placeholder = "password">
                 </form>
                 
-                <button class = "account-submit-button" id = "signup-action">Sign up</button>
+                <button class = "account-submit-button" id = "signup-action" title = "sign up">Sign up</button>
 
                 <hr>
 
@@ -258,7 +258,7 @@
                     </div>
                 </form>
 
-                <button class = "account-submit-button" id = "login-action">Log In</button>
+                <button class = "account-submit-button" id = "login-action" title = "log in">Log In</button>
 
                 <hr>
 
@@ -289,7 +289,7 @@
                 <div class = "report-error email-error"></div>
                 <input type = "email" id = "password-reset-email" placeholder = "email">
 
-                <button class = "account-submit-button" id = "password-reset-action">Send Email</button>
+                <button class = "account-submit-button" id = "password-reset-action" title = "request password reset ">Request Password Reset</button>
             </div>
         </div>
 
@@ -309,7 +309,7 @@
                     <div class = "report-error request-definition-error"></div>
                     <input type = "text" id = "request-definition-term" placeholder = "term">
 
-                    <button class = "account-submit-button" id = "request-definition-action">Request Definition</button>
+                    <button class = "account-submit-button" id = "request-definition-action" title = "request a definition">Request Definition</button>
                 </div>
 
                 <div id = "request-definition-confirmation">
@@ -318,7 +318,7 @@
                     </div>
                     <i class='fas fa-check fa-3x confirmation-check'></i>
                     <p class = "request-definition-confirm-text">We've logged your request for our contributors. You'll get an email when a definition is added!</p>
-                    <button class = "account-submit-button" id = "close-request-definition-modal">Cool!</button>
+                    <button class = "account-submit-button" id = "close-request-definition-modal" title = "submit a definition request">Cool!</button>
                 </div>
             </div>
 
@@ -347,10 +347,10 @@
 
                 <% if (typeof(session.user) != "undefined" || session.user != null){ %>
                     <input type = "text" data-lpignore="true" maxlength = "40" id = "search-bar" value = "<%= searchTerm %>" placeholder = "ex: javascript" autofocus><!-- 
-                    --><button class = "search-add-button new-def-link"><i class="fas fa-lg fa-plus"></i></button>
+                    --><button class = "search-add-button new-def-link" title = "search" title = "search"><i class="fas fa-lg fa-plus"></i></button>
                 <% } else { %>
                     <input type = "text" data-lpignore="true" maxlength = "40" id = "search-bar" value = "<%= searchTerm %>" placeholder = "ex: javascript" autofocus><!-- 
-                    --><button class = "search-add-button login-link"><i class="fas fa-lg fa-plus"></i></button>
+                    --><button class = "search-add-button login-link" title = "login"><i class="fas fa-lg fa-plus"></i></button>
                 <% } %>
 
 
@@ -369,7 +369,7 @@
 
 <div id = "feedback-button">
     <i class="far fa-times-circle fa-lg link" id = "feedback-close"></i>
-    <a href = "https://goo.gl/kU4AS5" target= "_blank" id = "feedback-label">Feedback</a>
+    <a href = "https://goo.gl/kU4AS5" target= "_blank" id = "feedback-label" title = "offer feedback" >Feedback</a>
 </div>
 
 <div class = "container">
