@@ -125,7 +125,7 @@ code {
 /* HEADER AND FOOTER */
 
 #header-section {
-    padding: 5px 10vw 10px 10vw;
+    padding: 5px 10vw 20px 10vw;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
@@ -326,6 +326,12 @@ code {
     //position: absolute;
 }
 
+#experimental-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 #term-suggestions-section {
     position: absolute;
     background: white;
@@ -380,8 +386,9 @@ code {
 
 .term-link {
     text-decoration: none;
-    display: block;
+    display: inline-block;
     padding: 5px 20px;
+    margin: 5px 0;
     background: $white;
     color: $blue-light;
     font-family: $font-tech;
@@ -401,7 +408,6 @@ code {
 }
 
 .term-link:hover, .term-suggestion-link:hover, .term-link-selected {
-    background: #dadada;
     cursor: pointer;
 }
 
@@ -670,8 +676,8 @@ code {
 }
 
 .category-bar {
-    border: 1px solid #b9b9b9;
-    border-radius: $border-radius;
+    border-radius: 5px;
+    overflow: hidden;
 }
 
 .category-stat {
@@ -1921,6 +1927,10 @@ code {
     #terms-section {
         margin: 0;
         //width: calc(90vw - 15px);
+    }
+
+    #experimental-section {
+        flex-direction: column;
     }
 
     #term-suggestions-section {

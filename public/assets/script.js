@@ -109,7 +109,7 @@ function main(){
 
         $("#error, #message").text("").hide();      // THIS HIDES THE FLASH MESSAGE ON ANY CLICK
 
-        $("#terms-section").text("");
+        //$("#experimental-section").text("");
 
         $("#term-suggestions-section").hide();
         $("#related-term-suggestions-section").hide();
@@ -123,6 +123,9 @@ function main(){
 
 
 	$("body").on(triggerEvent, ".term-link", function(){
+
+        console.log(this);
+
 		var term = this.getAttribute("id");
         $("#search-bar").val(term);
         setTimeout(function(){ logSearch(term); }, 50);                    // wait for the search bar to populate
@@ -291,7 +294,7 @@ function main(){
                 if(activeTermIndex > -1){
                     var term = $(".term-link").eq(activeTermIndex).text();
                     $("#search-bar").val(term);
-                    $("#terms-section").empty();
+                    $("#experimental-section div").empty();
                     activeTermIndex = -1;
                     getDefinition(term, false);
                 } else {
@@ -371,10 +374,10 @@ function main(){
             }
         } else {
             singleTermDefinition = false;
-            $("#terms-section").empty();
+            $("#experimental-section div").empty();
         }
 /* HIDE THIS */
-        if($("#search-bar").val().length > 0){
+        if($("#search-bar").val().length > 1){
             $(".top-terms").hide();
         } else {
             if($("#top-searches").text().trim().length == 0 || $("#top-requests").text().trim().length == 0){
@@ -470,7 +473,7 @@ function main(){
         }
         
         $("#definition-term-textarea").focus();
-        $("#terms-section").empty();
+        $("#experimental-section div").empty();
     });
 
     $("body").on(triggerEvent, ".request-def-link", function(event){
@@ -520,13 +523,13 @@ function main(){
 
     $("body").on(triggerEvent, ".login-link", function(){
         $(".pop-out").hide();
-        $("#terms-section").empty();
+        $("#experimental-section div").empty();
         showLogin();
     });
 
     $("body").on(triggerEvent, ".sign-up-link", function(){
         $(".pop-out").hide();
-        $("#terms-section").empty();
+        $("#experimental-section div").empty();
         showSignup();
     });
 
@@ -744,7 +747,7 @@ function search(){
         var matchingTerms = findRegexTermInArray(allTerms, searchTerm);
 
     	
-		$("#terms-section").empty();
+		$("#experimental-section div").empty();
 
         if(matchingTerms.length == 0){                                  // IF THIS TERM DOESN'T EXIST
             
@@ -780,15 +783,27 @@ function search(){
             singleTermDefinition = true;
 
         } else if (matchingTerms.length > 1){                       // if there's more than one term, display the terms
-            matchingTerms.forEach(function(term){
-                displaySearchTerm(term);
-            });
+            
+            var termCount = matchingTerms.length;
+
+            for(var i = 0; i < termCount; i++){
+
+                // does this term belong in column 1 or column 2?
+                var column = (i < termCount/2) ? "#term-column-1" : "#term-column-2";
+
+                if(termCount <= 10){ column = "#term-column-1" }
+
+                    console.log(column);
+
+                var term = matchingTerms[i];
+
+                displaySearchTerm(term, column)
+
+            }
 
             $("#definitions-section").empty();
             displayAddDefinitionButton(false, loggedIn);
-
-        }
-                    		
+        } 		
 
     } else {
     	console.log("you're not searching for anything!");
@@ -1010,7 +1025,7 @@ function addDefinition(){
                             url: "/new-definition",
                             success: function(result){
 
-                                $("#terms-section").empty();
+                                $("#experimental-section div").empty();
                                 $("#definitions-section").empty();
                                 $("#related-term-suggestions-section").empty();
                                 //$("select[name='category'").val(null)
@@ -1642,7 +1657,7 @@ function displayRelatedTerms(terms){                // messy solution to sorting
     if(terms.length){
         var termsInOrder = sortRelatedTerms(terms);
     
-/*        for(var k = 0; k < termsInOrder.length; k++){
+/*        for(var k = 0; k < termmsInOrder.length; k++){
             $("#related-terms-section").append("<a href = '/" + termsInOrder[k] + "'' class= 'related-term'>" + termsInOrder[k] + "</a>");
         }*/
 
@@ -1708,9 +1723,13 @@ function sortPosts(posts){
     return sortedPosts;
 }
 
-function displaySearchTerm(term){
-	$("#terms-section").append("<div class = 'term'><span class = 'title'><span class ='term-link'>" + term + "</span></span></div>");
-    $(".term-link").last().attr("id", term)
+function displaySearchTerm(term, column){
+
+    $(column).append("<div class = 'experimental-term'><span class = 'title'><span class ='term-link related-term'>" + term + "</span></span></div>");
+    $(".term-link").last().attr("id", term);
+
+	// $("#experimental-section").append("<div class = 'term'><span class = 'title'><span class ='term-link'>" + term + "</span></span></div>");
+    // $(".term-link").last().attr("id", term)
 } 
 
 function displayDefinitionSuggestion(term){
