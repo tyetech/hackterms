@@ -144,16 +144,23 @@ function insertTermLinks(terms, thisTerm){
 
 function findRegexTermInArray(array, term){
 
-    //var regexTerm = new RegExp(term.toLowerCase().replace(/\W/g, ''), 'i');      // clear all non-alphanumeric characters
-      var regexTerm = new RegExp(term.toLowerCase().replace(/\s.\(\)\-/g, '').replace(/[-[\]{}*+?,\\^$|#\s]/g, '\\$&'), 'i');      // remove all spaces, parantheses, and periods
+
+    /*
+        \W matches any non-alphanumeric character - so, spaces & weird symbols
+        \s matches SPACE
+    */
 
     // .replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')             // escape weird chars
+    //  .replace(/\W/g, ''), 'i');                              // clear all non-alphanumeric characters
 
 
-    // console.log(regexTerm);
 
-    var termsFound = array.filter(function(term){
-        return term.toLowerCase().replace(/\s.\(\)\-/g, '').replace(/[-[\]{}*+?,\\^$|#\s]/g, '\\$&').match(regexTerm);
+    var regexTerm = new RegExp(term.toLowerCase().replace(/\s/g, '').replace(/[+*^$]/g, '\\$&').replace(/[-(){}.,?]/, ''), "");      
+                                                  // get rid of spaces       escape +, *, ^       remove all other characters
+
+    var termsFound = array.filter(function(termFromArray){
+        var termWeAreSearching = termFromArray.toLowerCase().replace(/\s/g, '').replace(/[-(){}.,?]/, '');      
+        return  termWeAreSearching.match(regexTerm);
     });
 
     return termsFound;

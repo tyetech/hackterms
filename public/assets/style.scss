@@ -358,7 +358,7 @@ code {
     padding: 0px 10px;
     //border: 1px solid $gray-transparent;
     //background: #f1efed89;
-    background: rgba(222, 222, 222, 0.2);
+    background: rgba(222, 222, 222, 0.8);
     border-radius: $border-radius;
     color: $blue-light;
     font-family: $font-tech;
@@ -786,9 +786,9 @@ code {
 }
 
 .definition-metadata {
-    color: $gray-transparent;
+    color: #9a9898;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 
@@ -822,7 +822,7 @@ code {
     font-size: 0.85em;
     min-height: 2em;
     padding: 5px 15px 5px 20px;
-    background: #f1efed;
+    background: rgba(222,222,222,0.8);
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
 }

@@ -246,7 +246,7 @@ code {
 
 .related-term, .top-searched-term {
   padding: 0px 10px;
-  background: rgba(222, 222, 222, 0.2);
+  background: rgba(222, 222, 222, 0.8);
   border-radius: 5px;
   color: #58A4B0;
   font-family: "Zilla Slab", serif;
@@ -589,9 +589,9 @@ code {
   font-weight: 400; }
 
 .definition-metadata {
-  color: rgba(44, 54, 63, 0.3);
+  color: #9a9898;
   font-size: 1rem;
-  font-weight: 600; }
+  font-weight: 500; }
 
 .definition-related-terms {
   padding-top: 10px; }
@@ -617,7 +617,7 @@ code {
   font-size: 0.85em;
   min-height: 2em;
   padding: 5px 15px 5px 20px;
-  background: #f1efed;
+  background: rgba(222, 222, 222, 0.8);
   border-top-left-radius: 3px;
   border-top-right-radius: 3px; }
 
