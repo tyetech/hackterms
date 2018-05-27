@@ -69,10 +69,6 @@ MongoClient.connect(dbAddress, function(err, db){
         var timeNow = new Date();
         console.log("-----> " + req.method.toUpperCase() + " " + req.url + " on " + timeNow); 
 
-/*        dbops.logVisit(db, req, function(){
-            // console.log("visit logged");            
-        }) */
-
         next();
     });
 
@@ -151,6 +147,10 @@ MongoClient.connect(dbAddress, function(err, db){
 
     app.get("/about/darules", function(req, res){
         res.render("rules");
+    });
+
+    app.get("/about/privacy", function(req, res){
+        res.render("privacy");
     });
 
     app.get("/about/all", function(req, res){
@@ -546,7 +546,6 @@ MongoClient.connect(dbAddress, function(err, db){
         }
     })
 
-
     app.get("/github-oauth", function(req, res){
 
         if(req.session && req.session.user && req.session.loggedIn){
@@ -578,6 +577,41 @@ MongoClient.connect(dbAddress, function(err, db){
         }
     });
 
+
+    app.get("/about/delete-account", function(req, res){
+
+        if(req.session && req.session.user){
+            dbops.deleteUser(db, req, function confirmDeleteAccount(response){
+
+                console.log("RESPONSE:");
+                console.log(response);
+
+                if(response.status == "success"){
+                    req.session.user = null; 
+                    
+                    // create a new session
+
+                    req.session.error = "Your account has been deleted";  
+                    res.send({status: "success"});
+
+
+
+
+                } else {
+                    res.send({
+                        status: "fail",
+                        error: response.message
+                    })
+                }   
+            });
+        } else {
+            req.send({
+                status: "fail",
+                error: "You cannot perform this action"
+            })
+        }
+
+    });
 
     app.get("/logout", function(req, res){
         req.session.destroy();   

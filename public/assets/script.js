@@ -227,6 +227,17 @@ function main(){
         }
     });
 
+
+    $("body").on(triggerEvent, "#delete-account", function(){
+        $("#delete-account-warning").toggle();
+    });
+
+    $("body").on(triggerEvent, "#confirm-delete-account", function(){
+        deleteUser();
+    });
+
+
+
     $("body").on(triggerEvent, ".edit-post", function(){
         getExistingDefinition(this.dataset.id, function fetchPost(post){
 
@@ -444,8 +455,7 @@ function main(){
     });
 
     $("body").on(triggerEvent, ".add-comment", function(){
-        addComment(this);
-        
+        addComment(this);   
     });
 
     $("body").on(triggerEvent, ".voting-button", function(){
@@ -698,6 +708,22 @@ function githubLogin() {
         }
     });
 
+
+}
+
+function deleteUser() {
+
+    $.ajax({
+        type: "get",
+        url: "/about/delete-account",
+        success: function(response){
+            if(response.status == "success"){
+                window.location.replace("/");
+            } else if(response.status == "fail"){
+                flash("error", response.error);
+            }
+        }
+    });
 
 }
 
@@ -1266,22 +1292,18 @@ function signup(){
 
 
     if(signupData.username.trim().length && signupData.email.trim().length && signupData.password.trim().length){
+        
+
+
         $.ajax({
             type: "post",
             data: signupData,
             url: "/signup",
             success: function(result){
                 if(result.status == "success"){
-                    
-/*                    if(window.location.pathname.indexOf("/profile") != -1 ){
-                        location.reload();
-                    } else if(window.location.pathname.indexOf("/password-reset") != -1){
-                        window.location.href = "http://hackterms.com";
-                    } else {            
-                        window.location.href = "/";
-                    } 
-*/
 
+                    $(".pop-out").find("input").val("");
+                    $(".pop-out").find(".report-error").text("");
 
                     $("#signup-modal, #login-modal").hide();
                     flash("message", result.message)

@@ -187,9 +187,6 @@ code {
     text-align: center;
     min-height: calc(5vh - 20px);
     font-size: 0.8em;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
 
     & a, .link {
         padding: 0px 15px;
@@ -197,12 +194,18 @@ code {
 
     & p {
         line-height: 1.7;
+        margin-bottom: 8px;
     }
 }
 
 
 #footer-section .fa-heart{
     color: red;
+}
+
+#footer-links {
+    display: flex;
+    justify-content: center;
 }
 
 #creator-link {
@@ -1345,6 +1348,27 @@ code {
     color: white;
 }
 
+#delete-account-warning{
+    padding: 5px;
+    border: 1px solid $gray-transparent;
+    font-size: 0.9rem;
+    text-align: center; 
+    margin-bottom: 15px;
+    font-weight: 600;
+    display: none;
+}
+
+#delete-account, #confirm-delete-account {
+    background: #b31b1b;
+    color: #ffe9ed;
+    margin: 10px auto 20px auto;
+
+    &:hover{
+        background: $orange;
+        color: white;
+    }
+}
+
 /*#live-definition-section, #live-comment-section, #definition-status-section {
     display: none;
 }*/
@@ -1793,6 +1817,11 @@ code {
     margin-top: 0;
 }
 
+.privacy-policy {
+    margin-top: 5vh;
+    padding-top: 40px;
+}
+
 
 /*  TEST CSS - REMOVE IN PROD! */
 
@@ -1900,6 +1929,16 @@ code {
       & a {
         padding: 0;
       }
+    }
+
+    #footer-links {
+        flex-direction: column;
+
+        & div {
+            margin-top: 5px;
+        }
+
+
     }
 
 

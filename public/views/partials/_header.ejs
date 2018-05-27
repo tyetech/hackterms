@@ -86,7 +86,7 @@
         </div>
 
         <div class = "hamburger-menu-options">
-            <% if (typeof(session.user) != "undefined" || session.user != null){ %>
+            <% if (session.user != null && typeof(session.user) != "undefined"){ %>
                 
                 <span class = "welcome">Hello, <a href = "/profile"><%= session.user.username %></a></span>
                 

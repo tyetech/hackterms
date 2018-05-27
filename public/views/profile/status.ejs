@@ -68,6 +68,15 @@
 
 </div>
 
+<% if (displayFullProfile) {  %> 
+        <button id = "delete-account">Delete my account</button>
+        <div id = "delete-account-warning">
+            Deleting your account will remove your user data, search, and visit data, but will NOT delete your comments or definitions. You can delete a definition or comment  from <a href = "/profile">your profile </a> by clicking the <span class = "action-icon"><i class="far fa-trash-alt" aria-hidden="true"></i></span> on the top right of your post.
+        <br><br>
+            <button id = "confirm-delete-account">I want to delete my account</button>
+        </div>
+    <% } %> 
+
 
 
 <% include ../partials/_footer.ejs %>

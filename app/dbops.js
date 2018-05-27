@@ -1596,6 +1596,34 @@ function githubLogin(db, req, thisCode, callback){
 
 }
 
+function deleteUser(db, req, callback){
+
+	if(req.session && req.session.user){
+
+		var userQuery = {
+			username: req.session.user.username
+		}
+
+		database.remove(db, "users", userQuery, function deletePost(post){
+			database.remove(db, "definitionRequestEmails", userQuery, function deleteRequests(post){
+				
+
+				var voteUpdate = {
+					author: null
+				}
+
+				database.update(db, "votes", userQuery, voteUpdate, function updateVotes(){
+					callback({status: "success"});
+				})
+			})
+		})
+
+
+	} else {
+		callback({status: "fail", message: "You cannot perform this action"});
+	}
+}
+
 
 function logUserIn(thisUser, db, req, callback){
 	if(thisUser.suspended == "false" || thisUser.suspended == false){
@@ -1757,6 +1785,11 @@ function getTopRequests(db, req, callback){
 }
 
 
+//
+
+/*
+
+
 function logVisit(db, req, callback){
 
 	var userIP = req.headers["X-Forwarded-For"] || req.headers["x-forwarded-for"] || req.client.remoteAddress;
@@ -1818,9 +1851,7 @@ function logVisit(db, req, callback){
     	console.log("no need to log that page");
     	callback();
     }
-
-    
-}
+}*/
 
 function getUpdatedUser(db, req, callback){
 
@@ -2808,10 +2839,9 @@ module.exports.generateHash = generateHash;
 module.exports.getExistingDefinition = getExistingDefinition;
 module.exports.deletePost = deletePost;
 
-module.exports.logVisit = logVisit;
-
 module.exports.signup = signup;
 module.exports.login = login;
+module.exports.deleteUser = deleteUser;
 module.exports.googleLogin = googleLogin;
 module.exports.githubLogin = githubLogin;
 module.exports.getUpdatedUser = getUpdatedUser;
