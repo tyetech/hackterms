@@ -2728,7 +2728,7 @@ function validateCharset(string){
 }
 
 function sanitizeInput(string){
-	string = string.replace("<script>", "").replace("</script>", "").replace("<img>", "").replace("<script", "").replace("<img", "");
+	string = string.replace("<script>", "").replace("</script>", "").replace("<img>", "").replace("<script", "").replace("onload", "").replace("<img", "");
 	return(string);
 }
 
@@ -2736,7 +2736,7 @@ function sanitizeInput(string){
 function validateInput(string){
 
     var isStringValid = true;
-    var extraBadWords = ["<script", "<img", "fuck", "cock", "cunt", "nigger", "pussy", "bitch"];
+    var extraBadWords = ["<script", "onload", "<style", "<img", "fuck", "cock", "cunt", "nigger", "pussy", "bitch"];
     var forbiddenWords = ["<script>", "</script>", "<img>", "anus", "ass", "asswipe", "ballsack", "bitch", "blowjob", "blow job", "clit", "clitoris", "cock", "coon", "cunt", "cum", "dick", "dildo", "dyke", "fag", "felching", "fuck", "fucking", "fucker", "fucktard", "fuckface", "fudgepacker", "fudge packer", "flange", "jizz", "nigger", "nigga", "penis", "piss", "prick", "pussy", "queer", "tits", "smegma", "spunk", "boobies", "tosser", "turd", "twat", "vagina", "wank", "whore"];
     var linkWords = ["http://", "https://", "www."];
 
