@@ -639,9 +639,15 @@ function main(){
 
     $("body").on(triggerEvent, ".faq-control", function(){
 
-            $("#" + this.id).parent().find(".show-answer").toggle();
-            $("#" + this.id).parent().find(".hide-answer").toggle();
-            $("#" + this.id).parent().find(".faq-answer").toggle();
+            var thisQuestion = $("#" + this.id).parent();
+
+            thisQuestion.find(".show-answer").toggle();
+            thisQuestion.find(".hide-answer").toggle();
+            thisQuestion.find(".faq-answer").toggle();
+
+            if(thisQuestion.find(".hide-answer").is(":visible")){
+                thisQuestion.find(".hide-answer").css('display', 'inline');
+            }
 
     });
 

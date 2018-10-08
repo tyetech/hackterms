@@ -46,7 +46,7 @@ $border-radius: 5px;
 
 body{
     margin: 0;
-    background: $beige;
+    background: #eaeaea;
     font-family: $font-normal;
     font-weight: 300;
     min-height: 100vh;
@@ -630,8 +630,7 @@ code {
     border-radius: $border-radius;
     display: inline-block;
     &:hover {
-        color: $white;
-        background: $orange;
+        color: $orange;
     }
 }
 
@@ -831,7 +830,6 @@ code {
     font-size: 0.85em;
     min-height: 2em;
     padding: 5px 15px 5px 20px;
-    background: rgba(222,222,222,0.8);
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
 }
@@ -863,7 +861,6 @@ code {
 
 .definition-actions {
     text-align: right;
-    vertical-align: top;
     display: inline-block;
     width: 30%;
     & div {
@@ -1770,10 +1767,16 @@ code {
     font-family: 'Muli', serif;
     font-weight: 300;
     line-height: 1.5;
-    background: #d4ccc2;
+    background: #ffffff;
     padding: 10px;
     margin-top: 10px;
     display: none;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+}
+
+.faq-answer a, .one-rule a{
+    font-weight: 600;
 }
 
 .one-rule {
@@ -2026,7 +2029,7 @@ code {
         margin: 0 auto;
     }
 
-    #definitions-section p :not(".request-button-paragraph"){
+    #definitions-section p :not(.request-button-paragraph){
         margin-top: 5vh;
     }
 

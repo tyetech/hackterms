@@ -2,7 +2,7 @@
 /* normalize placeholder text */
 body {
   margin: 0;
-  background: #f3eae0;
+  background: #eaeaea;
   font-family: "Muli", sans-serif;
   font-weight: 300;
   min-height: 100vh;
@@ -467,8 +467,7 @@ code {
   border-radius: 5px;
   display: inline-block; }
   .action-icon:hover {
-    color: #ffffff;
-    background: #E88D67; }
+    color: #E88D67; }
 
 .comment-on-post {
   background: none;
@@ -624,7 +623,6 @@ code {
   font-size: 0.85em;
   min-height: 2em;
   padding: 5px 15px 5px 20px;
-  background: rgba(222, 222, 222, 0.8);
   border-top-left-radius: 3px;
   border-top-right-radius: 3px; }
 
@@ -648,7 +646,6 @@ code {
 
 .definition-actions {
   text-align: right;
-  vertical-align: top;
   display: inline-block;
   width: 30%; }
   .definition-actions div {
@@ -1367,10 +1364,15 @@ code {
   font-family: 'Muli', serif;
   font-weight: 300;
   line-height: 1.5;
-  background: #d4ccc2;
+  background: #ffffff;
   padding: 10px;
   margin-top: 10px;
-  display: none; }
+  display: none;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+  border-radius: 5px; }
+
+.faq-answer a, .one-rule a {
+  font-weight: 600; }
 
 .one-rule {
   display: block;
@@ -1526,7 +1528,7 @@ code {
   /* DEFINITION */
   #definitions-section {
     margin: 0 auto; }
-  #definitions-section p :not(".request-button-paragraph") {
+  #definitions-section p :not(.request-button-paragraph) {
     margin-top: 5vh; }
   #definitions-section h3 {
     margin-bottom: 0; }
