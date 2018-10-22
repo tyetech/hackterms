@@ -117,8 +117,10 @@ code {
   text-align: center;
   min-height: calc(5vh - 20px);
   font-size: 0.8em; }
-  #footer-section a, #footer-section .link {
+  #footer-section a:not(#creator-link), #footer-section .link:not(#creator-link) {
     padding: 0px 15px; }
+  #footer-section a#buy-max-coffee {
+    color: #E88D67; }
   #footer-section p {
     line-height: 1.7;
     margin-bottom: 8px; }
@@ -131,7 +133,8 @@ code {
   justify-content: center; }
 
 #creator-link {
-  font-weight: 600; }
+  font-weight: 600;
+  padding: 0; }
 
 #feedback-button {
   position: fixed;
@@ -1450,8 +1453,6 @@ code {
     /*min-height: 80vh;*/ }
   #footer-section {
     text-align: center; }
-    #footer-section a {
-      margin: 0px 5px; }
   #footer-section p {
     margin: 7px 0;
     color: gray; }
@@ -1479,7 +1480,7 @@ code {
   #footer-links {
     flex-direction: column; }
     #footer-links div {
-      margin-top: 5px; }
+      padding: 5px 0; }
   /* SEARCH BAR */
   #search-bar-div {
     padding: 3vh 0 0.5vh 0; }

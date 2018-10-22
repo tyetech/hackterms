@@ -188,8 +188,12 @@ code {
     min-height: calc(5vh - 20px);
     font-size: 0.8em;
 
-    & a, .link {
+    & a:not(#creator-link), .link:not(#creator-link) {
         padding: 0px 15px;
+    }
+
+    & a#buy-max-coffee {
+        color: #E88D67;
     }
 
     & p {
@@ -210,6 +214,7 @@ code {
 
 #creator-link {
     font-weight: 600;
+    padding: 0;
 }
 
 #feedback-button {
@@ -1891,10 +1896,6 @@ code {
 
     #footer-section  {
       text-align: center;
-
-      & a {
-        margin: 0px 5px;
-      }
     }
 
     #footer-section p {
@@ -1939,7 +1940,7 @@ code {
         flex-direction: column;
 
         & div {
-            margin-top: 5px;
+            padding: 5px 0;
         }
 
 
